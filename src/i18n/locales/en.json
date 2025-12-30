@@ -67,11 +67,12 @@
     },
     "v2": {
       "f1": "All V1 features",
-      "f2": "Smart gathering optimization",
-      "f3": "Alliance help automation",
-      "f4": "Research & building queue",
-      "f5": "Direct VIP support",
-      "f6": "Custom scripts on request"
+      "f2": "Auto barbarian chain 1 march",
+      "f3": "Smart gathering optimization",
+      "f4": "Alliance help automation",
+      "f5": "Research & building queue",
+      "f6": "Direct VIP support",
+      "f7": "Custom scripts on request"
     },
     "v3": {
       "f1": "All V2 features",
