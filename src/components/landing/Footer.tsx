@@ -106,7 +106,7 @@ export function Footer() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-muted-foreground">
                 <Phone className="w-5 h-5 text-primary" />
-                <span>Hotline: +84 123 456 789</span>
+                <span>Hotline: 0915966853</span>
               </li>
               <li className="flex items-center gap-3 text-muted-foreground">
                 <DiscordIcon className="w-5 h-5 text-primary" />
