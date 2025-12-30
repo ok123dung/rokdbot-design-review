@@ -17,9 +17,16 @@
     "cancel": "Hủy",
     "submit": "Gửi",
     "back": "Quay lại",
-    "next": "Tiếp tục",
+    "next": "Tiếp",
     "error": "Lỗi",
-    "success": "Thành công"
+    "success": "Thành công",
+    "backToHome": "Quay về trang chủ",
+    "close": "Đóng",
+    "view": "Xem",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "all": "Tất cả",
+    "noData": "Không có dữ liệu"
   },
   "hero": {
     "title": "Dịch vụ Bot Farm",
@@ -29,12 +36,12 @@
     "ctaSecondary": "Xem dịch vụ",
     "stats": {
       "users": "Người dùng",
-      "uptime": "Uptime",
+      "uptime": "Hoạt động",
       "support": "Hỗ trợ"
     }
   },
   "services": {
-    "title": "Gói Dịch Vụ",
+    "title": "Gói dịch vụ",
     "subtitle": "Chọn gói phù hợp với nhu cầu của bạn",
     "popular": "Phổ biến",
     "orderNow": "Đặt ngay",
@@ -42,32 +49,32 @@
     "perMonth": "/tháng"
   },
   "features": {
-    "title": "Tính Năng Nổi Bật",
-    "subtitle": "Công nghệ tiên tiến, hỗ trợ tận tình",
+    "title": "Tính năng nổi bật",
+    "subtitle": "Công nghệ tiên tiến, hỗ trợ tận tâm",
     "autoFarm": {
-      "title": "Farm Tự Động 24/7",
+      "title": "Auto Farm 24/7",
       "description": "Bot chạy liên tục, thu thập tài nguyên không ngừng nghỉ"
     },
     "safe": {
-      "title": "An Toàn Tuyệt Đối",
-      "description": "Công nghệ anti-detection, bảo vệ tài khoản của bạn"
+      "title": "An toàn tuyệt đối",
+      "description": "Công nghệ chống phát hiện, bảo vệ tài khoản của bạn"
     },
     "support": {
-      "title": "Hỗ Trợ 24/7",
-      "description": "Đội ngũ support sẵn sàng hỗ trợ mọi lúc"
+      "title": "Hỗ trợ 24/7",
+      "description": "Đội ngũ hỗ trợ sẵn sàng giúp đỡ bất cứ lúc nào"
     },
     "dashboard": {
-      "title": "Dashboard Theo Dõi",
-      "description": "Theo dõi tiến độ tài khoản real-time"
+      "title": "Dashboard theo dõi",
+      "description": "Theo dõi tiến độ tài khoản theo thời gian thực"
     }
   },
   "testimonials": {
-    "title": "Khách Hàng Nói Gì",
-    "subtitle": "Đánh giá từ những người đã sử dụng dịch vụ"
+    "title": "Khách hàng nói gì",
+    "subtitle": "Đánh giá từ người dùng thực tế"
   },
   "faq": {
-    "title": "Câu Hỏi Thường Gặp",
-    "subtitle": "Giải đáp mọi thắc mắc của bạn"
+    "title": "Câu hỏi thường gặp",
+    "subtitle": "Giải đáp thắc mắc của bạn"
   },
   "footer": {
     "description": "Dịch vụ bot Rise of Kingdoms #1 Việt Nam. Nâng tầm gameplay, tiết kiệm thời gian.",
@@ -75,49 +82,180 @@
     "servicesTitle": "Dịch vụ",
     "contact": "Liên hệ",
     "hotline": "Hotline",
-    "copyright": "© 2024 RokdBot. All rights reserved."
+    "copyright": "© 2024 RokdBot. Bảo lưu mọi quyền."
   },
   "auth": {
     "loginTitle": "Chào mừng trở lại",
-    "loginSubtitle": "Đăng nhập để quản lý đơn hàng",
+    "loginSubtitle": "Đăng nhập để tiếp tục",
     "registerTitle": "Tạo tài khoản",
-    "registerSubtitle": "Đăng ký để sử dụng dịch vụ",
+    "registerSubtitle": "Tạo tài khoản mới",
     "email": "Email",
     "password": "Mật khẩu",
-    "fullName": "Họ và tên",
+    "fullName": "Họ tên",
     "noAccount": "Chưa có tài khoản?",
     "haveAccount": "Đã có tài khoản?",
-    "forgotPassword": "Quên mật khẩu?"
+    "forgotPassword": "Quên mật khẩu?",
+    "registerNow": "Đăng ký ngay",
+    "loginNow": "Đăng nhập",
+    "loginSuccess": "Đăng nhập thành công!",
+    "loginSuccessDesc": "Chào mừng bạn quay trở lại",
+    "loginFailed": "Đăng nhập thất bại",
+    "loginFailedDesc": "Email hoặc mật khẩu không đúng",
+    "registerSuccess": "Đăng ký thành công!",
+    "registerSuccessDesc": "Chào mừng bạn đến với RokdBot",
+    "accountExists": "Tài khoản đã tồn tại",
+    "accountExistsDesc": "Email này đã được đăng ký. Vui lòng đăng nhập.",
+    "registerError": "Lỗi đăng ký",
+    "genericError": "Có lỗi xảy ra. Vui lòng thử lại.",
+    "invalidEmail": "Email không hợp lệ",
+    "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự"
   },
   "order": {
-    "title": "Đặt Dịch Vụ",
+    "title": "Đặt dịch vụ",
     "selectPackage": "Chọn gói dịch vụ",
-    "gameInfo": "Thông tin game",
-    "gameAccountId": "ID tài khoản game",
+    "gameInfo": "Thông tin tài khoản game",
+    "gameAccountId": "ID Tài khoản / Governor ID",
     "gameServer": "Server",
     "gameKingdom": "Kingdom",
-    "notes": "Ghi chú",
+    "notes": "Ghi chú (tùy chọn)",
     "payment": "Thanh toán",
     "paymentMethod": "Phương thức thanh toán",
     "bankTransfer": "Chuyển khoản ngân hàng",
     "momo": "Ví MoMo",
-    "uploadProof": "Upload chứng từ thanh toán",
+    "uploadProof": "Upload ảnh chứng từ thanh toán",
     "total": "Tổng tiền",
-    "placeOrder": "Đặt hàng"
+    "placeOrder": "Đặt hàng",
+    "steps": {
+      "package": "Chọn gói",
+      "info": "Thông tin",
+      "payment": "Thanh toán",
+      "confirm": "Xác nhận"
+    },
+    "enterGovernorId": "Nhập Governor ID",
+    "enterServer": "Ví dụ: 1001",
+    "enterKingdom": "Ví dụ: 1234",
+    "notesPlaceholder": "Thông tin thêm về yêu cầu của bạn...",
+    "fileTooLarge": "File quá lớn",
+    "fileTooLargeDesc": "Vui lòng chọn file nhỏ hơn 5MB",
+    "noPackageSelected": "Chưa chọn gói dịch vụ",
+    "noPackageSelectedDesc": "Vui lòng chọn một gói dịch vụ",
+    "noProofUploaded": "Chưa upload chứng từ",
+    "noProofUploadedDesc": "Vui lòng upload ảnh chứng từ thanh toán",
+    "orderSuccess": "Đặt hàng thành công!",
+    "orderSuccessDesc": "Đơn hàng của bạn đang chờ xác nhận thanh toán",
+    "orderError": "Lỗi đặt hàng",
+    "orderErrorDesc": "Có lỗi xảy ra. Vui lòng thử lại.",
+    "days": "ngày",
+    "bank": "Ngân hàng",
+    "accountNumber": "Số TK",
+    "accountHolder": "Chủ TK",
+    "transferContent": "Nội dung",
+    "phone": "Số điện thoại",
+    "scanToPay": "Quét mã để thanh toán",
+    "dragDropImage": "Kéo thả hoặc click để chọn ảnh",
+    "maxFileSize": "Tối đa 5MB",
+    "summary": "Tóm tắt đơn hàng",
+    "confirmOrder": "Xác nhận đặt hàng",
+    "requiredField": "Vui lòng nhập"
   },
   "dashboard": {
     "welcome": "Xin chào",
+    "welcomeBack": "Xin chào",
     "overview": "Tổng quan",
+    "manageOrders": "Quản lý đơn hàng và dịch vụ của bạn tại đây",
     "recentOrders": "Đơn hàng gần đây",
-    "noOrders": "Chưa có đơn hàng nào",
-    "orderNow": "Đặt hàng ngay",
+    "noOrders": "Bạn chưa có đơn hàng nào",
+    "orderNow": "Đặt dịch vụ ngay",
+    "totalOrders": "Tổng đơn hàng",
+    "running": "Đang chạy",
+    "completed": "Hoàn thành",
+    "totalSpent": "Tổng chi tiêu",
+    "newOrder": "Đặt dịch vụ mới",
+    "viewAllOrders": "Xem tất cả đơn hàng",
+    "accountSettings": "Cài đặt tài khoản",
+    "adminPanel": "Admin Panel",
+    "signedOut": "Đã đăng xuất",
+    "signedOutDesc": "Hẹn gặp lại bạn!",
     "status": {
-      "pending": "Chờ xử lý",
+      "pending": "Chờ thanh toán",
       "paid": "Đã thanh toán",
       "processing": "Đang xử lý",
       "running": "Đang chạy",
       "completed": "Hoàn thành",
       "cancelled": "Đã hủy"
     }
+  },
+  "orders": {
+    "title": "Đơn hàng của tôi",
+    "subtitle": "Theo dõi trạng thái tất cả đơn hàng",
+    "searchPlaceholder": "Tìm kiếm theo ID game hoặc gói dịch vụ...",
+    "filterStatus": "Lọc trạng thái",
+    "noOrdersFound": "Không tìm thấy đơn hàng phù hợp",
+    "orderNow": "Đặt dịch vụ ngay"
+  },
+  "orderDetail": {
+    "title": "Chi tiết đơn hàng",
+    "orderCode": "Mã đơn",
+    "gameInfo": "Thông tin game",
+    "governorId": "Governor ID",
+    "history": "Lịch sử",
+    "createdAt": "Ngày tạo",
+    "paidAt": "Thanh toán",
+    "startedAt": "Bắt đầu chạy",
+    "completedAt": "Hoàn thành",
+    "paymentProof": "Chứng từ thanh toán",
+    "viewProof": "Xem chứng từ",
+    "cancelled": "Đơn hàng đã bị hủy",
+    "notes": "Ghi chú",
+    "backToList": "Danh sách đơn"
+  },
+  "profile": {
+    "title": "Cài đặt tài khoản",
+    "subtitle": "Quản lý thông tin cá nhân của bạn",
+    "walletBalance": "Số dư ví",
+    "deposit": "Nạp tiền",
+    "comingSoon": "Coming soon",
+    "personalInfo": "Thông tin cá nhân",
+    "emailCannotChange": "Email không thể thay đổi",
+    "enterName": "Nhập họ tên",
+    "enterUsername": "Nhập username",
+    "enterPhone": "0123456789",
+    "zaloPlaceholder": "Số Zalo hoặc link Zalo",
+    "discordPlaceholder": "username#1234",
+    "saveChanges": "Lưu thay đổi",
+    "dangerZone": "Vùng nguy hiểm",
+    "dangerZoneDesc": "Đăng xuất khỏi tài khoản của bạn",
+    "updateSuccess": "Thành công",
+    "updateSuccessDesc": "Đã cập nhật thông tin cá nhân",
+    "updateError": "Lỗi",
+    "updateErrorDesc": "Không thể cập nhật thông tin. Vui lòng thử lại."
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "subtitle": "Quản lý đơn hàng và khách hàng",
+    "totalOrders": "Tổng đơn hàng",
+    "revenue": "Doanh thu",
+    "pendingOrders": "Chờ xử lý",
+    "runningOrders": "Đang chạy",
+    "customer": "Khách hàng",
+    "package": "Gói dịch vụ",
+    "gameInfo": "Game Info",
+    "amount": "Số tiền",
+    "status": "Trạng thái",
+    "createdAt": "Ngày tạo",
+    "actions": "Thao tác",
+    "noOrders": "Không có đơn hàng nào",
+    "orderDetail": "Chi tiết đơn hàng",
+    "phone": "SĐT",
+    "serverKingdom": "Server / Kingdom",
+    "paymentProof": "Chứng từ thanh toán",
+    "viewProof": "Xem chứng từ",
+    "updateStatus": "Cập nhật trạng thái",
+    "noAccess": "Không có quyền truy cập",
+    "noAccessDesc": "Bạn không có quyền admin",
+    "updateSuccess": "Thành công",
+    "updateError": "Lỗi",
+    "updateErrorDesc": "Không thể cập nhật trạng thái",
+    "searchPlaceholder": "Tìm theo ID game, tên, SĐT..."
   }
 }
