@@ -10,12 +10,8 @@ const services = [
     priceKey: "weeklyPrice",
     periodKey: "perWeek",
     descriptionKey: "services.subtitle",
-    features: [
-      "Farm tài nguyên tự động",
-      "Gather liên tục 24/7",
-      "Training quân cơ bản",
-      "Hỗ trợ Zalo/Discord",
-    ],
+    featuresKey: "weekly",
+    featureCount: 4,
     popular: false,
     gradient: "from-gaming-cyan/20 to-gaming-purple/20",
     borderColor: "border-gaming-cyan/30",
@@ -26,13 +22,8 @@ const services = [
     priceKey: "v1Price",
     periodKey: "perMonth",
     descriptionKey: "services.popular",
-    features: [
-      "Tất cả tính năng Weekly",
-      "Auto barbarians & forts",
-      "Multi-account support",
-      "Priority support 24/7",
-      "Báo cáo tiến độ hàng ngày",
-    ],
+    featuresKey: "v1",
+    featureCount: 5,
     popular: true,
     gradient: "from-gaming-orange/30 to-gaming-pink/30",
     borderColor: "border-gaming-orange/50",
@@ -43,14 +34,8 @@ const services = [
     priceKey: "v2Price",
     periodKey: "perMonth",
     descriptionKey: "services.subtitle",
-    features: [
-      "Tất cả tính năng V1",
-      "Smart gathering optimization",
-      "Alliance help automation",
-      "Research & building queue",
-      "VIP support trực tiếp",
-      "Custom scripts theo yêu cầu",
-    ],
+    featuresKey: "v2",
+    featureCount: 6,
     popular: false,
     gradient: "from-gaming-purple/20 to-gaming-pink/20",
     borderColor: "border-gaming-purple/30",
@@ -61,15 +46,8 @@ const services = [
     priceKey: "kvkPrice",
     periodKey: "perMonth",
     descriptionKey: "services.subtitle",
-    features: [
-      "Tất cả tính năng V2",
-      "KvK rally coordination",
-      "Honor points farming",
-      "Castle siege support",
-      "Real-time battle alerts",
-      "Dedicated account manager",
-      "Performance analytics",
-    ],
+    featuresKey: "kvk",
+    featureCount: 7,
     popular: false,
     gradient: "from-gaming-pink/20 to-gaming-cyan/20",
     borderColor: "border-gaming-pink/30",
@@ -169,10 +147,12 @@ export function ServicesSection() {
 
                 {/* Features */}
                 <ul className="flex-1 space-y-3 mb-6">
-                  {service.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2">
+                  {Array.from({ length: service.featureCount }, (_, i) => (
+                    <li key={i} className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                      <span className="text-sm text-foreground/90">{feature}</span>
+                      <span className="text-sm text-foreground/90">
+                        {t(`services.${service.featuresKey}.f${i + 1}`)}
+                      </span>
                     </li>
                   ))}
                 </ul>

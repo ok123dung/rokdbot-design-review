@@ -51,7 +51,37 @@
     "v1Price": "750K",
     "v2Price": "900K",
     "kvkPrice": "1.2M",
-    "currency": "VND"
+    "currency": "VND",
+    "weekly": {
+      "f1": "Farm tài nguyên tự động",
+      "f2": "Gather liên tục 24/7",
+      "f3": "Training quân cơ bản",
+      "f4": "Hỗ trợ Zalo/Discord"
+    },
+    "v1": {
+      "f1": "Tất cả tính năng Weekly",
+      "f2": "Auto barbarians & forts",
+      "f3": "Multi-account support",
+      "f4": "Priority support 24/7",
+      "f5": "Báo cáo tiến độ hàng ngày"
+    },
+    "v2": {
+      "f1": "Tất cả tính năng V1",
+      "f2": "Smart gathering optimization",
+      "f3": "Alliance help automation",
+      "f4": "Research & building queue",
+      "f5": "VIP support trực tiếp",
+      "f6": "Custom scripts theo yêu cầu"
+    },
+    "kvk": {
+      "f1": "Tất cả tính năng V2",
+      "f2": "KvK rally coordination",
+      "f3": "Honor points farming",
+      "f4": "Castle siege support",
+      "f5": "Real-time battle alerts",
+      "f6": "Dedicated account manager",
+      "f7": "Performance analytics"
+    }
   },
   "features": {
     "title": "Tính năng nổi bật",
