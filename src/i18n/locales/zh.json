@@ -47,10 +47,10 @@
     "orderNow": "立即订购",
     "perWeek": "/周",
     "perMonth": "/月",
-    "weeklyPrice": "¥43",
-    "v1Price": "¥215",
-    "v2Price": "¥258",
-    "kvkPrice": "¥345",
+    "weeklyPrice": "¥40",
+    "v1Price": "¥200",
+    "v2Price": "¥240",
+    "kvkPrice": "¥320",
     "currency": "CNY"
   },
   "features": {
