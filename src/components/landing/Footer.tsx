@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { Gamepad2, Phone, Mail, Facebook } from "lucide-react";
+import { motion } from "framer-motion";
+import { Gamepad2, Phone, Mail, Facebook, ExternalLink } from "lucide-react";
 
 // Custom Zalo icon component
 const ZaloIcon = ({ className }: { className?: string }) => (
@@ -16,16 +17,16 @@ const DiscordIcon = ({ className }: { className?: string }) => (
 );
 
 const socialLinks = [
-  { name: "Zalo Group", icon: ZaloIcon, href: "https://zalo.me/g/rokservices", color: "hover:text-blue-400" },
-  { name: "Discord Server", icon: DiscordIcon, href: "https://discord.gg/UPuFYCw4JG", color: "hover:text-indigo-400" },
-  { name: "Facebook", icon: Facebook, href: "https://facebook.com/rokdbot", color: "hover:text-blue-500" },
+  { name: "Zalo", icon: ZaloIcon, href: "https://zalo.me/g/rokservices" },
+  { name: "Discord", icon: DiscordIcon, href: "https://discord.gg/UPuFYCw4JG" },
+  { name: "Facebook", icon: Facebook, href: "https://facebook.com/rokdbot" },
 ];
 
 const services = [
   { name: "Weekly Package", href: "#services" },
   { name: "V1 Package", href: "#services" },
   { name: "V2 Premium", href: "#services" },
-  { name: "KvK Special", href: "#services" },
+  { name: "V3 Ultimate", href: "#services" },
 ];
 
 export function Footer() {
@@ -40,27 +41,31 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative border-t border-border bg-card/50">
+    <footer className="relative border-t border-border/50 bg-card/30">
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-gaming-purple/5 to-transparent pointer-events-none" />
 
-      <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 lg:gap-12 mb-10 md:mb-12">
           {/* Brand */}
-          <div className="lg:col-span-1">
-            <a href="#home" className="flex items-center gap-2 mb-4 group">
-              <Gamepad2 className="w-8 h-8 text-primary" />
-              <span className="text-2xl font-bold text-gradient">RokdBot</span>
+          <div className="col-span-2 md:col-span-2 lg:col-span-1">
+            <a href="#home" className="inline-flex items-center gap-2 mb-4 group">
+              <div className="icon-container w-9 h-9">
+                <Gamepad2 className="w-5 h-5 text-primary" />
+              </div>
+              <span className="text-xl md:text-2xl font-bold text-gradient">RokdBot</span>
             </a>
-            <p className="text-muted-foreground mb-6 leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed mb-5 max-w-xs">
               {t("footer.description")}
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-2">
               {socialLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`p-2 rounded-lg bg-muted/50 text-muted-foreground transition-colors ${link.color}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2.5 rounded-xl bg-muted/50 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300"
                   title={link.name}
                 >
                   <link.icon className="w-5 h-5" />
@@ -71,13 +76,13 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">{t("footer.quickLinks")}</h4>
-            <ul className="space-y-3">
+            <h4 className="font-semibold text-sm md:text-base mb-4 text-foreground">{t("footer.quickLinks")}</h4>
+            <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm inline-flex items-center gap-1 group"
                   >
                     {link.name}
                   </a>
@@ -88,13 +93,13 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">{t("footer.servicesTitle")}</h4>
-            <ul className="space-y-3">
+            <h4 className="font-semibold text-sm md:text-base mb-4 text-foreground">{t("footer.servicesTitle")}</h4>
+            <ul className="space-y-2.5">
               {services.map((service) => (
                 <li key={service.name}>
                   <a
                     href={service.href}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
                   >
                     {service.name}
                   </a>
@@ -105,35 +110,51 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">{t("footer.contact")}</h4>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3 text-muted-foreground">
-                <Phone className="w-5 h-5 text-primary" />
-                <span>{t("footer.hotline")}: 0915966853</span>
+            <h4 className="font-semibold text-sm md:text-base mb-4 text-foreground">{t("footer.contact")}</h4>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-3 text-muted-foreground text-sm">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                  <Phone className="w-4 h-4 text-primary" />
+                </div>
+                <span>0915966853</span>
               </li>
-              <li className="flex items-center gap-3 text-muted-foreground">
-                <DiscordIcon className="w-5 h-5 text-primary" />
-                <a href="https://discord.gg/UPuFYCw4JG" className="hover:text-primary transition-colors">discord.gg/UPuFYCw4JG</a>
+              <li className="flex items-center gap-3 text-muted-foreground text-sm">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                  <DiscordIcon className="w-4 h-4 text-primary" />
+                </div>
+                <a 
+                  href="https://discord.gg/UPuFYCw4JG" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors flex items-center gap-1"
+                >
+                  Discord
+                  <ExternalLink className="w-3 h-3" />
+                </a>
               </li>
-              <li className="flex items-center gap-3 text-muted-foreground">
-                <Mail className="w-5 h-5 text-primary" />
-                <a href="mailto:contact@rokdbot.com" className="hover:text-primary transition-colors">contact@rokdbot.com</a>
+              <li className="flex items-center gap-3 text-muted-foreground text-sm">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                  <Mail className="w-4 h-4 text-primary" />
+                </div>
+                <a href="mailto:contact@rokdbot.com" className="hover:text-primary transition-colors truncate">
+                  contact@rokdbot.com
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-muted-foreground text-sm">
+        <div className="pt-6 md:pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-muted-foreground text-xs sm:text-sm text-center sm:text-left">
             {t("footer.copyright")}
           </p>
-          <div className="flex gap-6 text-sm">
+          <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm">
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              Terms of Service
+              Terms
             </a>
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              Privacy Policy
+              Privacy
             </a>
           </div>
         </div>
