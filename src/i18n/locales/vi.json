@@ -50,7 +50,7 @@
     "weeklyPrice": "150K",
     "v1Price": "750K",
     "v2Price": "900K",
-    "kvkPrice": "1.2M",
+    "v3Price": "1.2M",
     "currency": "VND",
     "weekly": {
       "f1": "Farm tài nguyên tự động",
@@ -73,9 +73,9 @@
       "f5": "VIP support trực tiếp",
       "f6": "Custom scripts theo yêu cầu"
     },
-    "kvk": {
+    "v3": {
       "f1": "Tất cả tính năng V2",
-      "f2": "KvK rally coordination",
+      "f2": "2 đạo kéo man rợ",
       "f3": "Honor points farming",
       "f4": "Castle siege support",
       "f5": "Real-time battle alerts",
