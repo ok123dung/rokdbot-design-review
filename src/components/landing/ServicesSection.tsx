@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Check, Star, Sparkles, Crown, Sword } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,8 +8,8 @@ const services = [
     name: "Weekly",
     icon: Star,
     price: "150K",
-    period: "/ tuần",
-    description: "Phù hợp cho người mới bắt đầu",
+    periodKey: "perWeek",
+    descriptionKey: "services.subtitle",
     features: [
       "Farm tài nguyên tự động",
       "Gather liên tục 24/7",
@@ -23,8 +24,8 @@ const services = [
     name: "V1 Package",
     icon: Sparkles,
     price: "500K",
-    period: "/ tháng",
-    description: "Được ưa chuộng nhất",
+    periodKey: "perMonth",
+    descriptionKey: "services.popular",
     features: [
       "Tất cả tính năng Weekly",
       "Auto barbarians & forts",
@@ -40,8 +41,8 @@ const services = [
     name: "V2 Premium",
     icon: Crown,
     price: "800K",
-    period: "/ tháng",
-    description: "Cho người chơi hardcore",
+    periodKey: "perMonth",
+    descriptionKey: "services.subtitle",
     features: [
       "Tất cả tính năng V1",
       "Smart gathering optimization",
@@ -58,8 +59,8 @@ const services = [
     name: "KvK Special",
     icon: Sword,
     price: "1.2M",
-    period: "/ season",
-    description: "Chinh phục KvK cùng team",
+    periodKey: "perMonth",
+    descriptionKey: "services.subtitle",
     features: [
       "Tất cả tính năng V2",
       "KvK rally coordination",
@@ -95,6 +96,8 @@ const cardVariants = {
 };
 
 export function ServicesSection() {
+  const { t } = useTranslation();
+
   return (
     <section id="services" className="section-padding relative">
       <div className="container mx-auto">
@@ -107,10 +110,10 @@ export function ServicesSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Chọn gói <span className="text-gradient">phù hợp</span> với bạn
+            {t("services.title")}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Từ người mới đến hardcore player - chúng tôi có gói dịch vụ dành cho mọi nhu cầu
+            {t("services.subtitle")}
           </p>
         </motion.div>
 
@@ -133,7 +136,7 @@ export function ServicesSection() {
               {/* Popular badge */}
               {service.popular && (
                 <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-gaming-orange to-gaming-pink text-center py-2 text-sm font-semibold text-primary-foreground z-10">
-                  🔥 Phổ biến nhất
+                  🔥 {t("services.popular")}
                 </div>
               )}
 
@@ -153,7 +156,7 @@ export function ServicesSection() {
 
                 {/* Description */}
                 <p className="text-muted-foreground text-sm mb-4">
-                  {service.description}
+                  {t(service.descriptionKey)}
                 </p>
 
                 {/* Price */}
@@ -161,7 +164,7 @@ export function ServicesSection() {
                   <span className="text-3xl md:text-4xl font-bold text-gradient-gold">
                     {service.price}
                   </span>
-                  <span className="text-muted-foreground">{service.period}</span>
+                  <span className="text-muted-foreground">{t(`services.${service.periodKey}`)}</span>
                 </div>
 
                 {/* Features */}
@@ -183,7 +186,7 @@ export function ServicesSection() {
                         : "btn-gaming-outline"
                     }`}
                   >
-                    Đặt ngay
+                    {t("services.orderNow")}
                   </Button>
                 </a>
               </div>
@@ -199,7 +202,7 @@ export function ServicesSection() {
           transition={{ delay: 0.5 }}
           className="text-center text-muted-foreground text-sm mt-8"
         >
-          * Tất cả gói đều được hỗ trợ setup miễn phí. Thanh toán qua MoMo, Bank Transfer.
+          * {t("order.paymentMethod")}: MoMo, {t("order.bankTransfer")}.
         </motion.p>
       </div>
     </section>

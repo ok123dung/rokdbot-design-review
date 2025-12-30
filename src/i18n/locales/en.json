@@ -1,0 +1,123 @@
+{
+  "common": {
+    "home": "Home",
+    "services": "Services",
+    "features": "Features",
+    "testimonials": "Testimonials",
+    "faq": "FAQ",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "orders": "Orders",
+    "admin": "Admin",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "error": "Error",
+    "success": "Success"
+  },
+  "hero": {
+    "title": "Bot Farm Service",
+    "titleHighlight": "Rise of Kingdoms",
+    "subtitle": "Optimize resources, develop your account 24/7 with the most advanced bot technology",
+    "cta": "Register Now",
+    "ctaSecondary": "View Services",
+    "stats": {
+      "users": "Users",
+      "uptime": "Uptime",
+      "support": "Support"
+    }
+  },
+  "services": {
+    "title": "Service Packages",
+    "subtitle": "Choose the package that fits your needs",
+    "popular": "Popular",
+    "orderNow": "Order Now",
+    "perWeek": "/week",
+    "perMonth": "/month"
+  },
+  "features": {
+    "title": "Key Features",
+    "subtitle": "Advanced technology, dedicated support",
+    "autoFarm": {
+      "title": "24/7 Auto Farm",
+      "description": "Bot runs continuously, collecting resources non-stop"
+    },
+    "safe": {
+      "title": "Absolutely Safe",
+      "description": "Anti-detection technology, protecting your account"
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "Support team ready to help anytime"
+    },
+    "dashboard": {
+      "title": "Tracking Dashboard",
+      "description": "Real-time account progress tracking"
+    }
+  },
+  "testimonials": {
+    "title": "What Customers Say",
+    "subtitle": "Reviews from our users"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Answers to your questions"
+  },
+  "footer": {
+    "description": "#1 Rise of Kingdoms bot service in Vietnam. Level up your gameplay, save time.",
+    "quickLinks": "Quick Links",
+    "servicesTitle": "Services",
+    "contact": "Contact",
+    "hotline": "Hotline",
+    "copyright": "© 2024 RokdBot. All rights reserved."
+  },
+  "auth": {
+    "loginTitle": "Welcome Back",
+    "loginSubtitle": "Login to manage your orders",
+    "registerTitle": "Create Account",
+    "registerSubtitle": "Register to use our services",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "forgotPassword": "Forgot password?"
+  },
+  "order": {
+    "title": "Place Order",
+    "selectPackage": "Select package",
+    "gameInfo": "Game Information",
+    "gameAccountId": "Game Account ID",
+    "gameServer": "Server",
+    "gameKingdom": "Kingdom",
+    "notes": "Notes",
+    "payment": "Payment",
+    "paymentMethod": "Payment Method",
+    "bankTransfer": "Bank Transfer",
+    "momo": "MoMo Wallet",
+    "uploadProof": "Upload payment proof",
+    "total": "Total",
+    "placeOrder": "Place Order"
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "overview": "Overview",
+    "recentOrders": "Recent Orders",
+    "noOrders": "No orders yet",
+    "orderNow": "Order Now",
+    "status": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "processing": "Processing",
+      "running": "Running",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    }
+  }
+}

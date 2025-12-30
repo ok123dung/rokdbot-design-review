@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import {
   Accordion,
@@ -42,6 +43,8 @@ const faqs = [
 ];
 
 export function FAQSection() {
+  const { t } = useTranslation();
+
   return (
     <section id="faq" className="section-padding">
       <div className="container mx-auto">
@@ -54,10 +57,10 @@ export function FAQSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Câu hỏi <span className="text-gradient">thường gặp</span>
+            {t("faq.title")}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Tìm hiểu thêm về dịch vụ của chúng tôi
+            {t("faq.subtitle")}
           </p>
         </motion.div>
 
