@@ -50,7 +50,7 @@
     "weeklyPrice": "$6",
     "v1Price": "$29.99",
     "v2Price": "$35.99",
-    "kvkPrice": "$46",
+    "v3Price": "$46",
     "currency": "USD",
     "weekly": {
       "f1": "Auto resource farming",
@@ -73,9 +73,9 @@
       "f5": "Direct VIP support",
       "f6": "Custom scripts on request"
     },
-    "kvk": {
+    "v3": {
       "f1": "All V2 features",
-      "f2": "KvK rally coordination",
+      "f2": "2 barbarian marches",
       "f3": "Honor points farming",
       "f4": "Castle siege support",
       "f5": "Real-time battle alerts",
