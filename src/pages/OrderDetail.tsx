@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { 
   Gamepad2, 
@@ -10,15 +11,13 @@ import {
   XCircle,
   Loader2,
   ExternalLink,
-  Server,
-  Crown,
   CreditCard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 
-interface OrderDetail {
+interface OrderDetailData {
   id: string;
   status: string;
   total_amount: number;
@@ -38,20 +37,21 @@ interface OrderDetail {
   } | null;
 }
 
-const statusSteps = [
-  { key: "pending", label: "Chờ thanh toán", icon: Clock },
-  { key: "paid", label: "Đã thanh toán", icon: CreditCard },
-  { key: "processing", label: "Đang xử lý", icon: Loader2 },
-  { key: "running", label: "Đang chạy", icon: Package },
-  { key: "completed", label: "Hoàn thành", icon: CheckCircle2 },
-];
-
 export default function OrderDetail() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const [order, setOrder] = useState<OrderDetail | null>(null);
+  const [order, setOrder] = useState<OrderDetailData | null>(null);
   const [loadingData, setLoadingData] = useState(true);
+
+  const statusSteps = [
+    { key: "pending", label: t("dashboard.status.pending"), icon: Clock },
+    { key: "paid", label: t("dashboard.status.paid"), icon: CreditCard },
+    { key: "processing", label: t("dashboard.status.processing"), icon: Loader2 },
+    { key: "running", label: t("dashboard.status.running"), icon: Package },
+    { key: "completed", label: t("dashboard.status.completed"), icon: CheckCircle2 },
+  ];
 
   useEffect(() => {
     if (!loading && !user) {
@@ -159,7 +159,7 @@ export default function OrderDetail() {
             </a>
             <Button variant="ghost" onClick={() => navigate("/orders")}>
               <ChevronLeft className="w-4 h-4 mr-2" />
-              Danh sách đơn
+              {t("orderDetail.backToList")}
             </Button>
           </div>
         </div>
@@ -179,7 +179,7 @@ export default function OrderDetail() {
                     {order.service_packages?.name}
                   </h1>
                   <p className="text-sm text-muted-foreground">
-                    Mã đơn: {order.id.slice(0, 8).toUpperCase()}
+                    {t("orderDetail.orderCode")}: {order.id.slice(0, 8).toUpperCase()}
                   </p>
                 </div>
                 <div className="text-right">
@@ -187,7 +187,7 @@ export default function OrderDetail() {
                     {Number(order.total_amount).toLocaleString()}đ
                   </p>
                   <p className={`text-sm font-medium ${getStatusColor(order.status)}`}>
-                    {order.status === "cancelled" ? "Đã hủy" : statusSteps.find(s => s.key === order.status)?.label}
+                    {order.status === "cancelled" ? t("orderDetail.cancelled") : statusSteps.find(s => s.key === order.status)?.label}
                   </p>
                 </div>
               </div>
@@ -229,7 +229,7 @@ export default function OrderDetail() {
               ) : (
                 <div className="flex items-center justify-center py-4">
                   <XCircle className="w-8 h-8 text-red-500 mr-2" />
-                  <span className="text-red-500 font-medium">Đơn hàng đã bị hủy</span>
+                  <span className="text-red-500 font-medium">{t("orderDetail.cancelled")}</span>
                 </div>
               )}
             </div>
@@ -240,11 +240,11 @@ export default function OrderDetail() {
               <div className="glass rounded-xl p-6 border border-border/50">
                 <h2 className="font-bold mb-4 flex items-center gap-2">
                   <Gamepad2 className="w-5 h-5 text-primary" />
-                  Thông tin game
+                  {t("orderDetail.gameInfo")}
                 </h2>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Governor ID</span>
+                    <span className="text-muted-foreground">{t("orderDetail.governorId")}</span>
                     <span className="font-medium">{order.game_account_id}</span>
                   </div>
                   <div className="flex justify-between">
@@ -257,7 +257,7 @@ export default function OrderDetail() {
                   </div>
                   {order.notes && (
                     <div className="pt-3 border-t border-border/50">
-                      <p className="text-muted-foreground text-sm">Ghi chú:</p>
+                      <p className="text-muted-foreground text-sm">{t("orderDetail.notes")}:</p>
                       <p className="text-sm mt-1">{order.notes}</p>
                     </div>
                   )}
@@ -268,18 +268,18 @@ export default function OrderDetail() {
               <div className="glass rounded-xl p-6 border border-border/50">
                 <h2 className="font-bold mb-4 flex items-center gap-2">
                   <Clock className="w-5 h-5 text-primary" />
-                  Lịch sử
+                  {t("orderDetail.history")}
                 </h2>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Ngày tạo</span>
+                    <span className="text-muted-foreground">{t("orderDetail.createdAt")}</span>
                     <span className="font-medium">
                       {new Date(order.created_at).toLocaleString("vi-VN")}
                     </span>
                   </div>
                   {order.paid_at && (
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Thanh toán</span>
+                      <span className="text-muted-foreground">{t("orderDetail.paidAt")}</span>
                       <span className="font-medium">
                         {new Date(order.paid_at).toLocaleString("vi-VN")}
                       </span>
@@ -287,7 +287,7 @@ export default function OrderDetail() {
                   )}
                   {order.started_at && (
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Bắt đầu chạy</span>
+                      <span className="text-muted-foreground">{t("orderDetail.startedAt")}</span>
                       <span className="font-medium">
                         {new Date(order.started_at).toLocaleString("vi-VN")}
                       </span>
@@ -295,7 +295,7 @@ export default function OrderDetail() {
                   )}
                   {order.completed_at && (
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Hoàn thành</span>
+                      <span className="text-muted-foreground">{t("orderDetail.completedAt")}</span>
                       <span className="font-medium">
                         {new Date(order.completed_at).toLocaleString("vi-VN")}
                       </span>
@@ -310,7 +310,7 @@ export default function OrderDetail() {
               <div className="glass rounded-xl p-6 border border-border/50 mt-6">
                 <h2 className="font-bold mb-4 flex items-center gap-2">
                   <CreditCard className="w-5 h-5 text-primary" />
-                  Chứng từ thanh toán
+                  {t("orderDetail.paymentProof")}
                 </h2>
                 <a 
                   href={order.payment_proof_url} 
@@ -318,7 +318,7 @@ export default function OrderDetail() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-primary hover:underline"
                 >
-                  Xem chứng từ
+                  {t("orderDetail.viewProof")}
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </div>

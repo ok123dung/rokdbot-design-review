@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { 
   Gamepad2, 
@@ -34,6 +35,7 @@ interface Order {
 }
 
 export default function Orders() {
+  const { t } = useTranslation();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
@@ -128,15 +130,7 @@ export default function Orders() {
   };
 
   const getStatusText = (status: string) => {
-    switch (status) {
-      case "pending": return "Chờ thanh toán";
-      case "paid": return "Đã thanh toán";
-      case "processing": return "Đang xử lý";
-      case "running": return "Đang chạy";
-      case "completed": return "Hoàn thành";
-      case "cancelled": return "Đã hủy";
-      default: return status;
-    }
+    return t(`dashboard.status.${status}`) || status;
   };
 
   if (loading || loadingData) {
@@ -159,7 +153,7 @@ export default function Orders() {
             </a>
             <Button variant="ghost" onClick={() => navigate("/dashboard")}>
               <ChevronLeft className="w-4 h-4 mr-2" />
-              Dashboard
+              {t("common.dashboard")}
             </Button>
           </div>
         </div>
@@ -171,15 +165,15 @@ export default function Orders() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h1 className="text-3xl font-bold mb-2">Đơn hàng của tôi</h1>
-            <p className="text-muted-foreground mb-8">Theo dõi trạng thái tất cả đơn hàng</p>
+            <h1 className="text-3xl font-bold mb-2">{t("orders.title")}</h1>
+            <p className="text-muted-foreground mb-8">{t("orders.subtitle")}</p>
 
             {/* Filters */}
             <div className="flex flex-col md:flex-row gap-4 mb-6">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
-                  placeholder="Tìm kiếm theo ID game hoặc gói dịch vụ..."
+                  placeholder={t("orders.searchPlaceholder")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10"
@@ -188,16 +182,16 @@ export default function Orders() {
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-full md:w-48">
                   <Filter className="w-4 h-4 mr-2" />
-                  <SelectValue placeholder="Lọc trạng thái" />
+                  <SelectValue placeholder={t("orders.filterStatus")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tất cả</SelectItem>
-                  <SelectItem value="pending">Chờ thanh toán</SelectItem>
-                  <SelectItem value="paid">Đã thanh toán</SelectItem>
-                  <SelectItem value="processing">Đang xử lý</SelectItem>
-                  <SelectItem value="running">Đang chạy</SelectItem>
-                  <SelectItem value="completed">Hoàn thành</SelectItem>
-                  <SelectItem value="cancelled">Đã hủy</SelectItem>
+                  <SelectItem value="all">{t("common.all")}</SelectItem>
+                  <SelectItem value="pending">{t("dashboard.status.pending")}</SelectItem>
+                  <SelectItem value="paid">{t("dashboard.status.paid")}</SelectItem>
+                  <SelectItem value="processing">{t("dashboard.status.processing")}</SelectItem>
+                  <SelectItem value="running">{t("dashboard.status.running")}</SelectItem>
+                  <SelectItem value="completed">{t("dashboard.status.completed")}</SelectItem>
+                  <SelectItem value="cancelled">{t("dashboard.status.cancelled")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -209,12 +203,12 @@ export default function Orders() {
                   <Package className="w-16 h-16 mx-auto text-muted-foreground mb-4 opacity-50" />
                   <p className="text-muted-foreground mb-4">
                     {orders.length === 0 
-                      ? "Bạn chưa có đơn hàng nào" 
-                      : "Không tìm thấy đơn hàng phù hợp"}
+                      ? t("dashboard.noOrders") 
+                      : t("orders.noOrdersFound")}
                   </p>
                   {orders.length === 0 && (
                     <Button onClick={() => navigate("/order")} className="btn-gaming text-primary-foreground">
-                      Đặt dịch vụ ngay
+                      {t("orders.orderNow")}
                     </Button>
                   )}
                 </div>
@@ -231,7 +225,7 @@ export default function Orders() {
                       <div>
                         <div className="flex items-center gap-3 mb-2">
                           <Package className="w-5 h-5 text-primary" />
-                          <h3 className="font-bold">{order.service_packages?.name || "Gói dịch vụ"}</h3>
+                          <h3 className="font-bold">{order.service_packages?.name || t("admin.package")}</h3>
                           <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
                             {getStatusText(order.status)}
                           </span>
