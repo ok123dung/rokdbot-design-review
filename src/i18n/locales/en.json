@@ -48,9 +48,9 @@
     "perWeek": "/week",
     "perMonth": "/month",
     "weeklyPrice": "$6",
-    "v1Price": "$30",
-    "v2Price": "$36",
-    "kvkPrice": "$48",
+    "v1Price": "$29",
+    "v2Price": "$34",
+    "kvkPrice": "$46",
     "currency": "USD"
   },
   "features": {
