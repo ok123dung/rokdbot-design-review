@@ -422,8 +422,8 @@ export default function Order() {
                     </h3>
                     <div className="space-y-2 text-sm">
                       <p><span className="text-muted-foreground">Ngân hàng:</span> <strong>MB Bank</strong></p>
-                      <p><span className="text-muted-foreground">Số TK:</span> <strong>0123456789</strong></p>
-                      <p><span className="text-muted-foreground">Chủ TK:</span> <strong>ROKDBOT SERVICE</strong></p>
+                      <p><span className="text-muted-foreground">Số TK:</span> <strong>0915966853</strong></p>
+                      <p><span className="text-muted-foreground">Chủ TK:</span> <strong>NGUYEN VAN A</strong></p>
                       <p><span className="text-muted-foreground">Nội dung:</span> <strong>ROK {user?.email?.split("@")[0]}</strong></p>
                     </div>
                   </div>
@@ -435,8 +435,8 @@ export default function Order() {
                       MoMo
                     </h3>
                     <div className="space-y-2 text-sm">
-                      <p><span className="text-muted-foreground">Số điện thoại:</span> <strong>0123456789</strong></p>
-                      <p><span className="text-muted-foreground">Tên:</span> <strong>ROKDBOT SERVICE</strong></p>
+                      <p><span className="text-muted-foreground">Số điện thoại:</span> <strong>0915966853</strong></p>
+                      <p><span className="text-muted-foreground">Tên:</span> <strong>NGUYEN VAN A</strong></p>
                       <p><span className="text-muted-foreground">Nội dung:</span> <strong>ROK {user?.email?.split("@")[0]}</strong></p>
                     </div>
                   </div>
