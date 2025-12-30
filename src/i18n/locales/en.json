@@ -51,7 +51,37 @@
     "v1Price": "$29.99",
     "v2Price": "$35.99",
     "kvkPrice": "$46",
-    "currency": "USD"
+    "currency": "USD",
+    "weekly": {
+      "f1": "Auto resource farming",
+      "f2": "24/7 continuous gathering",
+      "f3": "Basic troop training",
+      "f4": "Zalo/Discord support"
+    },
+    "v1": {
+      "f1": "All Weekly features",
+      "f2": "Auto barbarians & forts",
+      "f3": "Multi-account support",
+      "f4": "Priority support 24/7",
+      "f5": "Daily progress reports"
+    },
+    "v2": {
+      "f1": "All V1 features",
+      "f2": "Smart gathering optimization",
+      "f3": "Alliance help automation",
+      "f4": "Research & building queue",
+      "f5": "Direct VIP support",
+      "f6": "Custom scripts on request"
+    },
+    "kvk": {
+      "f1": "All V2 features",
+      "f2": "KvK rally coordination",
+      "f3": "Honor points farming",
+      "f4": "Castle siege support",
+      "f5": "Real-time battle alerts",
+      "f6": "Dedicated account manager",
+      "f7": "Performance analytics"
+    }
   },
   "features": {
     "title": "Key Features",
