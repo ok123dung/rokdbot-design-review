@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { 
   Gamepad2, 
   Package, 
-  Users,
   DollarSign,
-  BarChart3,
   ChevronLeft,
   Filter,
   Search,
-  CheckCircle2,
-  XCircle,
   Clock,
   Loader2,
   Eye
@@ -62,6 +59,7 @@ interface Stats {
 }
 
 export default function AdminDashboard() {
+  const { t } = useTranslation();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -105,8 +103,8 @@ export default function AdminDashboard() {
       fetchOrders();
     } else {
       toast({
-        title: "Không có quyền truy cập",
-        description: "Bạn không có quyền admin",
+        title: t("admin.noAccess"),
+        description: t("admin.noAccessDesc"),
         variant: "destructive"
       });
       navigate("/dashboard");
@@ -200,14 +198,14 @@ export default function AdminDashboard() {
 
     if (error) {
       toast({
-        title: "Lỗi",
-        description: "Không thể cập nhật trạng thái",
+        title: t("admin.updateError"),
+        description: t("admin.updateErrorDesc"),
         variant: "destructive"
       });
     } else {
       toast({
-        title: "Thành công",
-        description: `Đã cập nhật trạng thái thành ${getStatusText(newStatus)}`
+        title: t("admin.updateSuccess"),
+        description: `${t("admin.updateStatus")}: ${t(`dashboard.status.${newStatus}`)}`
       });
       fetchOrders();
       setSelectedOrder(null);
@@ -228,15 +226,7 @@ export default function AdminDashboard() {
   };
 
   const getStatusText = (status: string) => {
-    switch (status) {
-      case "pending": return "Chờ thanh toán";
-      case "paid": return "Đã thanh toán";
-      case "processing": return "Đang xử lý";
-      case "running": return "Đang chạy";
-      case "completed": return "Hoàn thành";
-      case "cancelled": return "Đã hủy";
-      default: return status;
-    }
+    return t(`dashboard.status.${status}`) || status;
   };
 
   if (loading || loadingData) {
@@ -264,7 +254,7 @@ export default function AdminDashboard() {
             </div>
             <Button variant="ghost" onClick={() => navigate("/dashboard")}>
               <ChevronLeft className="w-4 h-4 mr-2" />
-              Dashboard
+              {t("common.dashboard")}
             </Button>
           </div>
         </div>
@@ -276,30 +266,30 @@ export default function AdminDashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
-            <p className="text-muted-foreground mb-8">Quản lý đơn hàng và khách hàng</p>
+            <h1 className="text-3xl font-bold mb-2">{t("admin.title")}</h1>
+            <p className="text-muted-foreground mb-8">{t("admin.subtitle")}</p>
 
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <div className="glass rounded-xl p-4 border border-border/50">
                 <Package className="w-8 h-8 text-primary mb-2" />
                 <p className="text-2xl font-bold">{stats.totalOrders}</p>
-                <p className="text-sm text-muted-foreground">Tổng đơn hàng</p>
+                <p className="text-sm text-muted-foreground">{t("admin.totalOrders")}</p>
               </div>
               <div className="glass rounded-xl p-4 border border-border/50">
                 <DollarSign className="w-8 h-8 text-green-500 mb-2" />
                 <p className="text-2xl font-bold">{stats.totalRevenue.toLocaleString()}đ</p>
-                <p className="text-sm text-muted-foreground">Doanh thu</p>
+                <p className="text-sm text-muted-foreground">{t("admin.revenue")}</p>
               </div>
               <div className="glass rounded-xl p-4 border border-border/50">
                 <Clock className="w-8 h-8 text-yellow-500 mb-2" />
                 <p className="text-2xl font-bold">{stats.pendingOrders}</p>
-                <p className="text-sm text-muted-foreground">Chờ xử lý</p>
+                <p className="text-sm text-muted-foreground">{t("admin.pendingOrders")}</p>
               </div>
               <div className="glass rounded-xl p-4 border border-border/50">
                 <Loader2 className="w-8 h-8 text-blue-500 mb-2" />
                 <p className="text-2xl font-bold">{stats.runningOrders}</p>
-                <p className="text-sm text-muted-foreground">Đang chạy</p>
+                <p className="text-sm text-muted-foreground">{t("admin.runningOrders")}</p>
               </div>
             </div>
 
@@ -308,7 +298,7 @@ export default function AdminDashboard() {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
-                  placeholder="Tìm theo ID game, tên, SĐT..."
+                  placeholder={t("admin.searchPlaceholder")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10"
@@ -317,16 +307,16 @@ export default function AdminDashboard() {
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-full md:w-48">
                   <Filter className="w-4 h-4 mr-2" />
-                  <SelectValue placeholder="Lọc trạng thái" />
+                  <SelectValue placeholder={t("orders.filterStatus")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tất cả ({orders.length})</SelectItem>
-                  <SelectItem value="pending">Chờ thanh toán</SelectItem>
-                  <SelectItem value="paid">Đã thanh toán</SelectItem>
-                  <SelectItem value="processing">Đang xử lý</SelectItem>
-                  <SelectItem value="running">Đang chạy</SelectItem>
-                  <SelectItem value="completed">Hoàn thành</SelectItem>
-                  <SelectItem value="cancelled">Đã hủy</SelectItem>
+                  <SelectItem value="all">{t("common.all")} ({orders.length})</SelectItem>
+                  <SelectItem value="pending">{t("dashboard.status.pending")}</SelectItem>
+                  <SelectItem value="paid">{t("dashboard.status.paid")}</SelectItem>
+                  <SelectItem value="processing">{t("dashboard.status.processing")}</SelectItem>
+                  <SelectItem value="running">{t("dashboard.status.running")}</SelectItem>
+                  <SelectItem value="completed">{t("dashboard.status.completed")}</SelectItem>
+                  <SelectItem value="cancelled">{t("dashboard.status.cancelled")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -337,20 +327,20 @@ export default function AdminDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-border/50 bg-muted/30">
-                      <th className="text-left p-4 font-medium">Khách hàng</th>
-                      <th className="text-left p-4 font-medium">Gói dịch vụ</th>
-                      <th className="text-left p-4 font-medium">Game Info</th>
-                      <th className="text-left p-4 font-medium">Số tiền</th>
-                      <th className="text-left p-4 font-medium">Trạng thái</th>
-                      <th className="text-left p-4 font-medium">Ngày tạo</th>
-                      <th className="text-left p-4 font-medium">Thao tác</th>
+                      <th className="text-left p-4 font-medium">{t("admin.customer")}</th>
+                      <th className="text-left p-4 font-medium">{t("admin.package")}</th>
+                      <th className="text-left p-4 font-medium">{t("admin.gameInfo")}</th>
+                      <th className="text-left p-4 font-medium">{t("admin.amount")}</th>
+                      <th className="text-left p-4 font-medium">{t("admin.status")}</th>
+                      <th className="text-left p-4 font-medium">{t("admin.createdAt")}</th>
+                      <th className="text-left p-4 font-medium">{t("admin.actions")}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredOrders.length === 0 ? (
                       <tr>
                         <td colSpan={7} className="text-center py-12 text-muted-foreground">
-                          Không có đơn hàng nào
+                          {t("admin.noOrders")}
                         </td>
                       </tr>
                     ) : (
@@ -383,7 +373,7 @@ export default function AdminDashboard() {
                               onClick={() => setSelectedOrder(order)}
                             >
                               <Eye className="w-4 h-4 mr-1" />
-                              Xem
+                              {t("common.view")}
                             </Button>
                           </td>
                         </tr>
@@ -401,54 +391,54 @@ export default function AdminDashboard() {
       <Dialog open={!!selectedOrder} onOpenChange={() => setSelectedOrder(null)}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>Chi tiết đơn hàng</DialogTitle>
+            <DialogTitle>{t("admin.orderDetail")}</DialogTitle>
           </DialogHeader>
           
           {selectedOrder && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-muted-foreground">Khách hàng</p>
+                  <p className="text-muted-foreground">{t("admin.customer")}</p>
                   <p className="font-medium">{selectedOrder.profiles?.full_name || "N/A"}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">SĐT</p>
+                  <p className="text-muted-foreground">{t("admin.phone")}</p>
                   <p className="font-medium">{selectedOrder.profiles?.phone || "N/A"}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Gói dịch vụ</p>
+                  <p className="text-muted-foreground">{t("admin.package")}</p>
                   <p className="font-medium">{selectedOrder.service_packages?.name}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Số tiền</p>
+                  <p className="text-muted-foreground">{t("admin.amount")}</p>
                   <p className="font-medium">{Number(selectedOrder.total_amount).toLocaleString()}đ</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Governor ID</p>
+                  <p className="text-muted-foreground">{t("orderDetail.governorId")}</p>
                   <p className="font-medium">{selectedOrder.game_account_id}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Server / Kingdom</p>
+                  <p className="text-muted-foreground">{t("admin.serverKingdom")}</p>
                   <p className="font-medium">S{selectedOrder.game_server} / K{selectedOrder.game_kingdom}</p>
                 </div>
               </div>
 
               {selectedOrder.payment_proof_url && (
                 <div>
-                  <p className="text-muted-foreground text-sm mb-2">Chứng từ thanh toán</p>
+                  <p className="text-muted-foreground text-sm mb-2">{t("admin.paymentProof")}</p>
                   <a 
                     href={selectedOrder.payment_proof_url} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-primary hover:underline text-sm"
                   >
-                    Xem chứng từ →
+                    {t("admin.viewProof")} →
                   </a>
                 </div>
               )}
 
               <div>
-                <p className="text-muted-foreground text-sm mb-2">Cập nhật trạng thái</p>
+                <p className="text-muted-foreground text-sm mb-2">{t("admin.updateStatus")}</p>
                 <div className="flex flex-wrap gap-2">
                   {["pending", "paid", "processing", "running", "completed", "cancelled"].map((status) => (
                     <Button
@@ -469,7 +459,7 @@ export default function AdminDashboard() {
 
           <DialogFooter>
             <Button variant="outline" onClick={() => setSelectedOrder(null)}>
-              Đóng
+              {t("common.close")}
             </Button>
           </DialogFooter>
         </DialogContent>

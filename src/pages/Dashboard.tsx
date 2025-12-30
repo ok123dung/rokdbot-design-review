@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { 
   Gamepad2, 
@@ -7,7 +8,6 @@ import {
   Clock, 
   CheckCircle2, 
   LogOut, 
-  User, 
   ShoppingCart,
   BarChart3,
   Settings,
@@ -34,6 +34,7 @@ interface Profile {
 }
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -100,8 +101,8 @@ export default function Dashboard() {
   const handleSignOut = async () => {
     await signOut();
     toast({
-      title: "Đã đăng xuất",
-      description: "Hẹn gặp lại bạn!"
+      title: t("dashboard.signedOut"),
+      description: t("dashboard.signedOutDesc")
     });
     navigate("/");
   };
@@ -117,15 +118,7 @@ export default function Dashboard() {
   };
 
   const getStatusText = (status: string) => {
-    switch (status) {
-      case "pending": return "Chờ thanh toán";
-      case "paid": return "Đã thanh toán";
-      case "processing": return "Đang xử lý";
-      case "running": return "Đang chạy";
-      case "completed": return "Hoàn thành";
-      case "cancelled": return "Đã hủy";
-      default: return status;
-    }
+    return t(`dashboard.status.${status}`) || status;
   };
 
   if (loading || loadingData) {
@@ -174,10 +167,10 @@ export default function Dashboard() {
             className="mb-8"
           >
             <h1 className="text-3xl md:text-4xl font-bold mb-2">
-              Xin chào, <span className="text-gradient">{profile?.full_name || "Bạn"}</span>!
+              {t("dashboard.welcomeBack")}, <span className="text-gradient">{profile?.full_name || t("dashboard.welcome")}</span>!
             </h1>
             <p className="text-muted-foreground">
-              Quản lý đơn hàng và dịch vụ của bạn tại đây
+              {t("dashboard.manageOrders")}
             </p>
           </motion.div>
 
@@ -191,28 +184,28 @@ export default function Dashboard() {
             <div className="glass rounded-xl p-4 border border-border/50">
               <Package className="w-8 h-8 text-primary mb-2" />
               <p className="text-2xl font-bold">{orders.length}</p>
-              <p className="text-sm text-muted-foreground">Tổng đơn hàng</p>
+              <p className="text-sm text-muted-foreground">{t("dashboard.totalOrders")}</p>
             </div>
             <div className="glass rounded-xl p-4 border border-border/50">
               <Clock className="w-8 h-8 text-yellow-500 mb-2" />
               <p className="text-2xl font-bold">
                 {orders.filter(o => o.status === "running").length}
               </p>
-              <p className="text-sm text-muted-foreground">Đang chạy</p>
+              <p className="text-sm text-muted-foreground">{t("dashboard.running")}</p>
             </div>
             <div className="glass rounded-xl p-4 border border-border/50">
               <CheckCircle2 className="w-8 h-8 text-green-500 mb-2" />
               <p className="text-2xl font-bold">
                 {orders.filter(o => o.status === "completed").length}
               </p>
-              <p className="text-sm text-muted-foreground">Hoàn thành</p>
+              <p className="text-sm text-muted-foreground">{t("dashboard.completed")}</p>
             </div>
             <div className="glass rounded-xl p-4 border border-border/50">
               <BarChart3 className="w-8 h-8 text-accent mb-2" />
               <p className="text-2xl font-bold">
                 {orders.reduce((sum, o) => sum + Number(o.total_amount), 0).toLocaleString()}đ
               </p>
-              <p className="text-sm text-muted-foreground">Tổng chi tiêu</p>
+              <p className="text-sm text-muted-foreground">{t("dashboard.totalSpent")}</p>
             </div>
           </motion.div>
 
@@ -228,7 +221,7 @@ export default function Dashboard() {
               className="btn-gaming text-primary-foreground h-16 text-lg font-semibold"
             >
               <ShoppingCart className="w-6 h-6 mr-2" />
-              Đặt dịch vụ mới
+              {t("dashboard.newOrder")}
             </Button>
             <Button 
               variant="outline"
@@ -236,7 +229,7 @@ export default function Dashboard() {
               className="h-16 text-lg border-border/50 hover:border-primary"
             >
               <Package className="w-6 h-6 mr-2" />
-              Xem tất cả đơn hàng
+              {t("dashboard.viewAllOrders")}
             </Button>
             <Button 
               variant="outline"
@@ -244,7 +237,7 @@ export default function Dashboard() {
               className="h-16 text-lg border-border/50 hover:border-primary"
             >
               <Settings className="w-6 h-6 mr-2" />
-              Cài đặt tài khoản
+              {t("dashboard.accountSettings")}
             </Button>
             {isAdmin && (
               <Button 
@@ -253,7 +246,7 @@ export default function Dashboard() {
                 className="h-16 text-lg border-red-500/50 hover:border-red-500 text-red-500 hover:text-red-400"
               >
                 <Shield className="w-6 h-6 mr-2" />
-                Admin Panel
+                {t("dashboard.adminPanel")}
               </Button>
             )}
           </motion.div>
@@ -267,15 +260,15 @@ export default function Dashboard() {
           >
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
               <Package className="w-5 h-5 text-primary" />
-              Đơn hàng gần đây
+              {t("dashboard.recentOrders")}
             </h2>
             
             {orders.length === 0 ? (
               <div className="text-center py-12">
                 <Package className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-                <p className="text-muted-foreground mb-4">Bạn chưa có đơn hàng nào</p>
+                <p className="text-muted-foreground mb-4">{t("dashboard.noOrders")}</p>
                 <Button onClick={() => navigate("/order")} className="btn-gaming text-primary-foreground">
-                  Đặt dịch vụ ngay
+                  {t("dashboard.orderNow")}
                 </Button>
               </div>
             ) : (
@@ -287,7 +280,7 @@ export default function Dashboard() {
                     onClick={() => navigate(`/orders/${order.id}`)}
                   >
                     <div>
-                      <p className="font-medium">{order.service_packages?.name || "Gói dịch vụ"}</p>
+                      <p className="font-medium">{order.service_packages?.name || t("admin.package")}</p>
                       <p className="text-sm text-muted-foreground">
                         {new Date(order.created_at).toLocaleDateString("vi-VN")}
                       </p>

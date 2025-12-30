@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { 
   Gamepad2, 
   ChevronLeft, 
   ChevronRight, 
   Check, 
-  Upload, 
   CreditCard,
   Server,
   Crown,
@@ -31,15 +31,16 @@ interface ServicePackage {
   features: string[];
 }
 
-const gameInfoSchema = z.object({
-  gameAccountId: z.string().min(1, "Vui lòng nhập ID tài khoản game"),
-  gameServer: z.string().min(1, "Vui lòng nhập Server"),
-  gameKingdom: z.string().min(1, "Vui lòng nhập Kingdom"),
-});
-
 export default function Order() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const preselectedPackage = searchParams.get("package");
+  
+  const gameInfoSchema = z.object({
+    gameAccountId: z.string().min(1, `${t("order.requiredField")} ${t("order.gameAccountId")}`),
+    gameServer: z.string().min(1, `${t("order.requiredField")} ${t("order.gameServer")}`),
+    gameKingdom: z.string().min(1, `${t("order.requiredField")} ${t("order.gameKingdom")}`),
+  });
   
   const [step, setStep] = useState(1);
   const [packages, setPackages] = useState<ServicePackage[]>([]);
@@ -88,8 +89,8 @@ export default function Order() {
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
         toast({
-          title: "File quá lớn",
-          description: "Vui lòng chọn file nhỏ hơn 5MB",
+          title: t("order.fileTooLarge"),
+          description: t("order.fileTooLargeDesc"),
           variant: "destructive"
         });
         return;
@@ -123,8 +124,8 @@ export default function Order() {
   const handleNext = () => {
     if (step === 1 && !selectedPackage) {
       toast({
-        title: "Chưa chọn gói dịch vụ",
-        description: "Vui lòng chọn một gói dịch vụ",
+        title: t("order.noPackageSelected"),
+        description: t("order.noPackageSelectedDesc"),
         variant: "destructive"
       });
       return;
@@ -142,8 +143,8 @@ export default function Order() {
   const handleSubmit = async () => {
     if (!paymentProof) {
       toast({
-        title: "Chưa upload chứng từ",
-        description: "Vui lòng upload ảnh chứng từ thanh toán",
+        title: t("order.noProofUploaded"),
+        description: t("order.noProofUploadedDesc"),
         variant: "destructive"
       });
       return;
@@ -200,16 +201,16 @@ export default function Order() {
         });
 
       toast({
-        title: "Đặt hàng thành công!",
-        description: "Đơn hàng của bạn đang chờ xác nhận thanh toán"
+        title: t("order.orderSuccess"),
+        description: t("order.orderSuccessDesc")
       });
 
       navigate("/dashboard");
     } catch (error) {
       console.error("Order error:", error);
       toast({
-        title: "Lỗi đặt hàng",
-        description: "Có lỗi xảy ra. Vui lòng thử lại.",
+        title: t("order.orderError"),
+        description: t("order.orderErrorDesc"),
         variant: "destructive"
       });
     } finally {
@@ -239,7 +240,7 @@ export default function Order() {
             </a>
             <Button variant="ghost" onClick={() => navigate("/dashboard")}>
               <ChevronLeft className="w-4 h-4 mr-2" />
-              Quay lại
+              {t("common.back")}
             </Button>
           </div>
         </div>
@@ -271,10 +272,10 @@ export default function Order() {
 
           {/* Step Labels */}
           <div className="flex justify-between text-sm text-muted-foreground mb-8 px-4">
-            <span className={step >= 1 ? "text-primary" : ""}>Chọn gói</span>
-            <span className={step >= 2 ? "text-primary" : ""}>Thông tin</span>
-            <span className={step >= 3 ? "text-primary" : ""}>Thanh toán</span>
-            <span className={step >= 4 ? "text-primary" : ""}>Xác nhận</span>
+            <span className={step >= 1 ? "text-primary" : ""}>{t("order.steps.package")}</span>
+            <span className={step >= 2 ? "text-primary" : ""}>{t("order.steps.info")}</span>
+            <span className={step >= 3 ? "text-primary" : ""}>{t("order.steps.payment")}</span>
+            <span className={step >= 4 ? "text-primary" : ""}>{t("order.steps.confirm")}</span>
           </div>
 
           {/* Step Content */}
@@ -287,7 +288,7 @@ export default function Order() {
             {/* Step 1: Choose Package */}
             {step === 1 && (
               <div>
-                <h2 className="text-2xl font-bold mb-6">Chọn gói dịch vụ</h2>
+                <h2 className="text-2xl font-bold mb-6">{t("order.selectPackage")}</h2>
                 <div className="grid md:grid-cols-2 gap-4">
                   {packages.map((pkg) => (
                     <div
@@ -307,7 +308,7 @@ export default function Order() {
                       <p className="text-2xl font-bold text-gradient-gold">
                         {pkg.price.toLocaleString()}đ
                         <span className="text-sm text-muted-foreground font-normal">
-                          /{pkg.duration_days} ngày
+                          /{pkg.duration_days} {t("order.days")}
                         </span>
                       </p>
                       <ul className="mt-3 space-y-1">
@@ -327,15 +328,15 @@ export default function Order() {
             {/* Step 2: Game Info */}
             {step === 2 && (
               <div>
-                <h2 className="text-2xl font-bold mb-6">Thông tin tài khoản game</h2>
+                <h2 className="text-2xl font-bold mb-6">{t("order.gameInfo")}</h2>
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="gameAccountId">ID Tài khoản / Governor ID</Label>
+                    <Label htmlFor="gameAccountId">{t("order.gameAccountId")}</Label>
                     <div className="relative mt-1">
                       <Gamepad2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                       <Input
                         id="gameAccountId"
-                        placeholder="Nhập Governor ID"
+                        placeholder={t("order.enterGovernorId")}
                         value={gameAccountId}
                         onChange={(e) => setGameAccountId(e.target.value)}
                         className={`pl-10 ${errors.gameAccountId ? "border-destructive" : ""}`}
@@ -347,12 +348,12 @@ export default function Order() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="gameServer">Server</Label>
+                    <Label htmlFor="gameServer">{t("order.gameServer")}</Label>
                     <div className="relative mt-1">
                       <Server className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                       <Input
                         id="gameServer"
-                        placeholder="Ví dụ: 1001"
+                        placeholder={t("order.enterServer")}
                         value={gameServer}
                         onChange={(e) => setGameServer(e.target.value)}
                         className={`pl-10 ${errors.gameServer ? "border-destructive" : ""}`}
@@ -364,12 +365,12 @@ export default function Order() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="gameKingdom">Kingdom</Label>
+                    <Label htmlFor="gameKingdom">{t("order.gameKingdom")}</Label>
                     <div className="relative mt-1">
                       <Crown className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                       <Input
                         id="gameKingdom"
-                        placeholder="Ví dụ: 1234"
+                        placeholder={t("order.enterKingdom")}
                         value={gameKingdom}
                         onChange={(e) => setGameKingdom(e.target.value)}
                         className={`pl-10 ${errors.gameKingdom ? "border-destructive" : ""}`}
@@ -381,10 +382,10 @@ export default function Order() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="notes">Ghi chú (tùy chọn)</Label>
+                    <Label htmlFor="notes">{t("order.notes")}</Label>
                     <Textarea
                       id="notes"
-                      placeholder="Thông tin thêm về yêu cầu của bạn..."
+                      placeholder={t("order.notesPlaceholder")}
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       className="mt-1"
@@ -397,14 +398,14 @@ export default function Order() {
             {/* Step 3: Payment */}
             {step === 3 && (
               <div>
-                <h2 className="text-2xl font-bold mb-6">Thanh toán</h2>
+                <h2 className="text-2xl font-bold mb-6">{t("order.payment")}</h2>
                 
                 {selectedPkg && (
                   <div className="bg-primary/10 rounded-xl p-4 mb-6">
                     <div className="flex justify-between items-center">
                       <div>
                         <p className="font-medium">{selectedPkg.name}</p>
-                        <p className="text-sm text-muted-foreground">{selectedPkg.duration_days} ngày</p>
+                        <p className="text-sm text-muted-foreground">{selectedPkg.duration_days} {t("order.days")}</p>
                       </div>
                       <p className="text-2xl font-bold text-gradient-gold">
                         {selectedPkg.price.toLocaleString()}đ
@@ -418,21 +419,21 @@ export default function Order() {
                   <div className="border border-border/50 rounded-xl p-4">
                     <h3 className="font-bold mb-3 flex items-center gap-2">
                       <CreditCard className="w-5 h-5 text-primary" />
-                      Chuyển khoản ngân hàng
+                      {t("order.bankTransfer")}
                     </h3>
                     <div className="flex flex-col items-center mb-4">
                       <img 
                         src="/assets/qr-bank.jpg" 
-                        alt="QR Code ngân hàng" 
+                        alt="QR Code" 
                         className="w-40 h-40 object-contain rounded-lg border border-border/30"
                       />
-                      <p className="text-xs text-muted-foreground mt-2">Quét mã để thanh toán</p>
+                      <p className="text-xs text-muted-foreground mt-2">{t("order.scanToPay")}</p>
                     </div>
                     <div className="space-y-2 text-sm">
-                      <p><span className="text-muted-foreground">Ngân hàng:</span> <strong>HD Bank</strong></p>
-                      <p><span className="text-muted-foreground">Số TK:</span> <strong>0915966853</strong></p>
-                      <p><span className="text-muted-foreground">Chủ TK:</span> <strong>NGUYEN HUU DUNG</strong></p>
-                      <p><span className="text-muted-foreground">Nội dung:</span> <strong>ROK {user?.email?.split("@")[0]}</strong></p>
+                      <p><span className="text-muted-foreground">{t("order.bank")}:</span> <strong>HD Bank</strong></p>
+                      <p><span className="text-muted-foreground">{t("order.accountNumber")}:</span> <strong>0915966853</strong></p>
+                      <p><span className="text-muted-foreground">{t("order.accountHolder")}:</span> <strong>NGUYEN HUU DUNG</strong></p>
+                      <p><span className="text-muted-foreground">{t("order.transferContent")}:</span> <strong>ROK {user?.email?.split("@")[0]}</strong></p>
                     </div>
                   </div>
 
@@ -440,7 +441,7 @@ export default function Order() {
                   <div className="border border-border/50 rounded-xl p-4">
                     <h3 className="font-bold mb-3 flex items-center gap-2">
                       <div className="w-5 h-5 bg-pink-500 rounded-full" />
-                      MoMo
+                      {t("order.momo")}
                     </h3>
                     <div className="flex flex-col items-center mb-4">
                       <img 
@@ -448,19 +449,19 @@ export default function Order() {
                         alt="QR Code MoMo" 
                         className="w-40 h-40 object-contain rounded-lg border border-border/30"
                       />
-                      <p className="text-xs text-muted-foreground mt-2">Quét mã để thanh toán</p>
+                      <p className="text-xs text-muted-foreground mt-2">{t("order.scanToPay")}</p>
                     </div>
                     <div className="space-y-2 text-sm">
-                      <p><span className="text-muted-foreground">Số điện thoại:</span> <strong>0915966853</strong></p>
-                      <p><span className="text-muted-foreground">Tên:</span> <strong>NGUYEN HUU DUNG</strong></p>
-                      <p><span className="text-muted-foreground">Nội dung:</span> <strong>ROK {user?.email?.split("@")[0]}</strong></p>
+                      <p><span className="text-muted-foreground">{t("order.phone")}:</span> <strong>0915966853</strong></p>
+                      <p><span className="text-muted-foreground">{t("order.accountHolder")}:</span> <strong>NGUYEN HUU DUNG</strong></p>
+                      <p><span className="text-muted-foreground">{t("order.transferContent")}:</span> <strong>ROK {user?.email?.split("@")[0]}</strong></p>
                     </div>
                   </div>
                 </div>
 
                 {/* Upload Proof */}
                 <div className="mt-6">
-                  <Label className="mb-2 block">Upload ảnh chứng từ thanh toán</Label>
+                  <Label className="mb-2 block">{t("order.uploadProof")}</Label>
                   <div 
                     className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
                       paymentProofPreview ? "border-primary bg-primary/5" : "border-border/50 hover:border-primary/50"
@@ -474,13 +475,13 @@ export default function Order() {
                           alt="Payment proof" 
                           className="max-h-48 mx-auto rounded-lg mb-2"
                         />
-                        <p className="text-sm text-muted-foreground">Click để đổi ảnh khác</p>
+                        <p className="text-sm text-muted-foreground">{t("order.dragDropImage")}</p>
                       </div>
                     ) : (
                       <div>
                         <ImageIcon className="w-12 h-12 mx-auto text-muted-foreground mb-2" />
-                        <p className="text-muted-foreground">Click để upload ảnh chứng từ</p>
-                        <p className="text-sm text-muted-foreground">PNG, JPG, tối đa 5MB</p>
+                        <p className="text-muted-foreground">{t("order.dragDropImage")}</p>
+                        <p className="text-sm text-muted-foreground">{t("order.maxFileSize")}</p>
                       </div>
                     )}
                     <input
@@ -498,19 +499,19 @@ export default function Order() {
             {/* Step 4: Confirmation */}
             {step === 4 && (
               <div>
-                <h2 className="text-2xl font-bold mb-6">Xác nhận đơn hàng</h2>
+                <h2 className="text-2xl font-bold mb-6">{t("order.summary")}</h2>
                 
                 <div className="space-y-4">
                   <div className="flex justify-between py-3 border-b border-border/50">
-                    <span className="text-muted-foreground">Gói dịch vụ</span>
+                    <span className="text-muted-foreground">{t("admin.package")}</span>
                     <span className="font-medium">{selectedPkg?.name}</span>
                   </div>
                   <div className="flex justify-between py-3 border-b border-border/50">
-                    <span className="text-muted-foreground">Thời hạn</span>
-                    <span className="font-medium">{selectedPkg?.duration_days} ngày</span>
+                    <span className="text-muted-foreground">{t("order.days")}</span>
+                    <span className="font-medium">{selectedPkg?.duration_days} {t("order.days")}</span>
                   </div>
                   <div className="flex justify-between py-3 border-b border-border/50">
-                    <span className="text-muted-foreground">Governor ID</span>
+                    <span className="text-muted-foreground">{t("orderDetail.governorId")}</span>
                     <span className="font-medium">{gameAccountId}</span>
                   </div>
                   <div className="flex justify-between py-3 border-b border-border/50">
@@ -522,13 +523,13 @@ export default function Order() {
                     <span className="font-medium">{gameKingdom}</span>
                   </div>
                   <div className="flex justify-between py-3 border-b border-border/50">
-                    <span className="text-muted-foreground">Chứng từ thanh toán</span>
+                    <span className="text-muted-foreground">{t("orderDetail.paymentProof")}</span>
                     <span className="font-medium text-green-500">
-                      {paymentProof ? "Đã upload ✓" : "Chưa upload"}
+                      {paymentProof ? "✓" : "—"}
                     </span>
                   </div>
                   <div className="flex justify-between py-3 text-xl">
-                    <span className="font-bold">Tổng tiền</span>
+                    <span className="font-bold">{t("order.total")}</span>
                     <span className="font-bold text-gradient-gold">
                       {selectedPkg?.price.toLocaleString()}đ
                     </span>
@@ -545,12 +546,12 @@ export default function Order() {
                 disabled={step === 1}
               >
                 <ChevronLeft className="w-4 h-4 mr-2" />
-                Quay lại
+                {t("common.back")}
               </Button>
               
               {step < 4 ? (
                 <Button onClick={handleNext} className="btn-gaming text-primary-foreground">
-                  Tiếp tục
+                  {t("common.next")}
                   <ChevronRight className="w-4 h-4 ml-2" />
                 </Button>
               ) : (
@@ -563,7 +564,7 @@ export default function Order() {
                     <div className="animate-spin w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full" />
                   ) : (
                     <>
-                      Xác nhận đặt hàng
+                      {t("order.confirmOrder")}
                       <Check className="w-4 h-4 ml-2" />
                     </>
                   )}

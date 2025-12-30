@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { 
   Gamepad2, 
@@ -27,6 +28,7 @@ interface Profile {
 }
 
 export default function Profile() {
+  const { t } = useTranslation();
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -86,14 +88,14 @@ export default function Profile() {
 
     if (error) {
       toast({
-        title: "Lỗi",
-        description: "Không thể cập nhật thông tin. Vui lòng thử lại.",
+        title: t("profile.updateError"),
+        description: t("profile.updateErrorDesc"),
         variant: "destructive"
       });
     } else {
       toast({
-        title: "Thành công",
-        description: "Đã cập nhật thông tin cá nhân"
+        title: t("profile.updateSuccess"),
+        description: t("profile.updateSuccessDesc")
       });
     }
     
@@ -125,7 +127,7 @@ export default function Profile() {
             </a>
             <Button variant="ghost" onClick={() => navigate("/dashboard")}>
               <ChevronLeft className="w-4 h-4 mr-2" />
-              Dashboard
+              {t("common.dashboard")}
             </Button>
           </div>
         </div>
@@ -137,20 +139,20 @@ export default function Profile() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h1 className="text-3xl font-bold mb-2">Cài đặt tài khoản</h1>
-            <p className="text-muted-foreground mb-8">Quản lý thông tin cá nhân của bạn</p>
+            <h1 className="text-3xl font-bold mb-2">{t("profile.title")}</h1>
+            <p className="text-muted-foreground mb-8">{t("profile.subtitle")}</p>
 
             {/* Balance Card */}
             <div className="glass rounded-2xl p-6 border border-border/50 mb-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm">Số dư ví</p>
+                  <p className="text-muted-foreground text-sm">{t("profile.walletBalance")}</p>
                   <p className="text-3xl font-bold text-gradient-gold">
                     {(profile?.balance || 0).toLocaleString()}đ
                   </p>
                 </div>
                 <Button variant="outline" disabled>
-                  Nạp tiền (Coming soon)
+                  {t("profile.deposit")} ({t("profile.comingSoon")})
                 </Button>
               </div>
             </div>
@@ -159,12 +161,12 @@ export default function Profile() {
             <div className="glass rounded-2xl p-6 border border-border/50 mb-6">
               <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
                 <User className="w-5 h-5 text-primary" />
-                Thông tin cá nhân
+                {t("profile.personalInfo")}
               </h2>
               
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t("auth.email")}</Label>
                   <div className="relative mt-1">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
@@ -174,16 +176,16 @@ export default function Profile() {
                       className="pl-10 bg-muted/50"
                     />
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">Email không thể thay đổi</p>
+                  <p className="text-xs text-muted-foreground mt-1">{t("profile.emailCannotChange")}</p>
                 </div>
 
                 <div>
-                  <Label htmlFor="fullName">Họ tên</Label>
+                  <Label htmlFor="fullName">{t("auth.fullName")}</Label>
                   <div className="relative mt-1">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       id="fullName"
-                      placeholder="Nhập họ tên"
+                      placeholder={t("profile.enterName")}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       className="pl-10"
@@ -195,7 +197,7 @@ export default function Profile() {
                   <Label htmlFor="username">Username</Label>
                   <Input
                     id="username"
-                    placeholder="Nhập username"
+                    placeholder={t("profile.enterUsername")}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="mt-1"
@@ -203,12 +205,12 @@ export default function Profile() {
                 </div>
 
                 <div>
-                  <Label htmlFor="phone">Số điện thoại</Label>
+                  <Label htmlFor="phone">{t("order.phone")}</Label>
                   <div className="relative mt-1">
                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       id="phone"
-                      placeholder="0123456789"
+                      placeholder={t("profile.enterPhone")}
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       className="pl-10"
@@ -220,7 +222,7 @@ export default function Profile() {
                   <Label htmlFor="zalo">Zalo</Label>
                   <Input
                     id="zalo"
-                    placeholder="Số Zalo hoặc link Zalo"
+                    placeholder={t("profile.zaloPlaceholder")}
                     value={zalo}
                     onChange={(e) => setZalo(e.target.value)}
                     className="mt-1"
@@ -233,7 +235,7 @@ export default function Profile() {
                     <MessageCircle className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       id="discord"
-                      placeholder="username#1234"
+                      placeholder={t("profile.discordPlaceholder")}
                       value={discord}
                       onChange={(e) => setDiscord(e.target.value)}
                       className="pl-10"
@@ -251,7 +253,7 @@ export default function Profile() {
                   ) : (
                     <>
                       <Save className="w-4 h-4 mr-2" />
-                      Lưu thay đổi
+                      {t("profile.saveChanges")}
                     </>
                   )}
                 </Button>
@@ -260,15 +262,15 @@ export default function Profile() {
 
             {/* Danger Zone */}
             <div className="glass rounded-2xl p-6 border border-red-500/30">
-              <h2 className="text-xl font-bold mb-4 text-red-500">Vùng nguy hiểm</h2>
+              <h2 className="text-xl font-bold mb-4 text-red-500">{t("profile.dangerZone")}</h2>
               <p className="text-muted-foreground text-sm mb-4">
-                Đăng xuất khỏi tài khoản của bạn
+                {t("profile.dangerZoneDesc")}
               </p>
               <Button 
                 variant="destructive" 
                 onClick={handleSignOut}
               >
-                Đăng xuất
+                {t("common.logout")}
               </Button>
             </div>
           </motion.div>

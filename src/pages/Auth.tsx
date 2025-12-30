@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Gamepad2, Mail, Lock, User, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,10 +10,12 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
-const emailSchema = z.string().email("Email không hợp lệ");
-const passwordSchema = z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự");
-
 export default function Auth() {
+  const { t } = useTranslation();
+  
+  const emailSchema = z.string().email(t("auth.invalidEmail"));
+  const passwordSchema = z.string().min(6, t("auth.passwordMinLength"));
+  
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,21 +64,21 @@ export default function Auth() {
         if (error) {
           if (error.message.includes("Invalid login credentials")) {
             toast({
-              title: "Đăng nhập thất bại",
-              description: "Email hoặc mật khẩu không đúng",
+              title: t("auth.loginFailed"),
+              description: t("auth.loginFailedDesc"),
               variant: "destructive"
             });
           } else {
             toast({
-              title: "Lỗi",
+              title: t("common.error"),
               description: error.message,
               variant: "destructive"
             });
           }
         } else {
           toast({
-            title: "Đăng nhập thành công!",
-            description: "Chào mừng bạn quay trở lại"
+            title: t("auth.loginSuccess"),
+            description: t("auth.loginSuccessDesc")
           });
           navigate("/dashboard");
         }
@@ -84,29 +87,29 @@ export default function Auth() {
         if (error) {
           if (error.message.includes("User already registered")) {
             toast({
-              title: "Tài khoản đã tồn tại",
-              description: "Email này đã được đăng ký. Vui lòng đăng nhập.",
+              title: t("auth.accountExists"),
+              description: t("auth.accountExistsDesc"),
               variant: "destructive"
             });
           } else {
             toast({
-              title: "Lỗi đăng ký",
+              title: t("auth.registerError"),
               description: error.message,
               variant: "destructive"
             });
           }
         } else {
           toast({
-            title: "Đăng ký thành công!",
-            description: "Chào mừng bạn đến với RokdBot"
+            title: t("auth.registerSuccess"),
+            description: t("auth.registerSuccessDesc")
           });
           navigate("/dashboard");
         }
       }
     } catch (error) {
       toast({
-        title: "Lỗi",
-        description: "Có lỗi xảy ra. Vui lòng thử lại.",
+        title: t("common.error"),
+        description: t("auth.genericError"),
         variant: "destructive"
       });
     } finally {
@@ -145,7 +148,7 @@ export default function Auth() {
             <span className="text-3xl font-bold text-gradient">RokdBot</span>
           </a>
           <p className="text-muted-foreground mt-2">
-            {isLogin ? "Đăng nhập để tiếp tục" : "Tạo tài khoản mới"}
+            {isLogin ? t("auth.loginSubtitle") : t("auth.registerSubtitle")}
           </p>
         </div>
 
@@ -154,7 +157,7 @@ export default function Auth() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {!isLogin && (
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-foreground">Họ tên</Label>
+                <Label htmlFor="fullName" className="text-foreground">{t("auth.fullName")}</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                   <Input
@@ -170,7 +173,7 @@ export default function Auth() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-foreground">Email</Label>
+              <Label htmlFor="email" className="text-foreground">{t("auth.email")}</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
@@ -191,7 +194,7 @@ export default function Auth() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-foreground">Mật khẩu</Label>
+              <Label htmlFor="password" className="text-foreground">{t("auth.password")}</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
@@ -227,7 +230,7 @@ export default function Auth() {
                 <div className="animate-spin w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full" />
               ) : (
                 <>
-                  {isLogin ? "Đăng nhập" : "Đăng ký"}
+                  {isLogin ? t("common.login") : t("common.register")}
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </>
               )}
@@ -236,7 +239,7 @@ export default function Auth() {
 
           <div className="mt-6 text-center">
             <p className="text-muted-foreground">
-              {isLogin ? "Chưa có tài khoản?" : "Đã có tài khoản?"}{" "}
+              {isLogin ? t("auth.noAccount") : t("auth.haveAccount")}{" "}
               <button
                 type="button"
                 onClick={() => {
@@ -245,7 +248,7 @@ export default function Auth() {
                 }}
                 className="text-primary hover:underline font-medium"
               >
-                {isLogin ? "Đăng ký ngay" : "Đăng nhập"}
+                {isLogin ? t("auth.registerNow") : t("auth.loginNow")}
               </button>
             </p>
           </div>
@@ -254,7 +257,7 @@ export default function Auth() {
         {/* Back to home */}
         <div className="text-center mt-6">
           <a href="/" className="text-muted-foreground hover:text-primary transition-colors">
-            ← Quay về trang chủ
+            ← {t("common.backToHome")}
           </a>
         </div>
       </motion.div>
