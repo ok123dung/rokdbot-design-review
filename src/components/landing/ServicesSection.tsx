@@ -33,7 +33,7 @@ const services = [
     periodKey: "perMonth",
     descriptionKey: "services.subtitle",
     featuresKey: "v2",
-    featureCount: 6,
+    featureCount: 7,
     popular: false,
     accentColor: "gaming-purple",
   },

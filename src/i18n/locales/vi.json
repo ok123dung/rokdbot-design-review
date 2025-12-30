@@ -67,11 +67,12 @@
     },
     "v2": {
       "f1": "Tất cả tính năng V1",
-      "f2": "Smart gathering optimization",
-      "f3": "Alliance help automation",
-      "f4": "Research & building queue",
-      "f5": "VIP support trực tiếp",
-      "f6": "Custom scripts theo yêu cầu"
+      "f2": "Auto barbarian chain 1 đạo",
+      "f3": "Smart gathering optimization",
+      "f4": "Alliance help automation",
+      "f5": "Research & building queue",
+      "f6": "VIP support trực tiếp",
+      "f7": "Custom scripts theo yêu cầu"
     },
     "v3": {
       "f1": "Tất cả tính năng V2",
