@@ -15,8 +15,8 @@ const DiscordIcon = ({ className }: { className?: string }) => (
 );
 
 const socialLinks = [
-  { name: "Zalo Group", icon: ZaloIcon, href: "https://zalo.me/g/YOUR_GROUP_ID", color: "hover:text-blue-400" },
-  { name: "Discord Server", icon: DiscordIcon, href: "https://discord.gg/YOUR_INVITE", color: "hover:text-indigo-400" },
+  { name: "Zalo Group", icon: ZaloIcon, href: "https://zalo.me/g/rokservices", color: "hover:text-blue-400" },
+  { name: "Discord Server", icon: DiscordIcon, href: "https://discord.gg/rokservices", color: "hover:text-indigo-400" },
   { name: "Facebook", icon: Facebook, href: "https://facebook.com/rokdbot", color: "hover:text-blue-500" },
 ];
 
@@ -106,15 +106,15 @@ export function Footer() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-muted-foreground">
                 <Phone className="w-5 h-5 text-primary" />
-                <span>Zalo: 0xxx.xxx.xxx</span>
+                <span>Hotline: +84 123 456 789</span>
               </li>
               <li className="flex items-center gap-3 text-muted-foreground">
-                <Users className="w-5 h-5 text-primary" />
-                <span>Discord: RokdBot#1234</span>
+                <DiscordIcon className="w-5 h-5 text-primary" />
+                <a href="https://discord.gg/rokservices" className="hover:text-primary transition-colors">discord.gg/rokservices</a>
               </li>
               <li className="flex items-center gap-3 text-muted-foreground">
                 <Mail className="w-5 h-5 text-primary" />
-                <span>support@rokdbot.com</span>
+                <a href="mailto:contact@rokdbot.com" className="hover:text-primary transition-colors">contact@rokdbot.com</a>
               </li>
             </ul>
           </div>
