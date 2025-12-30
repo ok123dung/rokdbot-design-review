@@ -17,7 +17,7 @@ const DiscordIcon = ({ className }: { className?: string }) => (
 
 const socialLinks = [
   { name: "Zalo Group", icon: ZaloIcon, href: "https://zalo.me/g/rokservices", color: "hover:text-blue-400" },
-  { name: "Discord Server", icon: DiscordIcon, href: "https://discord.gg/rokservices", color: "hover:text-indigo-400" },
+  { name: "Discord Server", icon: DiscordIcon, href: "https://discord.gg/UPuFYCw4JG", color: "hover:text-indigo-400" },
   { name: "Facebook", icon: Facebook, href: "https://facebook.com/rokdbot", color: "hover:text-blue-500" },
 ];
 
@@ -113,7 +113,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-muted-foreground">
                 <DiscordIcon className="w-5 h-5 text-primary" />
-                <a href="https://discord.gg/rokservices" className="hover:text-primary transition-colors">discord.gg/rokservices</a>
+                <a href="https://discord.gg/UPuFYCw4JG" className="hover:text-primary transition-colors">discord.gg/UPuFYCw4JG</a>
               </li>
               <li className="flex items-center gap-3 text-muted-foreground">
                 <Mail className="w-5 h-5 text-primary" />
