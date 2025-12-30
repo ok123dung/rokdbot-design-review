@@ -23,7 +23,7 @@ const services = [
   {
     name: "V1 Package",
     icon: Sparkles,
-    price: "500K",
+    price: "750K",
     periodKey: "perMonth",
     descriptionKey: "services.popular",
     features: [
@@ -40,7 +40,7 @@ const services = [
   {
     name: "V2 Premium",
     icon: Crown,
-    price: "800K",
+    price: "900K",
     periodKey: "perMonth",
     descriptionKey: "services.subtitle",
     features: [
