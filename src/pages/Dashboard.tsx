@@ -10,7 +10,8 @@ import {
   User, 
   ShoppingCart,
   BarChart3,
-  Settings
+  Settings,
+  Shield
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
