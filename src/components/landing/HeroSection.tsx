@@ -1,15 +1,18 @@
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ArrowRight, Shield, Zap, Users, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const stats = [
-  { icon: Users, value: "1000+", label: "Khách hàng" },
-  { icon: Shield, value: "100%", label: "An toàn" },
-  { icon: TrendingUp, value: "Top 10", label: "Alliances" },
-  { icon: Zap, value: "24/7", label: "Hoạt động" },
-];
-
 export function HeroSection() {
+  const { t } = useTranslation();
+
+  const stats = [
+    { icon: Users, value: "1000+", label: t("hero.stats.users") },
+    { icon: Shield, value: "100%", label: t("features.safe.title").split(" ")[0] },
+    { icon: TrendingUp, value: "Top 10", label: "Alliances" },
+    { icon: Zap, value: "24/7", label: t("hero.stats.uptime") },
+  ];
+
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Animated background elements */}
@@ -42,7 +45,7 @@ export function HeroSection() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
             </span>
             <span className="text-sm text-primary font-medium">
-              Dịch vụ Bot #1 cho Rise of Kingdoms
+              {t("hero.title")} {t("hero.titleHighlight")}
             </span>
           </motion.div>
 
@@ -53,8 +56,8 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
           >
-            Nâng tầm gameplay với{" "}
-            <span className="text-gradient">RokdBot</span>
+            {t("hero.title")}{" "}
+            <span className="text-gradient">{t("hero.titleHighlight")}</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -64,7 +67,7 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto"
           >
-            Tự động hóa farm, gather, training - giúp bạn phát triển tài khoản nhanh hơn mà không mất thời gian 24/7
+            {t("hero.subtitle")}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -79,7 +82,7 @@ export function HeroSection() {
                 size="lg" 
                 className="btn-gaming text-primary-foreground font-semibold px-8 py-6 text-lg group"
               >
-                Bắt đầu ngay
+                {t("hero.cta")}
                 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </a>
@@ -89,7 +92,7 @@ export function HeroSection() {
                 variant="outline"
                 className="btn-gaming-outline px-8 py-6 text-lg"
               >
-                Xem bảng giá
+                {t("hero.ctaSecondary")}
               </Button>
             </a>
           </motion.div>

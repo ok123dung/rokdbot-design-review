@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { 
   Bot, 
@@ -9,49 +10,6 @@ import {
   Zap,
   Lock
 } from "lucide-react";
-
-const features = [
-  {
-    icon: Bot,
-    title: "AI Bot thông minh",
-    description: "Bot tự động học và thích nghi với gameplay của bạn, tối ưu hóa mọi hoạt động.",
-  },
-  {
-    icon: Shield,
-    title: "An toàn tuyệt đối",
-    description: "Công nghệ anti-detection tiên tiến, tài khoản của bạn luôn được bảo vệ.",
-  },
-  {
-    icon: Clock,
-    title: "Hoạt động 24/7",
-    description: "Bot chạy liên tục không nghỉ, tối đa hóa hiệu quả farm và gather.",
-  },
-  {
-    icon: Headphones,
-    title: "Hỗ trợ tận tâm",
-    description: "Team support nhiệt tình qua Zalo, Discord - sẵn sàng giúp đỡ mọi lúc.",
-  },
-  {
-    icon: BarChart3,
-    title: "Báo cáo chi tiết",
-    description: "Theo dõi tiến độ tài khoản qua dashboard trực quan và báo cáo hàng ngày.",
-  },
-  {
-    icon: Smartphone,
-    title: "Quản lý từ xa",
-    description: "Kiểm soát bot mọi lúc mọi nơi qua web dashboard hoặc app.",
-  },
-  {
-    icon: Zap,
-    title: "Setup siêu nhanh",
-    description: "Chỉ mất 5 phút để setup và bắt đầu sử dụng dịch vụ.",
-  },
-  {
-    icon: Lock,
-    title: "Bảo mật thông tin",
-    description: "Thông tin tài khoản được mã hóa và bảo mật theo chuẩn cao nhất.",
-  },
-];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -73,6 +31,51 @@ const itemVariants = {
 };
 
 export function FeaturesSection() {
+  const { t } = useTranslation();
+
+  const features = [
+    {
+      icon: Bot,
+      title: t("features.autoFarm.title"),
+      description: t("features.autoFarm.description"),
+    },
+    {
+      icon: Shield,
+      title: t("features.safe.title"),
+      description: t("features.safe.description"),
+    },
+    {
+      icon: Clock,
+      title: t("hero.stats.uptime"),
+      description: t("features.autoFarm.description"),
+    },
+    {
+      icon: Headphones,
+      title: t("features.support.title"),
+      description: t("features.support.description"),
+    },
+    {
+      icon: BarChart3,
+      title: t("features.dashboard.title"),
+      description: t("features.dashboard.description"),
+    },
+    {
+      icon: Smartphone,
+      title: "Remote Control",
+      description: t("features.dashboard.description"),
+    },
+    {
+      icon: Zap,
+      title: "Quick Setup",
+      description: t("features.support.description"),
+    },
+    {
+      icon: Lock,
+      title: t("features.safe.title"),
+      description: t("features.safe.description"),
+    },
+  ];
+
   return (
     <section id="features" className="section-padding relative overflow-hidden">
       {/* Background decoration */}
@@ -89,10 +92,10 @@ export function FeaturesSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Tại sao chọn <span className="text-gradient">RokdBot</span>?
+            {t("features.title")} <span className="text-gradient">RokdBot</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Chúng tôi mang đến trải nghiệm bot Rise of Kingdoms tốt nhất với công nghệ tiên tiến
+            {t("features.subtitle")}
           </p>
         </motion.div>
 

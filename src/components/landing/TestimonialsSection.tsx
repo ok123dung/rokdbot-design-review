@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 
@@ -66,6 +67,8 @@ const cardVariants = {
 };
 
 export function TestimonialsSection() {
+  const { t } = useTranslation();
+
   return (
     <section id="testimonials" className="section-padding relative">
       {/* Background */}
@@ -81,10 +84,10 @@ export function TestimonialsSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Khách hàng <span className="text-gradient">nói gì</span> về chúng tôi
+            {t("testimonials.title")}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Hơn 1000+ khách hàng đã tin tưởng sử dụng dịch vụ của RokdBot
+            {t("testimonials.subtitle")}
           </p>
         </motion.div>
 
@@ -96,7 +99,7 @@ export function TestimonialsSection() {
           viewport={{ once: true, margin: "-50px" }}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {testimonials.map((testimonial, index) => (
+          {testimonials.map((testimonial) => (
             <motion.div
               key={testimonial.name}
               variants={cardVariants}

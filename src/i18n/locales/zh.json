@@ -1,0 +1,123 @@
+{
+  "common": {
+    "home": "首页",
+    "services": "服务",
+    "features": "功能",
+    "testimonials": "评价",
+    "faq": "常见问题",
+    "login": "登录",
+    "register": "注册",
+    "logout": "退出",
+    "dashboard": "仪表板",
+    "profile": "个人资料",
+    "orders": "订单",
+    "admin": "管理",
+    "loading": "加载中...",
+    "save": "保存",
+    "cancel": "取消",
+    "submit": "提交",
+    "back": "返回",
+    "next": "下一步",
+    "error": "错误",
+    "success": "成功"
+  },
+  "hero": {
+    "title": "机器人农场服务",
+    "titleHighlight": "Rise of Kingdoms",
+    "subtitle": "使用最先进的机器人技术，全天候优化资源，发展您的账户",
+    "cta": "立即注册",
+    "ctaSecondary": "查看服务",
+    "stats": {
+      "users": "用户",
+      "uptime": "运行时间",
+      "support": "支持"
+    }
+  },
+  "services": {
+    "title": "服务套餐",
+    "subtitle": "选择适合您需求的套餐",
+    "popular": "热门",
+    "orderNow": "立即订购",
+    "perWeek": "/周",
+    "perMonth": "/月"
+  },
+  "features": {
+    "title": "主要功能",
+    "subtitle": "先进技术，专业支持",
+    "autoFarm": {
+      "title": "24/7 自动农场",
+      "description": "机器人持续运行，不间断收集资源"
+    },
+    "safe": {
+      "title": "绝对安全",
+      "description": "反检测技术，保护您的账户"
+    },
+    "support": {
+      "title": "24/7 支持",
+      "description": "支持团队随时准备帮助"
+    },
+    "dashboard": {
+      "title": "跟踪仪表板",
+      "description": "实时账户进度跟踪"
+    }
+  },
+  "testimonials": {
+    "title": "客户评价",
+    "subtitle": "来自用户的真实评价"
+  },
+  "faq": {
+    "title": "常见问题",
+    "subtitle": "解答您的疑问"
+  },
+  "footer": {
+    "description": "越南第一的Rise of Kingdoms机器人服务。提升游戏体验，节省时间。",
+    "quickLinks": "快速链接",
+    "servicesTitle": "服务",
+    "contact": "联系方式",
+    "hotline": "热线",
+    "copyright": "© 2024 RokdBot. 版权所有。"
+  },
+  "auth": {
+    "loginTitle": "欢迎回来",
+    "loginSubtitle": "登录以管理您的订单",
+    "registerTitle": "创建账户",
+    "registerSubtitle": "注册以使用我们的服务",
+    "email": "邮箱",
+    "password": "密码",
+    "fullName": "全名",
+    "noAccount": "还没有账户？",
+    "haveAccount": "已有账户？",
+    "forgotPassword": "忘记密码？"
+  },
+  "order": {
+    "title": "下单",
+    "selectPackage": "选择套餐",
+    "gameInfo": "游戏信息",
+    "gameAccountId": "游戏账户ID",
+    "gameServer": "服务器",
+    "gameKingdom": "王国",
+    "notes": "备注",
+    "payment": "付款",
+    "paymentMethod": "付款方式",
+    "bankTransfer": "银行转账",
+    "momo": "MoMo钱包",
+    "uploadProof": "上传付款凭证",
+    "total": "总计",
+    "placeOrder": "下单"
+  },
+  "dashboard": {
+    "welcome": "欢迎",
+    "overview": "概览",
+    "recentOrders": "最近订单",
+    "noOrders": "暂无订单",
+    "orderNow": "立即下单",
+    "status": {
+      "pending": "待处理",
+      "paid": "已付款",
+      "processing": "处理中",
+      "running": "运行中",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    }
+  }
+}

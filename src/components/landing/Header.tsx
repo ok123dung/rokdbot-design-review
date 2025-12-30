@@ -1,18 +1,21 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const navLinks = [
-  { name: "Trang chủ", href: "#home" },
-  { name: "Dịch vụ", href: "#services" },
-  { name: "Tính năng", href: "#features" },
-  { name: "Đánh giá", href: "#testimonials" },
-  { name: "FAQ", href: "#faq" },
-];
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export function Header() {
+  const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navLinks = [
+    { name: t("common.home"), href: "#home" },
+    { name: t("common.services"), href: "#services" },
+    { name: t("common.features"), href: "#features" },
+    { name: t("common.testimonials"), href: "#testimonials" },
+    { name: t("common.faq"), href: "#faq" },
+  ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass">
@@ -45,14 +48,15 @@ export function Header() {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
+            <LanguageSwitcher />
             <a href="/auth">
               <Button variant="ghost" className="text-foreground hover:text-primary">
-                Đăng nhập
+                {t("common.login")}
               </Button>
             </a>
             <a href="/auth">
               <Button className="btn-gaming text-primary-foreground font-semibold px-6">
-                Đăng ký
+                {t("common.register")}
               </Button>
             </a>
           </div>
@@ -88,14 +92,15 @@ export function Header() {
                 </a>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
+                <LanguageSwitcher />
                 <a href="/auth">
                   <Button variant="ghost" className="w-full justify-start">
-                    Đăng nhập
+                    {t("common.login")}
                   </Button>
                 </a>
                 <a href="/auth">
                   <Button className="btn-gaming text-primary-foreground font-semibold w-full">
-                    Đăng ký
+                    {t("common.register")}
                   </Button>
                 </a>
               </div>

@@ -1,0 +1,123 @@
+{
+  "common": {
+    "home": "홈",
+    "services": "서비스",
+    "features": "기능",
+    "testimonials": "후기",
+    "faq": "FAQ",
+    "login": "로그인",
+    "register": "회원가입",
+    "logout": "로그아웃",
+    "dashboard": "대시보드",
+    "profile": "프로필",
+    "orders": "주문",
+    "admin": "관리자",
+    "loading": "로딩 중...",
+    "save": "저장",
+    "cancel": "취소",
+    "submit": "제출",
+    "back": "뒤로",
+    "next": "다음",
+    "error": "오류",
+    "success": "성공"
+  },
+  "hero": {
+    "title": "봇 팜 서비스",
+    "titleHighlight": "Rise of Kingdoms",
+    "subtitle": "최첨단 봇 기술로 24시간 리소스 최적화 및 계정 성장",
+    "cta": "지금 가입",
+    "ctaSecondary": "서비스 보기",
+    "stats": {
+      "users": "사용자",
+      "uptime": "가동 시간",
+      "support": "지원"
+    }
+  },
+  "services": {
+    "title": "서비스 패키지",
+    "subtitle": "필요에 맞는 패키지를 선택하세요",
+    "popular": "인기",
+    "orderNow": "지금 주문",
+    "perWeek": "/주",
+    "perMonth": "/월"
+  },
+  "features": {
+    "title": "주요 기능",
+    "subtitle": "첨단 기술, 전담 지원",
+    "autoFarm": {
+      "title": "24/7 자동 팜",
+      "description": "봇이 지속적으로 실행되어 리소스를 쉬지 않고 수집"
+    },
+    "safe": {
+      "title": "완벽한 안전",
+      "description": "감지 방지 기술로 계정 보호"
+    },
+    "support": {
+      "title": "24/7 지원",
+      "description": "언제든지 도움을 드릴 준비가 된 지원팀"
+    },
+    "dashboard": {
+      "title": "추적 대시보드",
+      "description": "실시간 계정 진행 상황 추적"
+    }
+  },
+  "testimonials": {
+    "title": "고객 후기",
+    "subtitle": "사용자들의 실제 리뷰"
+  },
+  "faq": {
+    "title": "자주 묻는 질문",
+    "subtitle": "궁금한 점에 대한 답변"
+  },
+  "footer": {
+    "description": "베트남 1위 Rise of Kingdoms 봇 서비스. 게임플레이 향상, 시간 절약.",
+    "quickLinks": "빠른 링크",
+    "servicesTitle": "서비스",
+    "contact": "연락처",
+    "hotline": "핫라인",
+    "copyright": "© 2024 RokdBot. All rights reserved."
+  },
+  "auth": {
+    "loginTitle": "다시 오신 것을 환영합니다",
+    "loginSubtitle": "주문 관리를 위해 로그인하세요",
+    "registerTitle": "계정 만들기",
+    "registerSubtitle": "서비스를 이용하려면 가입하세요",
+    "email": "이메일",
+    "password": "비밀번호",
+    "fullName": "이름",
+    "noAccount": "계정이 없으신가요?",
+    "haveAccount": "이미 계정이 있으신가요?",
+    "forgotPassword": "비밀번호를 잊으셨나요?"
+  },
+  "order": {
+    "title": "주문하기",
+    "selectPackage": "패키지 선택",
+    "gameInfo": "게임 정보",
+    "gameAccountId": "게임 계정 ID",
+    "gameServer": "서버",
+    "gameKingdom": "왕국",
+    "notes": "메모",
+    "payment": "결제",
+    "paymentMethod": "결제 방법",
+    "bankTransfer": "은행 송금",
+    "momo": "MoMo 지갑",
+    "uploadProof": "결제 증빙 업로드",
+    "total": "총액",
+    "placeOrder": "주문하기"
+  },
+  "dashboard": {
+    "welcome": "환영합니다",
+    "overview": "개요",
+    "recentOrders": "최근 주문",
+    "noOrders": "아직 주문이 없습니다",
+    "orderNow": "지금 주문",
+    "status": {
+      "pending": "대기 중",
+      "paid": "결제 완료",
+      "processing": "처리 중",
+      "running": "실행 중",
+      "completed": "완료",
+      "cancelled": "취소됨"
+    }
+  }
+}

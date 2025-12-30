@@ -1,4 +1,5 @@
-import { Gamepad2, Phone, Mail, Facebook, Users } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Gamepad2, Phone, Mail, Facebook } from "lucide-react";
 
 // Custom Zalo icon component
 const ZaloIcon = ({ className }: { className?: string }) => (
@@ -20,14 +21,6 @@ const socialLinks = [
   { name: "Facebook", icon: Facebook, href: "https://facebook.com/rokdbot", color: "hover:text-blue-500" },
 ];
 
-const quickLinks = [
-  { name: "Trang chủ", href: "#home" },
-  { name: "Dịch vụ", href: "#services" },
-  { name: "Tính năng", href: "#features" },
-  { name: "Đánh giá", href: "#testimonials" },
-  { name: "FAQ", href: "#faq" },
-];
-
 const services = [
   { name: "Weekly Package", href: "#services" },
   { name: "V1 Package", href: "#services" },
@@ -36,6 +29,16 @@ const services = [
 ];
 
 export function Footer() {
+  const { t } = useTranslation();
+
+  const quickLinks = [
+    { name: t("common.home"), href: "#home" },
+    { name: t("common.services"), href: "#services" },
+    { name: t("common.features"), href: "#features" },
+    { name: t("common.testimonials"), href: "#testimonials" },
+    { name: t("common.faq"), href: "#faq" },
+  ];
+
   return (
     <footer className="relative border-t border-border bg-card/50">
       {/* Gradient overlay */}
@@ -50,7 +53,7 @@ export function Footer() {
               <span className="text-2xl font-bold text-gradient">RokdBot</span>
             </a>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              Dịch vụ bot Rise of Kingdoms #1 Việt Nam. Nâng tầm gameplay, tiết kiệm thời gian.
+              {t("footer.description")}
             </p>
             <div className="flex gap-4">
               {socialLinks.map((link) => (
@@ -68,7 +71,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Liên kết nhanh</h4>
+            <h4 className="font-semibold text-lg mb-4">{t("footer.quickLinks")}</h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
@@ -85,7 +88,7 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Dịch vụ</h4>
+            <h4 className="font-semibold text-lg mb-4">{t("footer.servicesTitle")}</h4>
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service.name}>
@@ -102,11 +105,11 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Liên hệ</h4>
+            <h4 className="font-semibold text-lg mb-4">{t("footer.contact")}</h4>
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-muted-foreground">
                 <Phone className="w-5 h-5 text-primary" />
-                <span>Hotline: 0915966853</span>
+                <span>{t("footer.hotline")}: 0915966853</span>
               </li>
               <li className="flex items-center gap-3 text-muted-foreground">
                 <DiscordIcon className="w-5 h-5 text-primary" />
@@ -123,14 +126,14 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground text-sm">
-            © 2024 RokdBot. All rights reserved.
+            {t("footer.copyright")}
           </p>
           <div className="flex gap-6 text-sm">
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              Điều khoản sử dụng
+              Terms of Service
             </a>
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              Chính sách bảo mật
+              Privacy Policy
             </a>
           </div>
         </div>
