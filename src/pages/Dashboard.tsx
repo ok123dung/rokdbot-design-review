@@ -40,6 +40,7 @@ export default function Dashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loadingData, setLoadingData] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -63,6 +64,16 @@ export default function Dashboard() {
         .maybeSingle();
       
       setProfile(profileData);
+
+      // Check if user is admin
+      const { data: roleData } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user?.id)
+        .eq("role", "admin")
+        .maybeSingle();
+      
+      setIsAdmin(!!roleData);
 
       // Fetch orders
       const { data: ordersData } = await supabase
@@ -210,7 +221,7 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
+            className={`grid grid-cols-1 ${isAdmin ? 'md:grid-cols-4' : 'md:grid-cols-3'} gap-4 mb-8`}
           >
             <Button 
               onClick={() => navigate("/order")}
@@ -235,6 +246,16 @@ export default function Dashboard() {
               <Settings className="w-6 h-6 mr-2" />
               Cài đặt tài khoản
             </Button>
+            {isAdmin && (
+              <Button 
+                variant="outline"
+                onClick={() => navigate("/admin")}
+                className="h-16 text-lg border-red-500/50 hover:border-red-500 text-red-500 hover:text-red-400"
+              >
+                <Shield className="w-6 h-6 mr-2" />
+                Admin Panel
+              </Button>
+            )}
           </motion.div>
 
           {/* Recent Orders */}

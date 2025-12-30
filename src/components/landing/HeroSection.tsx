@@ -74,20 +74,24 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
-            <Button 
-              size="lg" 
-              className="btn-gaming text-primary-foreground font-semibold px-8 py-6 text-lg group"
-            >
-              Bắt đầu ngay
-              <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="btn-gaming-outline px-8 py-6 text-lg"
-            >
-              Xem bảng giá
-            </Button>
+            <a href="/auth">
+              <Button 
+                size="lg" 
+                className="btn-gaming text-primary-foreground font-semibold px-8 py-6 text-lg group"
+              >
+                Bắt đầu ngay
+                <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </a>
+            <a href="#services">
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="btn-gaming-outline px-8 py-6 text-lg"
+              >
+                Xem bảng giá
+              </Button>
+            </a>
           </motion.div>
 
           {/* Stats */}
