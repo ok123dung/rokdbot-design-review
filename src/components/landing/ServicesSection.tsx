@@ -175,15 +175,17 @@ export function ServicesSection() {
                 </ul>
 
                 {/* CTA Button */}
-                <Button
-                  className={`w-full ${
-                    service.popular
-                      ? "btn-gaming text-primary-foreground"
-                      : "btn-gaming-outline"
-                  }`}
-                >
-                  Đặt ngay
-                </Button>
+                <a href="/auth" className="w-full">
+                  <Button
+                    className={`w-full ${
+                      service.popular
+                        ? "btn-gaming text-primary-foreground"
+                        : "btn-gaming-outline"
+                    }`}
+                  >
+                    Đặt ngay
+                  </Button>
+                </a>
               </div>
             </motion.div>
           ))}

@@ -45,12 +45,16 @@ export function Header() {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" className="text-foreground hover:text-primary">
-              Đăng nhập
-            </Button>
-            <Button className="btn-gaming text-primary-foreground font-semibold px-6">
-              Đăng ký
-            </Button>
+            <a href="/auth">
+              <Button variant="ghost" className="text-foreground hover:text-primary">
+                Đăng nhập
+              </Button>
+            </a>
+            <a href="/auth">
+              <Button className="btn-gaming text-primary-foreground font-semibold px-6">
+                Đăng ký
+              </Button>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -84,12 +88,16 @@ export function Header() {
                 </a>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                <Button variant="ghost" className="w-full justify-start">
-                  Đăng nhập
-                </Button>
-                <Button className="btn-gaming text-primary-foreground font-semibold w-full">
-                  Đăng ký
-                </Button>
+                <a href="/auth">
+                  <Button variant="ghost" className="w-full justify-start">
+                    Đăng nhập
+                  </Button>
+                </a>
+                <a href="/auth">
+                  <Button className="btn-gaming text-primary-foreground font-semibold w-full">
+                    Đăng ký
+                  </Button>
+                </a>
               </div>
             </nav>
           </motion.div>
