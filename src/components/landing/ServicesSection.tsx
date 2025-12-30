@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 
 const services = [
   {
-    name: "Weekly",
+    nameKey: "Weekly",
     icon: Star,
-    price: "150K",
+    priceKey: "weeklyPrice",
     periodKey: "perWeek",
     descriptionKey: "services.subtitle",
     features: [
@@ -21,9 +21,9 @@ const services = [
     borderColor: "border-gaming-cyan/30",
   },
   {
-    name: "V1 Package",
+    nameKey: "V1 Package",
     icon: Sparkles,
-    price: "750K",
+    priceKey: "v1Price",
     periodKey: "perMonth",
     descriptionKey: "services.popular",
     features: [
@@ -38,9 +38,9 @@ const services = [
     borderColor: "border-gaming-orange/50",
   },
   {
-    name: "V2 Premium",
+    nameKey: "V2 Premium",
     icon: Crown,
-    price: "900K",
+    priceKey: "v2Price",
     periodKey: "perMonth",
     descriptionKey: "services.subtitle",
     features: [
@@ -56,9 +56,9 @@ const services = [
     borderColor: "border-gaming-purple/30",
   },
   {
-    name: "KvK Special",
+    nameKey: "KvK Special",
     icon: Sword,
-    price: "1.2M",
+    priceKey: "kvkPrice",
     periodKey: "perMonth",
     descriptionKey: "services.subtitle",
     features: [
@@ -127,7 +127,7 @@ export function ServicesSection() {
         >
           {services.map((service) => (
             <motion.div
-              key={service.name}
+              key={service.nameKey}
               variants={cardVariants}
               className={`relative rounded-2xl overflow-hidden ${
                 service.popular ? "lg:scale-105 lg:-my-4 z-10" : ""
@@ -151,7 +151,7 @@ export function ServicesSection() {
                   <div className="p-2 rounded-lg bg-primary/10">
                     <service.icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold">{service.name}</h3>
+                  <h3 className="text-xl font-bold">{service.nameKey}</h3>
                 </div>
 
                 {/* Description */}
@@ -162,7 +162,7 @@ export function ServicesSection() {
                 {/* Price */}
                 <div className="mb-6">
                   <span className="text-3xl md:text-4xl font-bold text-gradient-gold">
-                    {service.price}
+                    {t(`services.${service.priceKey}`)}
                   </span>
                   <span className="text-muted-foreground">{t(`services.${service.periodKey}`)}</span>
                 </div>
