@@ -420,8 +420,16 @@ export default function Order() {
                       <CreditCard className="w-5 h-5 text-primary" />
                       Chuyển khoản ngân hàng
                     </h3>
+                    <div className="flex flex-col items-center mb-4">
+                      <img 
+                        src="/assets/qr-bank.jpg" 
+                        alt="QR Code ngân hàng" 
+                        className="w-40 h-40 object-contain rounded-lg border border-border/30"
+                      />
+                      <p className="text-xs text-muted-foreground mt-2">Quét mã để thanh toán</p>
+                    </div>
                     <div className="space-y-2 text-sm">
-                      <p><span className="text-muted-foreground">Ngân hàng:</span> <strong>MB Bank</strong></p>
+                      <p><span className="text-muted-foreground">Ngân hàng:</span> <strong>HD Bank</strong></p>
                       <p><span className="text-muted-foreground">Số TK:</span> <strong>0915966853</strong></p>
                       <p><span className="text-muted-foreground">Chủ TK:</span> <strong>NGUYEN VAN A</strong></p>
                       <p><span className="text-muted-foreground">Nội dung:</span> <strong>ROK {user?.email?.split("@")[0]}</strong></p>
@@ -434,6 +442,14 @@ export default function Order() {
                       <div className="w-5 h-5 bg-pink-500 rounded-full" />
                       MoMo
                     </h3>
+                    <div className="flex flex-col items-center mb-4">
+                      <img 
+                        src="/assets/qr-bank.jpg" 
+                        alt="QR Code MoMo" 
+                        className="w-40 h-40 object-contain rounded-lg border border-border/30"
+                      />
+                      <p className="text-xs text-muted-foreground mt-2">Quét mã để thanh toán</p>
+                    </div>
                     <div className="space-y-2 text-sm">
                       <p><span className="text-muted-foreground">Số điện thoại:</span> <strong>0915966853</strong></p>
                       <p><span className="text-muted-foreground">Tên:</span> <strong>NGUYEN VAN A</strong></p>
