@@ -46,7 +46,12 @@
     "popular": "Phổ biến",
     "orderNow": "Đặt ngay",
     "perWeek": "/tuần",
-    "perMonth": "/tháng"
+    "perMonth": "/tháng",
+    "weeklyPrice": "150K",
+    "v1Price": "750K",
+    "v2Price": "900K",
+    "kvkPrice": "1.2M",
+    "currency": "VND"
   },
   "features": {
     "title": "Tính năng nổi bật",

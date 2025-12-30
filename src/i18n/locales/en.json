@@ -46,7 +46,12 @@
     "popular": "Popular",
     "orderNow": "Order Now",
     "perWeek": "/week",
-    "perMonth": "/month"
+    "perMonth": "/month",
+    "weeklyPrice": "$6",
+    "v1Price": "$30",
+    "v2Price": "$36",
+    "kvkPrice": "$48",
+    "currency": "USD"
   },
   "features": {
     "title": "Key Features",

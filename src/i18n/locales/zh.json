@@ -46,7 +46,12 @@
     "popular": "热门",
     "orderNow": "立即订购",
     "perWeek": "/周",
-    "perMonth": "/月"
+    "perMonth": "/月",
+    "weeklyPrice": "¥43",
+    "v1Price": "¥215",
+    "v2Price": "¥258",
+    "kvkPrice": "¥345",
+    "currency": "CNY"
   },
   "features": {
     "title": "核心功能",

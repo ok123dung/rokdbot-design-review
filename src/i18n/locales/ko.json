@@ -46,7 +46,12 @@
     "popular": "인기",
     "orderNow": "지금 주문",
     "perWeek": "/주",
-    "perMonth": "/월"
+    "perMonth": "/월",
+    "weeklyPrice": "₩8,000",
+    "v1Price": "₩40,000",
+    "v2Price": "₩48,000",
+    "kvkPrice": "₩64,000",
+    "currency": "KRW"
   },
   "features": {
     "title": "주요 기능",
