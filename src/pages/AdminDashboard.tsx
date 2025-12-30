@@ -130,8 +130,8 @@ export default function AdminDashboard() {
       `)
       .order("created_at", { ascending: false });
     
-    // Fetch profiles separately
     if (data) {
+      // Fetch profiles separately
       const userIds = [...new Set(data.map(o => o.user_id))];
       const { data: profilesData } = await supabase
         .from("profiles")
@@ -145,9 +145,8 @@ export default function AdminDashboard() {
         profiles: profilesMap.get(order.user_id) || null
       })) as unknown as Order[];
 
-    if (data) {
-      setOrders(data as Order[]);
-      calculateStats(data as Order[]);
+      setOrders(ordersWithProfiles);
+      calculateStats(ordersWithProfiles);
     }
     setLoadingData(false);
   };
