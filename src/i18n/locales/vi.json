@@ -177,10 +177,10 @@
     "placeOrder": "Đặt hàng",
     "steps": {
       "package": "Chọn gói",
-      "info": "Thông tin",
-      "payment": "Thanh toán",
+      "paymentInfo": "Thanh toán & Thông tin",
       "confirm": "Xác nhận"
     },
+    "paymentAndInfo": "Thanh toán & Thông tin game",
     "enterGovernorId": "Nhập Governor ID",
     "enterServer": "Ví dụ: 1001",
     "enterKingdom": "Ví dụ: 1234",

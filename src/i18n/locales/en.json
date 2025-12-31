@@ -177,10 +177,10 @@
     "placeOrder": "Place Order",
     "steps": {
       "package": "Package",
-      "info": "Info",
-      "payment": "Payment",
+      "paymentInfo": "Payment & Info",
       "confirm": "Confirm"
     },
+    "paymentAndInfo": "Payment & Game Info",
     "enterGovernorId": "Enter Governor ID",
     "enterServer": "e.g. 1001",
     "enterKingdom": "e.g. 1234",

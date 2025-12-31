@@ -177,10 +177,10 @@
     "placeOrder": "提交订单",
     "steps": {
       "package": "套餐",
-      "info": "信息",
-      "payment": "支付",
+      "paymentInfo": "支付和信息",
       "confirm": "确认"
     },
+    "paymentAndInfo": "支付和游戏信息",
     "enterGovernorId": "输入总督ID",
     "enterServer": "例如：1001",
     "enterKingdom": "例如：1234",
