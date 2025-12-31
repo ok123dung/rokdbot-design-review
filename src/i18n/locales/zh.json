@@ -306,6 +306,45 @@
     "updateSuccess": "成功",
     "updateError": "错误",
     "updateErrorDesc": "无法更新状态",
-    "searchPlaceholder": "按游戏ID、姓名、电话搜索..."
+    "searchPlaceholder": "按游戏ID、姓名、电话搜索...",
+    "tabs": {
+      "orders": "订单",
+      "packages": "套餐"
+    },
+    "packages": {
+      "title": "套餐管理",
+      "subtitle": "添加、编辑、删除服务套餐",
+      "add": "添加套餐",
+      "edit": "编辑套餐",
+      "name": "名称",
+      "price": "价格",
+      "duration": "时长",
+      "days": "天",
+      "status": "状态",
+      "active": "已启用",
+      "inactive": "已停用",
+      "activeLabel": "启用套餐",
+      "description": "描述",
+      "descriptionPlaceholder": "套餐的简短描述...",
+      "features": "功能",
+      "featuresPlaceholder": "24/7自动农场\n资源采集\n部队训练",
+      "featuresHint": "每行一个功能",
+      "noPackages": "暂无套餐",
+      "fetchError": "无法加载套餐",
+      "createSuccess": "套餐创建成功",
+      "createError": "无法创建套餐",
+      "updateSuccess": "套餐更新成功",
+      "updateError": "无法更新套餐",
+      "deleteSuccess": "套餐删除成功",
+      "deleteError": "无法删除套餐",
+      "deleteConfirm": "确认删除？",
+      "deleteWarning": "确定要删除\"{{name}}\"吗？此操作无法撤销。",
+      "validationError": "信息缺失",
+      "requiredFields": "请输入套餐名称和价格"
+    }
+  },
+  "common2": {
+    "create": "创建",
+    "delete": "删除"
   }
 }

@@ -306,6 +306,45 @@
     "updateSuccess": "Thành công",
     "updateError": "Lỗi",
     "updateErrorDesc": "Không thể cập nhật trạng thái",
-    "searchPlaceholder": "Tìm theo ID game, tên, SĐT..."
+    "searchPlaceholder": "Tìm theo ID game, tên, SĐT...",
+    "tabs": {
+      "orders": "Đơn hàng",
+      "packages": "Gói dịch vụ"
+    },
+    "packages": {
+      "title": "Quản lý gói dịch vụ",
+      "subtitle": "Thêm, sửa, xóa các gói dịch vụ",
+      "add": "Thêm gói mới",
+      "edit": "Chỉnh sửa gói",
+      "name": "Tên gói",
+      "price": "Giá",
+      "duration": "Thời gian",
+      "days": "ngày",
+      "status": "Trạng thái",
+      "active": "Đang bật",
+      "inactive": "Đã tắt",
+      "activeLabel": "Kích hoạt gói dịch vụ",
+      "description": "Mô tả",
+      "descriptionPlaceholder": "Mô tả ngắn về gói dịch vụ...",
+      "features": "Tính năng",
+      "featuresPlaceholder": "Auto farm 24/7\nGather resources\nTraining troops",
+      "featuresHint": "Mỗi tính năng trên một dòng",
+      "noPackages": "Chưa có gói dịch vụ nào",
+      "fetchError": "Không thể tải danh sách gói dịch vụ",
+      "createSuccess": "Tạo gói dịch vụ thành công",
+      "createError": "Không thể tạo gói dịch vụ",
+      "updateSuccess": "Cập nhật gói dịch vụ thành công",
+      "updateError": "Không thể cập nhật gói dịch vụ",
+      "deleteSuccess": "Xóa gói dịch vụ thành công",
+      "deleteError": "Không thể xóa gói dịch vụ",
+      "deleteConfirm": "Xác nhận xóa?",
+      "deleteWarning": "Bạn có chắc muốn xóa gói \"{{name}}\"? Hành động này không thể hoàn tác.",
+      "validationError": "Thiếu thông tin",
+      "requiredFields": "Vui lòng điền tên và giá gói dịch vụ"
+    }
+  },
+  "common2": {
+    "create": "Tạo mới",
+    "delete": "Xóa"
   }
 }

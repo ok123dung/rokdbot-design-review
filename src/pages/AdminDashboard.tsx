@@ -11,10 +11,13 @@ import {
   Search,
   Clock,
   Loader2,
-  Eye
+  Eye,
+  ShoppingCart,
+  Boxes
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Select,
   SelectContent,
@@ -32,7 +35,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-
+import PackagesManagement from "@/components/admin/PackagesManagement";
 interface Order {
   id: string;
   user_id: string;
@@ -331,7 +334,21 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Filters */}
+            {/* Tabs */}
+            <Tabs defaultValue="orders" className="space-y-6">
+              <TabsList className="glass border border-border/50">
+                <TabsTrigger value="orders" className="gap-2">
+                  <ShoppingCart className="w-4 h-4" />
+                  {t("admin.tabs.orders")}
+                </TabsTrigger>
+                <TabsTrigger value="packages" className="gap-2">
+                  <Boxes className="w-4 h-4" />
+                  {t("admin.tabs.packages")}
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="orders" className="space-y-6">
+                {/* Filters */}
             <div className="flex flex-col md:flex-row gap-4 mb-6">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -420,7 +437,13 @@ export default function AdminDashboard() {
                   </tbody>
                 </table>
               </div>
-            </div>
+              </div>
+              </TabsContent>
+
+              <TabsContent value="packages">
+                <PackagesManagement />
+              </TabsContent>
+            </Tabs>
           </motion.div>
         </div>
       </main>
