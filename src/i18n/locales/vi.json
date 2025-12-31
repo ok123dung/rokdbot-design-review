@@ -144,7 +144,21 @@
     "registerError": "Lỗi đăng ký",
     "genericError": "Có lỗi xảy ra. Vui lòng thử lại.",
     "invalidEmail": "Email không hợp lệ",
-    "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự"
+    "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự",
+    "forgotPasswordSubtitle": "Nhập email để nhận link đặt lại mật khẩu",
+    "sendResetLink": "Gửi link đặt lại",
+    "resetEmailSent": "Email đã được gửi!",
+    "resetEmailSentDesc": "Vui lòng kiểm tra hộp thư của bạn và nhấp vào link để đặt lại mật khẩu.",
+    "checkYourEmail": "Kiểm tra email của bạn",
+    "backToLogin": "Quay lại đăng nhập",
+    "setNewPassword": "Đặt mật khẩu mới",
+    "newPassword": "Mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "passwordMismatch": "Mật khẩu không khớp",
+    "updatePassword": "Cập nhật mật khẩu",
+    "resetPasswordSuccess": "Đặt lại mật khẩu thành công!",
+    "resetPasswordSuccessDesc": "Bạn đã đặt lại mật khẩu thành công.",
+    "redirectingToDashboard": "Đang chuyển hướng đến trang chủ..."
   },
   "order": {
     "title": "Đặt dịch vụ",

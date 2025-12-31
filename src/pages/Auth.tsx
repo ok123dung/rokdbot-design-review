@@ -219,6 +219,13 @@ export default function Auth() {
               {errors.password && (
                 <p className="text-destructive text-sm">{errors.password}</p>
               )}
+              {isLogin && (
+                <div className="text-right">
+                  <a href="/forgot-password" className="text-sm text-primary hover:underline">
+                    {t("auth.forgotPassword")}
+                  </a>
+                </div>
+              )}
             </div>
 
             <Button
