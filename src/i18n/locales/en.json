@@ -306,6 +306,45 @@
     "updateSuccess": "Success",
     "updateError": "Error",
     "updateErrorDesc": "Cannot update status",
-    "searchPlaceholder": "Search by game ID, name, phone..."
+    "searchPlaceholder": "Search by game ID, name, phone...",
+    "tabs": {
+      "orders": "Orders",
+      "packages": "Packages"
+    },
+    "packages": {
+      "title": "Manage Packages",
+      "subtitle": "Add, edit, delete service packages",
+      "add": "Add Package",
+      "edit": "Edit Package",
+      "name": "Name",
+      "price": "Price",
+      "duration": "Duration",
+      "days": "days",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "activeLabel": "Activate package",
+      "description": "Description",
+      "descriptionPlaceholder": "Short description of the package...",
+      "features": "Features",
+      "featuresPlaceholder": "Auto farm 24/7\nGather resources\nTraining troops",
+      "featuresHint": "One feature per line",
+      "noPackages": "No packages yet",
+      "fetchError": "Cannot load packages",
+      "createSuccess": "Package created successfully",
+      "createError": "Cannot create package",
+      "updateSuccess": "Package updated successfully",
+      "updateError": "Cannot update package",
+      "deleteSuccess": "Package deleted successfully",
+      "deleteError": "Cannot delete package",
+      "deleteConfirm": "Confirm delete?",
+      "deleteWarning": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+      "validationError": "Missing information",
+      "requiredFields": "Please enter package name and price"
+    }
+  },
+  "common2": {
+    "create": "Create",
+    "delete": "Delete"
   }
 }
