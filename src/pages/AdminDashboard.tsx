@@ -35,6 +35,7 @@ import { useToast } from "@/hooks/use-toast";
 
 interface Order {
   id: string;
+  user_id: string;
   status: string;
   total_amount: number;
   created_at: string;
@@ -45,6 +46,7 @@ interface Order {
   profiles: {
     full_name: string | null;
     phone: string | null;
+    user_id: string;
   } | null;
   service_packages: {
     name: string;
@@ -207,11 +209,47 @@ export default function AdminDashboard() {
         title: t("admin.updateSuccess"),
         description: `${t("admin.updateStatus")}: ${t(`dashboard.status.${newStatus}`)}`
       });
+      
+      // Send email notification
+      sendOrderNotification(orderId, newStatus);
+      
       fetchOrders();
       setSelectedOrder(null);
     }
     
     setUpdating(false);
+  };
+
+  const sendOrderNotification = async (orderId: string, newStatus: string) => {
+    try {
+      // Find the order to get user info
+      const order = orders.find(o => o.id === orderId);
+      if (!order) return;
+
+      // Get user email from auth
+      const { data: userData } = await supabase.auth.admin.getUserById(order.user_id).catch(() => ({ data: null }));
+      
+      // Fallback: get email from profiles or use a different method
+      // Since we can't access admin API from client, we'll call the edge function with order_id
+      // and let it fetch the email server-side
+      
+      const { error } = await supabase.functions.invoke('send-order-notification', {
+        body: {
+          order_id: orderId,
+          new_status: newStatus,
+          user_email: '', // Will be fetched server-side
+          user_name: order.profiles?.full_name,
+          package_name: order.service_packages?.name,
+          game_account_id: order.game_account_id,
+        }
+      });
+
+      if (error) {
+        console.error('Failed to send notification:', error);
+      }
+    } catch (error) {
+      console.error('Error sending notification:', error);
+    }
   };
 
   const getStatusColor = (status: string) => {

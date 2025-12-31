@@ -144,7 +144,21 @@
     "registerError": "가입 오류",
     "genericError": "오류가 발생했습니다. 다시 시도해 주세요.",
     "invalidEmail": "유효하지 않은 이메일",
-    "passwordMinLength": "비밀번호는 최소 6자 이상이어야 합니다"
+    "passwordMinLength": "비밀번호는 최소 6자 이상이어야 합니다",
+    "forgotPasswordSubtitle": "비밀번호 재설정 링크를 받으려면 이메일을 입력하세요",
+    "sendResetLink": "재설정 링크 보내기",
+    "resetEmailSent": "이메일이 전송되었습니다!",
+    "resetEmailSentDesc": "받은 편지함을 확인하고 링크를 클릭하여 비밀번호를 재설정하세요.",
+    "checkYourEmail": "이메일을 확인하세요",
+    "backToLogin": "로그인으로 돌아가기",
+    "setNewPassword": "새 비밀번호 설정",
+    "newPassword": "새 비밀번호",
+    "confirmPassword": "비밀번호 확인",
+    "passwordMismatch": "비밀번호가 일치하지 않습니다",
+    "updatePassword": "비밀번호 업데이트",
+    "resetPasswordSuccess": "비밀번호 재설정 성공!",
+    "resetPasswordSuccessDesc": "비밀번호가 성공적으로 재설정되었습니다.",
+    "redirectingToDashboard": "대시보드로 이동 중..."
   },
   "order": {
     "title": "주문하기",

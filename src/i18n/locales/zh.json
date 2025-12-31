@@ -144,7 +144,21 @@
     "registerError": "注册错误",
     "genericError": "发生错误，请重试。",
     "invalidEmail": "邮箱无效",
-    "passwordMinLength": "密码至少需要6个字符"
+    "passwordMinLength": "密码至少需要6个字符",
+    "forgotPasswordSubtitle": "输入邮箱以接收密码重置链接",
+    "sendResetLink": "发送重置链接",
+    "resetEmailSent": "邮件已发送！",
+    "resetEmailSentDesc": "请检查您的收件箱并点击链接重置密码。",
+    "checkYourEmail": "检查您的邮箱",
+    "backToLogin": "返回登录",
+    "setNewPassword": "设置新密码",
+    "newPassword": "新密码",
+    "confirmPassword": "确认密码",
+    "passwordMismatch": "密码不匹配",
+    "updatePassword": "更新密码",
+    "resetPasswordSuccess": "密码重置成功！",
+    "resetPasswordSuccessDesc": "您的密码已成功重置。",
+    "redirectingToDashboard": "正在跳转到仪表板..."
   },
   "order": {
     "title": "下订单",

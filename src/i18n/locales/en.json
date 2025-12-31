@@ -144,7 +144,21 @@
     "registerError": "Registration error",
     "genericError": "An error occurred. Please try again.",
     "invalidEmail": "Invalid email",
-    "passwordMinLength": "Password must be at least 6 characters"
+    "passwordMinLength": "Password must be at least 6 characters",
+    "forgotPasswordSubtitle": "Enter your email to receive a password reset link",
+    "sendResetLink": "Send reset link",
+    "resetEmailSent": "Email sent!",
+    "resetEmailSentDesc": "Please check your inbox and click the link to reset your password.",
+    "checkYourEmail": "Check your email",
+    "backToLogin": "Back to login",
+    "setNewPassword": "Set new password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords do not match",
+    "updatePassword": "Update password",
+    "resetPasswordSuccess": "Password reset successful!",
+    "resetPasswordSuccessDesc": "Your password has been reset successfully.",
+    "redirectingToDashboard": "Redirecting to dashboard..."
   },
   "order": {
     "title": "Place Order",
