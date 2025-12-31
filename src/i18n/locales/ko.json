@@ -177,10 +177,10 @@
     "placeOrder": "주문하기",
     "steps": {
       "package": "패키지",
-      "info": "정보",
-      "payment": "결제",
+      "paymentInfo": "결제 & 정보",
       "confirm": "확인"
     },
+    "paymentAndInfo": "결제 및 게임 정보",
     "enterGovernorId": "Governor ID 입력",
     "enterServer": "예: 1001",
     "enterKingdom": "예: 1234",
