@@ -206,7 +206,10 @@
     "maxFileSize": "Tối đa 5MB",
     "summary": "Tóm tắt đơn hàng",
     "confirmOrder": "Xác nhận đặt hàng",
-    "requiredField": "Vui lòng nhập"
+    "requiredField": "Vui lòng nhập",
+    "adminWillVerify": "Sau khi chuyển khoản, đơn hàng sẽ được xác nhận khi chúng tôi nhận được tiền",
+    "paymentStatus": "Thanh toán",
+    "waitingForTransfer": "Chờ chuyển khoản"
   },
   "dashboard": {
     "welcome": "Xin chào",

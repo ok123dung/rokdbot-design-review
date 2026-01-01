@@ -206,7 +206,10 @@
     "maxFileSize": "最大5MB",
     "summary": "订单摘要",
     "confirmOrder": "确认订单",
-    "requiredField": "请输入"
+    "requiredField": "请输入",
+    "adminWillVerify": "转账后，我们收到付款后将确认您的订单",
+    "paymentStatus": "支付状态",
+    "waitingForTransfer": "等待转账"
   },
   "dashboard": {
     "welcome": "您好",

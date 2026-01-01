@@ -206,7 +206,10 @@
     "maxFileSize": "최대 5MB",
     "summary": "주문 요약",
     "confirmOrder": "주문 확인",
-    "requiredField": "입력해 주세요"
+    "requiredField": "입력해 주세요",
+    "adminWillVerify": "송금 후 결제 확인이 되면 주문이 확정됩니다",
+    "paymentStatus": "결제",
+    "waitingForTransfer": "송금 대기 중"
   },
   "dashboard": {
     "welcome": "안녕하세요",
