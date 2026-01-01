@@ -206,7 +206,10 @@
     "maxFileSize": "Max 5MB",
     "summary": "Order Summary",
     "confirmOrder": "Confirm Order",
-    "requiredField": "Please enter"
+    "requiredField": "Please enter",
+    "adminWillVerify": "After transferring, your order will be confirmed once we receive the payment",
+    "paymentStatus": "Payment",
+    "waitingForTransfer": "Waiting for transfer"
   },
   "dashboard": {
     "welcome": "Hello",

@@ -9,8 +9,7 @@ import {
   Check, 
   CreditCard,
   Server,
-  Crown,
-  Image as ImageIcon
+  Crown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,8 +48,7 @@ export default function Order() {
   const [gameServer, setGameServer] = useState("");
   const [gameKingdom, setGameKingdom] = useState("");
   const [notes, setNotes] = useState("");
-  const [paymentProof, setPaymentProof] = useState<File | null>(null);
-  const [paymentProofPreview, setPaymentProofPreview] = useState<string | null>(null);
+  // Removed payment proof upload - admin will verify via bank notification
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   
@@ -84,21 +82,7 @@ export default function Order() {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        toast({
-          title: t("order.fileTooLarge"),
-          description: t("order.fileTooLargeDesc"),
-          variant: "destructive"
-        });
-        return;
-      }
-      setPaymentProof(file);
-      setPaymentProofPreview(URL.createObjectURL(file));
-    }
-  };
+  // Removed file upload handler - admin will verify via bank notification
 
   const validateStep2 = () => {
     const result = gameInfoSchema.safeParse({
@@ -135,14 +119,6 @@ export default function Order() {
       if (!validateStep2()) {
         return;
       }
-      if (!paymentProof) {
-        toast({
-          title: t("order.noProofUploaded"),
-          description: t("order.noProofUploadedDesc"),
-          variant: "destructive"
-        });
-        return;
-      }
     }
     
     if (step < 3) {
@@ -151,36 +127,13 @@ export default function Order() {
   };
 
   const handleSubmit = async () => {
-    if (!paymentProof) {
-      toast({
-        title: t("order.noProofUploaded"),
-        description: t("order.noProofUploadedDesc"),
-        variant: "destructive"
-      });
-      return;
-    }
-
     setIsLoading(true);
     
     try {
       const selectedPkg = packages.find(p => p.id === selectedPackage);
       if (!selectedPkg) throw new Error("Package not found");
 
-      // Upload payment proof
-      const fileExt = paymentProof.name.split('.').pop();
-      const fileName = `${user?.id}/${Date.now()}.${fileExt}`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from("payment-proofs")
-        .upload(fileName, paymentProof);
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from("payment-proofs")
-        .getPublicUrl(fileName);
-
-      // Create order
+      // Create order - no payment proof required, admin will verify
       const { data: order, error: orderError } = await supabase
         .from("orders")
         .insert({
@@ -190,7 +143,6 @@ export default function Order() {
           game_server: gameServer,
           game_kingdom: gameKingdom,
           notes,
-          payment_proof_url: publicUrl,
           total_amount: selectedPkg.price,
           status: "pending"
         })
@@ -206,7 +158,6 @@ export default function Order() {
           order_id: order.id,
           amount: selectedPkg.price,
           method: "bank_transfer",
-          proof_url: publicUrl,
           status: "pending"
         });
 
@@ -474,43 +425,12 @@ export default function Order() {
                       </div>
                     </div>
 
-                    <p className="text-xs text-muted-foreground text-center">
-                      <span className="text-muted-foreground">{t("order.transferContent")}:</span> <strong>ROK {user?.email?.split("@")[0]}</strong>
-                    </p>
-
-                    {/* Upload Proof */}
-                    <div>
-                      <Label className="mb-2 block">{t("order.uploadProof")}</Label>
-                      <div 
-                        className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-colors ${
-                          paymentProofPreview ? "border-primary bg-primary/5" : "border-border/50 hover:border-primary/50"
-                        }`}
-                        onClick={() => document.getElementById("payment-proof")?.click()}
-                      >
-                        {paymentProofPreview ? (
-                          <div>
-                            <img 
-                              src={paymentProofPreview} 
-                              alt="Payment proof" 
-                              className="max-h-32 mx-auto rounded-lg mb-2"
-                            />
-                            <p className="text-xs text-muted-foreground">{t("order.dragDropImage")}</p>
-                          </div>
-                        ) : (
-                          <div>
-                            <ImageIcon className="w-8 h-8 mx-auto text-muted-foreground mb-2" />
-                            <p className="text-sm text-muted-foreground">{t("order.dragDropImage")}</p>
-                            <p className="text-xs text-muted-foreground">{t("order.maxFileSize")}</p>
-                          </div>
-                        )}
-                        <input
-                          id="payment-proof"
-                          type="file"
-                          accept="image/*"
-                          onChange={handleFileChange}
-                          className="hidden"
-                        />
-                      </div>
+                    <div className="bg-primary/10 rounded-xl p-4 text-center">
+                      <p className="text-sm font-medium mb-2">{t("order.transferContent")}:</p>
+                      <p className="text-lg font-bold text-primary">ROK {user?.email?.split("@")[0]}</p>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        {t("order.adminWillVerify")}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -544,9 +464,9 @@ export default function Order() {
                     <span className="font-medium">{gameKingdom}</span>
                   </div>
                   <div className="flex justify-between py-3 border-b border-border/50">
-                    <span className="text-muted-foreground">{t("orderDetail.paymentProof")}</span>
-                    <span className="font-medium text-green-500">
-                      {paymentProof ? "✓" : "—"}
+                    <span className="text-muted-foreground">{t("order.paymentStatus")}</span>
+                    <span className="font-medium text-yellow-500">
+                      {t("order.waitingForTransfer")}
                     </span>
                   </div>
                   <div className="flex justify-between py-3 text-xl">
