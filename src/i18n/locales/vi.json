@@ -319,6 +319,8 @@
     "updateError": "Lỗi",
     "updateErrorDesc": "Không thể cập nhật trạng thái",
     "searchPlaceholder": "Tìm theo ID game, tên, SĐT...",
+    "paymentReceived": "Thanh toán mới!",
+    "paymentReceivedDesc": "Đơn hàng {{code}} đã thanh toán tự động",
     "tabs": {
       "orders": "Đơn hàng",
       "packages": "Gói dịch vụ"

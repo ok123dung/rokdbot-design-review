@@ -319,6 +319,8 @@
     "updateError": "오류",
     "updateErrorDesc": "상태를 업데이트할 수 없습니다",
     "searchPlaceholder": "게임 ID, 이름, 전화번호로 검색...",
+    "paymentReceived": "새 결제!",
+    "paymentReceivedDesc": "주문 {{code}} 자동 결제됨",
     "tabs": {
       "orders": "주문",
       "packages": "패키지"
