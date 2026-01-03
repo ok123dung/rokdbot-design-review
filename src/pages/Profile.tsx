@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { SEO } from "@/components/SEO";
 
 interface Profile {
   full_name: string | null;
@@ -117,6 +118,12 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title={t("profile.title")}
+        description={t("profile.subtitle")}
+        url="/profile"
+        noIndex={true}
+      />
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
         <div className="container mx-auto px-4">

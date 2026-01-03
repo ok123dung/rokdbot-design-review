@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { SEO } from "@/components/SEO";
 import { z } from "zod";
 
 export default function Auth() {
@@ -127,6 +128,12 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+      <SEO 
+        title={isLogin ? t("auth.loginTitle") : t("auth.registerTitle")}
+        description={isLogin ? t("auth.loginSubtitle") : t("auth.registerSubtitle")}
+        url="/auth"
+        noIndex={true}
+      />
       {/* Background Effects */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5" />
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />

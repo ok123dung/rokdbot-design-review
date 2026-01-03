@@ -221,6 +221,7 @@
     "viewOrders": "View Orders"
   },
   "dashboard": {
+    "title": "Dashboard",
     "welcome": "Hello",
     "welcomeBack": "Hello",
     "overview": "Overview",

@@ -221,6 +221,7 @@
     "viewOrders": "查看订单"
   },
   "dashboard": {
+    "title": "仪表盘",
     "welcome": "您好",
     "welcomeBack": "您好",
     "overview": "概览",
