@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { SEO } from "@/components/SEO";
 
 interface Order {
   id: string;
@@ -131,6 +132,12 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title={t("dashboard.title")}
+        description={t("dashboard.manageOrders")}
+        url="/dashboard"
+        noIndex={true}
+      />
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
         <div className="container mx-auto px-4">

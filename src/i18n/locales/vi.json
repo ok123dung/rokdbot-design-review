@@ -221,6 +221,7 @@
     "viewOrders": "Xem đơn hàng"
   },
   "dashboard": {
+    "title": "Dashboard",
     "welcome": "Xin chào",
     "welcomeBack": "Xin chào",
     "overview": "Tổng quan",

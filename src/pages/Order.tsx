@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { SEO } from "@/components/SEO";
 import { z } from "zod";
 
 interface ServicePackage {
@@ -258,6 +259,11 @@ export default function Order() {
 
   return (
     <div className="min-h-screen py-8 px-4">
+      <SEO 
+        title={t("order.title")}
+        description={t("order.selectPackageDesc")}
+        url="/order"
+      />
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
         <div className="container mx-auto px-4">
