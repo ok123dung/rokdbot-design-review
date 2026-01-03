@@ -321,6 +321,16 @@
     "searchPlaceholder": "Search by game ID, name, phone...",
     "paymentReceived": "New Payment!",
     "paymentReceivedDesc": "Order {{code}} paid automatically",
+    "chart": {
+      "title": "Payment Analytics",
+      "subtitle": "Track revenue trends over time",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "totalRevenue": "Total Revenue",
+      "totalOrders": "Total Orders",
+      "trend": "Trend",
+      "orders": "orders"
+    },
     "tabs": {
       "orders": "Orders",
       "packages": "Packages"

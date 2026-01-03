@@ -321,6 +321,16 @@
     "searchPlaceholder": "Tìm theo ID game, tên, SĐT...",
     "paymentReceived": "Thanh toán mới!",
     "paymentReceivedDesc": "Đơn hàng {{code}} đã thanh toán tự động",
+    "chart": {
+      "title": "Thống kê thanh toán",
+      "subtitle": "Theo dõi xu hướng doanh thu theo thời gian",
+      "daily": "Theo ngày",
+      "weekly": "Theo tuần",
+      "totalRevenue": "Tổng doanh thu",
+      "totalOrders": "Tổng đơn hàng",
+      "trend": "Xu hướng",
+      "orders": "đơn hàng"
+    },
     "tabs": {
       "orders": "Đơn hàng",
       "packages": "Gói dịch vụ"

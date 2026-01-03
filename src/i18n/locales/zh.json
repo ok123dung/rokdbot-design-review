@@ -321,6 +321,16 @@
     "searchPlaceholder": "按游戏ID、姓名、电话搜索...",
     "paymentReceived": "新付款!",
     "paymentReceivedDesc": "订单 {{code}} 已自动支付",
+    "chart": {
+      "title": "支付分析",
+      "subtitle": "追踪收入趋势",
+      "daily": "按天",
+      "weekly": "按周",
+      "totalRevenue": "总收入",
+      "totalOrders": "总订单",
+      "trend": "趋势",
+      "orders": "订单"
+    },
     "tabs": {
       "orders": "订单",
       "packages": "套餐"

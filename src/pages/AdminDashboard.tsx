@@ -13,7 +13,8 @@ import {
   Loader2,
   Eye,
   ShoppingCart,
-  Boxes
+  Boxes,
+  BarChart3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,6 +37,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import PackagesManagement from "@/components/admin/PackagesManagement";
+import PaymentChart from "@/components/admin/PaymentChart";
 interface Order {
   id: string;
   user_id: string;
@@ -368,6 +370,9 @@ export default function AdminDashboard() {
                 <p className="text-sm text-muted-foreground">{t("admin.runningOrders")}</p>
               </div>
             </div>
+
+            {/* Payment Analytics Chart */}
+            <PaymentChart orders={orders} />
 
             {/* Tabs */}
             <Tabs defaultValue="orders" className="space-y-6">
