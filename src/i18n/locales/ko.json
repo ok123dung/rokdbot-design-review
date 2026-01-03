@@ -321,6 +321,16 @@
     "searchPlaceholder": "게임 ID, 이름, 전화번호로 검색...",
     "paymentReceived": "새 결제!",
     "paymentReceivedDesc": "주문 {{code}} 자동 결제됨",
+    "chart": {
+      "title": "결제 분석",
+      "subtitle": "시간별 수익 동향 추적",
+      "daily": "일별",
+      "weekly": "주별",
+      "totalRevenue": "총 수익",
+      "totalOrders": "총 주문",
+      "trend": "추세",
+      "orders": "주문"
+    },
     "tabs": {
       "orders": "주문",
       "packages": "패키지"
