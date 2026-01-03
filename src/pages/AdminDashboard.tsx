@@ -95,6 +95,41 @@ export default function AdminDashboard() {
     filterOrders();
   }, [orders, statusFilter, searchQuery]);
 
+  // Subscribe to realtime order updates for admin notifications
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    const channel = supabase
+      .channel('admin-order-updates')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'orders'
+        },
+        (payload) => {
+          const newOrder = payload.new as { id: string; status: string; payment_code?: string };
+          const oldOrder = payload.old as { status: string };
+          
+          // Notify when order status changes to paid (auto-payment detected)
+          if (oldOrder.status === 'pending' && newOrder.status === 'paid') {
+            toast({
+              title: "💰 " + t("admin.paymentReceived"),
+              description: t("admin.paymentReceivedDesc", { code: newOrder.payment_code || newOrder.id.slice(0, 8) }),
+            });
+            // Refresh orders list
+            fetchOrders();
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [isAdmin, t]);
+
   const checkAdminRole = async () => {
     const { data } = await supabase
       .from("user_roles")

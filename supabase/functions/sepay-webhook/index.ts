@@ -175,7 +175,13 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, message: "Order confirmed" }),
+      JSON.stringify({ 
+        success: true, 
+        message: "Order confirmed",
+        order_id: order.id,
+        payment_code: paymentCode,
+        amount: receivedAmount
+      }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   } catch (error: any) {

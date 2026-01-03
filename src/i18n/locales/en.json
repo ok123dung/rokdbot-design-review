@@ -319,6 +319,8 @@
     "updateError": "Error",
     "updateErrorDesc": "Cannot update status",
     "searchPlaceholder": "Search by game ID, name, phone...",
+    "paymentReceived": "New Payment!",
+    "paymentReceivedDesc": "Order {{code}} paid automatically",
     "tabs": {
       "orders": "Orders",
       "packages": "Packages"

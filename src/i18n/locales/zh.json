@@ -319,6 +319,8 @@
     "updateError": "错误",
     "updateErrorDesc": "无法更新状态",
     "searchPlaceholder": "按游戏ID、姓名、电话搜索...",
+    "paymentReceived": "新付款!",
+    "paymentReceivedDesc": "订单 {{code}} 已自动支付",
     "tabs": {
       "orders": "订单",
       "packages": "套餐"
