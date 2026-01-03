@@ -103,6 +103,14 @@
     "dashboard": {
       "title": "추적 대시보드",
       "description": "실시간 계정 진행 상황 추적"
+    },
+    "remoteControl": {
+      "title": "원격 제어",
+      "description": "휴대폰으로 어디서든 봇 관리"
+    },
+    "quickSetup": {
+      "title": "빠른 설정",
+      "description": "몇 분 안에 시작하세요"
     }
   },
   "testimonials": {
@@ -119,7 +127,7 @@
     "servicesTitle": "서비스",
     "contact": "연락처",
     "hotline": "핫라인",
-    "copyright": "© 2024 RokdBot. All rights reserved."
+    "copyright": "© 2025 RokdBot. 모든 권리 보유."
   },
   "auth": {
     "loginTitle": "다시 오신 것을 환영합니다",

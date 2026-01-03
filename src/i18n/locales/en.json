@@ -103,6 +103,14 @@
     "dashboard": {
       "title": "Tracking Dashboard",
       "description": "Real-time account progress tracking"
+    },
+    "remoteControl": {
+      "title": "Remote Control",
+      "description": "Manage your bot from anywhere via phone"
+    },
+    "quickSetup": {
+      "title": "Quick Setup",
+      "description": "Get started in just a few minutes"
     }
   },
   "testimonials": {
@@ -119,7 +127,7 @@
     "servicesTitle": "Services",
     "contact": "Contact",
     "hotline": "Hotline",
-    "copyright": "© 2024 RokdBot. All rights reserved."
+    "copyright": "© 2025 RokdBot. All rights reserved."
   },
   "auth": {
     "loginTitle": "Welcome Back",
