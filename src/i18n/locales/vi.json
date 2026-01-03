@@ -26,7 +26,8 @@
     "search": "Tìm kiếm",
     "filter": "Lọc",
     "all": "Tất cả",
-    "noData": "Không có dữ liệu"
+    "noData": "Không có dữ liệu",
+    "copied": "Đã sao chép"
   },
   "hero": {
     "title": "Dịch vụ Bot Farm",
@@ -177,8 +178,9 @@
     "placeOrder": "Đặt hàng",
     "steps": {
       "package": "Chọn gói",
-      "paymentInfo": "Thanh toán & Thông tin",
-      "confirm": "Xác nhận"
+      "paymentInfo": "Thông tin",
+      "confirm": "Xác nhận",
+      "payment": "Thanh toán"
     },
     "paymentAndInfo": "Thanh toán & Thông tin game",
     "enterGovernorId": "Nhập Governor ID",
@@ -192,14 +194,15 @@
     "noProofUploaded": "Chưa upload chứng từ",
     "noProofUploadedDesc": "Vui lòng upload ảnh chứng từ thanh toán",
     "orderSuccess": "Đặt hàng thành công!",
-    "orderSuccessDesc": "Đơn hàng của bạn đang chờ xác nhận thanh toán",
+    "orderSuccessDesc": "Vui lòng chuyển khoản để hoàn tất đơn hàng",
     "orderError": "Lỗi đặt hàng",
     "orderErrorDesc": "Có lỗi xảy ra. Vui lòng thử lại.",
     "days": "ngày",
     "bank": "Ngân hàng",
     "accountNumber": "Số TK",
     "accountHolder": "Chủ TK",
-    "transferContent": "Nội dung",
+    "transferContent": "Nội dung chuyển khoản",
+    "transferContentNote": "⚠️ Vui lòng nhập ĐÚNG nội dung chuyển khoản để hệ thống tự động xác nhận!",
     "phone": "Số điện thoại",
     "scanToPay": "Quét mã để thanh toán",
     "dragDropImage": "Kéo thả hoặc click để chọn ảnh",
@@ -207,9 +210,15 @@
     "summary": "Tóm tắt đơn hàng",
     "confirmOrder": "Xác nhận đặt hàng",
     "requiredField": "Vui lòng nhập",
-    "adminWillVerify": "Sau khi chuyển khoản, đơn hàng sẽ được xác nhận khi chúng tôi nhận được tiền",
+    "adminWillVerify": "Thanh toán sẽ được xác nhận tự động trong vài giây",
     "paymentStatus": "Thanh toán",
-    "waitingForTransfer": "Chờ chuyển khoản"
+    "waitingForTransfer": "Chờ chuyển khoản",
+    "waitingPayment": "Chờ thanh toán",
+    "waitingForPayment": "Đang chờ xác nhận thanh toán...",
+    "paymentConfirmed": "Thanh toán thành công!",
+    "paymentConfirmedDesc": "Đơn hàng của bạn đã được xác nhận",
+    "redirecting": "Đang chuyển hướng...",
+    "viewOrders": "Xem đơn hàng"
   },
   "dashboard": {
     "welcome": "Xin chào",
