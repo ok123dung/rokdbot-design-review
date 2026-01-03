@@ -26,7 +26,8 @@
     "search": "검색",
     "filter": "필터",
     "all": "전체",
-    "noData": "데이터 없음"
+    "noData": "데이터 없음",
+    "copied": "복사됨"
   },
   "hero": {
     "title": "봇 팜 서비스",
@@ -177,8 +178,9 @@
     "placeOrder": "주문하기",
     "steps": {
       "package": "패키지",
-      "paymentInfo": "결제 & 정보",
-      "confirm": "확인"
+      "paymentInfo": "정보",
+      "confirm": "확인",
+      "payment": "결제"
     },
     "paymentAndInfo": "결제 및 게임 정보",
     "enterGovernorId": "Governor ID 입력",
@@ -192,14 +194,15 @@
     "noProofUploaded": "증빙이 업로드되지 않았습니다",
     "noProofUploadedDesc": "결제 증빙 이미지를 업로드해 주세요",
     "orderSuccess": "주문 성공!",
-    "orderSuccessDesc": "주문이 결제 확인을 기다리고 있습니다",
+    "orderSuccessDesc": "주문을 완료하려면 송금을 완료해 주세요",
     "orderError": "주문 오류",
     "orderErrorDesc": "오류가 발생했습니다. 다시 시도해 주세요.",
     "days": "일",
     "bank": "은행",
     "accountNumber": "계좌번호",
     "accountHolder": "예금주",
-    "transferContent": "내용",
+    "transferContent": "이체 내용",
+    "transferContentNote": "⚠️ 자동 확인을 위해 정확한 이체 내용을 입력해 주세요!",
     "phone": "전화번호",
     "scanToPay": "스캔하여 결제",
     "dragDropImage": "드래그 앤 드롭 또는 클릭하여 이미지 선택",
@@ -207,9 +210,15 @@
     "summary": "주문 요약",
     "confirmOrder": "주문 확인",
     "requiredField": "입력해 주세요",
-    "adminWillVerify": "송금 후 결제 확인이 되면 주문이 확정됩니다",
+    "adminWillVerify": "결제가 몇 초 내에 자동으로 확인됩니다",
     "paymentStatus": "결제",
-    "waitingForTransfer": "송금 대기 중"
+    "waitingForTransfer": "송금 대기 중",
+    "waitingPayment": "결제 대기 중",
+    "waitingForPayment": "결제 확인 대기 중...",
+    "paymentConfirmed": "결제 확인됨!",
+    "paymentConfirmedDesc": "주문이 확인되었습니다",
+    "redirecting": "리디렉션 중...",
+    "viewOrders": "주문 보기"
   },
   "dashboard": {
     "welcome": "안녕하세요",

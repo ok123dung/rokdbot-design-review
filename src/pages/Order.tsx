@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -9,7 +9,9 @@ import {
   Check, 
   CreditCard,
   Server,
-  Crown
+  Crown,
+  Copy,
+  CheckCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,6 +32,16 @@ interface ServicePackage {
   features: string[];
 }
 
+// Generate random 6-character alphanumeric code
+const generatePaymentCode = (): string => {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Exclude similar chars I,O,0,1
+  let result = '';
+  for (let i = 0; i < 6; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+};
+
 export default function Order() {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
@@ -48,7 +60,9 @@ export default function Order() {
   const [gameServer, setGameServer] = useState("");
   const [gameKingdom, setGameKingdom] = useState("");
   const [notes, setNotes] = useState("");
-  // Removed payment proof upload - admin will verify via bank notification
+  const [paymentCode, setPaymentCode] = useState("");
+  const [createdOrderId, setCreatedOrderId] = useState<string | null>(null);
+  const [isPaymentConfirmed, setIsPaymentConfirmed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   
@@ -65,6 +79,42 @@ export default function Order() {
   useEffect(() => {
     fetchPackages();
   }, []);
+
+  // Subscribe to order status changes when order is created
+  useEffect(() => {
+    if (!createdOrderId) return;
+
+    const channel = supabase
+      .channel(`order-${createdOrderId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'orders',
+          filter: `id=eq.${createdOrderId}`
+        },
+        (payload) => {
+          console.log('Order updated:', payload);
+          if (payload.new && payload.new.status === 'paid') {
+            setIsPaymentConfirmed(true);
+            toast({
+              title: t("order.paymentConfirmed"),
+              description: t("order.paymentConfirmedDesc"),
+            });
+            // Redirect after 2 seconds
+            setTimeout(() => {
+              navigate(`/orders/${createdOrderId}`);
+            }, 2000);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [createdOrderId, navigate, t, toast]);
 
   const fetchPackages = async () => {
     const { data } = await supabase
@@ -133,7 +183,11 @@ export default function Order() {
       const selectedPkg = packages.find(p => p.id === selectedPackage);
       if (!selectedPkg) throw new Error("Package not found");
 
-      // Create order - no payment proof required, admin will verify
+      // Generate unique payment code
+      const newPaymentCode = generatePaymentCode();
+      setPaymentCode(newPaymentCode);
+
+      // Create order with payment_code
       const { data: order, error: orderError } = await supabase
         .from("orders")
         .insert({
@@ -144,12 +198,16 @@ export default function Order() {
           game_kingdom: gameKingdom,
           notes,
           total_amount: selectedPkg.price,
-          status: "pending"
+          status: "pending",
+          payment_code: newPaymentCode
         })
         .select()
         .single();
 
       if (orderError) throw orderError;
+
+      // Store order ID for realtime subscription
+      setCreatedOrderId(order.id);
 
       // Create payment record
       await supabase
@@ -166,7 +224,8 @@ export default function Order() {
         description: t("order.orderSuccessDesc")
       });
 
-      navigate("/dashboard");
+      // Move to step 4 (waiting for payment confirmation)
+      setStep(4);
     } catch (error) {
       console.error("Order error:", error);
       toast({
@@ -177,6 +236,14 @@ export default function Order() {
     } finally {
       setIsLoading(false);
     }
+  };
+  
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+      title: t("common.copied"),
+      description: text,
+    });
   };
 
   const selectedPkg = packages.find(p => p.id === selectedPackage);
@@ -209,21 +276,23 @@ export default function Order() {
 
       <main className="pt-24 pb-12">
         <div className="container mx-auto max-w-4xl">
-          {/* Progress Steps - Now 3 steps */}
+          {/* Progress Steps - 4 steps now */}
           <div className="flex items-center justify-center mb-12">
-            {[1, 2, 3].map((s) => (
+            {[1, 2, 3, 4].map((s) => (
               <div key={s} className="flex items-center">
                 <div 
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors ${
                     s <= step 
-                      ? "bg-primary text-primary-foreground" 
+                      ? s === 4 && isPaymentConfirmed 
+                        ? "bg-green-500 text-white" 
+                        : "bg-primary text-primary-foreground" 
                       : "bg-muted text-muted-foreground"
                   }`}
                 >
-                  {s < step ? <Check className="w-5 h-5" /> : s}
+                  {s < step || (s === 4 && isPaymentConfirmed) ? <Check className="w-5 h-5" /> : s}
                 </div>
-                {s < 3 && (
-                  <div className={`w-20 md:w-32 h-1 mx-2 rounded ${
+                {s < 4 && (
+                  <div className={`w-16 md:w-24 h-1 mx-2 rounded ${
                     s < step ? "bg-primary" : "bg-muted"
                   }`} />
                 )}
@@ -231,11 +300,12 @@ export default function Order() {
             ))}
           </div>
 
-          {/* Step Labels - Now 3 steps */}
-          <div className="flex justify-between text-sm text-muted-foreground mb-8 px-4">
-            <span className={step >= 1 ? "text-primary font-medium" : ""}>{t("order.steps.package")}</span>
-            <span className={step >= 2 ? "text-primary font-medium" : ""}>{t("order.steps.paymentInfo")}</span>
-            <span className={step >= 3 ? "text-primary font-medium" : ""}>{t("order.steps.confirm")}</span>
+          {/* Step Labels */}
+          <div className="grid grid-cols-4 gap-1 text-xs md:text-sm text-muted-foreground mb-8 px-2">
+            <span className={`text-center ${step >= 1 ? "text-primary font-medium" : ""}`}>{t("order.steps.package")}</span>
+            <span className={`text-center ${step >= 2 ? "text-primary font-medium" : ""}`}>{t("order.steps.paymentInfo")}</span>
+            <span className={`text-center ${step >= 3 ? "text-primary font-medium" : ""}`}>{t("order.steps.confirm")}</span>
+            <span className={`text-center ${step >= 4 ? (isPaymentConfirmed ? "text-green-500 font-medium" : "text-primary font-medium") : ""}`}>{t("order.steps.payment")}</span>
           </div>
 
           {/* Step Content */}
@@ -479,39 +549,135 @@ export default function Order() {
               </div>
             )}
 
-            {/* Navigation Buttons */}
-            <div className="flex justify-between mt-8">
-              <Button
-                variant="outline"
-                onClick={() => setStep(step - 1)}
-                disabled={step === 1}
-              >
-                <ChevronLeft className="w-4 h-4 mr-2" />
-                {t("common.back")}
-              </Button>
-              
-              {step < 3 ? (
-                <Button onClick={handleNext} className="btn-gaming text-primary-foreground">
-                  {t("common.next")}
-                  <ChevronRight className="w-4 h-4 ml-2" />
-                </Button>
-              ) : (
-                <Button 
-                  onClick={handleSubmit} 
-                  disabled={isLoading}
-                  className="btn-gaming text-primary-foreground"
+            {/* Step 4: Waiting for Payment Confirmation */}
+            {step === 4 && (
+              <div className="text-center">
+                <h2 className="text-2xl font-bold mb-6">{t("order.waitingPayment")}</h2>
+                
+                {isPaymentConfirmed ? (
+                  <div className="space-y-6">
+                    <div className="w-20 h-20 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-12 h-12 text-green-500" />
+                    </div>
+                    <div>
+                      <p className="text-xl font-bold text-green-500">{t("order.paymentConfirmed")}</p>
+                      <p className="text-muted-foreground mt-2">{t("order.redirecting")}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {/* Payment Info */}
+                    <div className="bg-primary/10 rounded-xl p-6">
+                      <p className="text-sm font-medium mb-2">{t("order.transferContent")}:</p>
+                      <div className="flex items-center justify-center gap-3">
+                        <p className="text-2xl font-bold text-primary font-mono">ROK {paymentCode}</p>
+                        <Button 
+                          variant="outline" 
+                          size="icon"
+                          onClick={() => copyToClipboard(`ROK ${paymentCode}`)}
+                        >
+                          <Copy className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <p className="text-xs text-destructive mt-3 font-medium">
+                        {t("order.transferContentNote")}
+                      </p>
+                    </div>
+
+                    {/* Amount */}
+                    <div className="bg-muted/50 rounded-xl p-4">
+                      <p className="text-sm text-muted-foreground">{t("order.total")}</p>
+                      <p className="text-3xl font-bold text-gradient-gold">{selectedPkg?.price.toLocaleString()}đ</p>
+                    </div>
+
+                    {/* Payment Methods */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="border border-border/50 rounded-xl p-4">
+                        <h4 className="font-medium text-sm mb-3 flex items-center gap-2">
+                          <CreditCard className="w-4 h-4 text-primary" />
+                          {t("order.bankTransfer")}
+                        </h4>
+                        <img 
+                          src="/assets/qr-bank.jpg" 
+                          alt="QR Code" 
+                          className="w-32 h-32 mx-auto object-contain rounded-lg border border-border/30 mb-3"
+                        />
+                        <div className="space-y-1 text-xs">
+                          <p><span className="text-muted-foreground">{t("order.bank")}:</span> <strong>HD Bank</strong></p>
+                          <p><span className="text-muted-foreground">{t("order.accountNumber")}:</span> <strong>0915966853</strong></p>
+                          <p><span className="text-muted-foreground">{t("order.accountHolder")}:</span> <strong>NGUYEN HUU DUNG</strong></p>
+                        </div>
+                      </div>
+                      <div className="border border-border/50 rounded-xl p-4">
+                        <h4 className="font-medium text-sm mb-3 flex items-center gap-2">
+                          <div className="w-4 h-4 bg-pink-500 rounded-full" />
+                          {t("order.momo")}
+                        </h4>
+                        <img 
+                          src="/assets/qr-bank.jpg" 
+                          alt="QR Code MoMo" 
+                          className="w-32 h-32 mx-auto object-contain rounded-lg border border-border/30 mb-3"
+                        />
+                        <div className="space-y-1 text-xs">
+                          <p><span className="text-muted-foreground">{t("order.phone")}:</span> <strong>0915966853</strong></p>
+                          <p><span className="text-muted-foreground">{t("order.accountHolder")}:</span> <strong>NGUYEN HUU DUNG</strong></p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Waiting indicator */}
+                    <div className="flex items-center justify-center gap-3 text-muted-foreground">
+                      <div className="animate-spin w-5 h-5 border-2 border-primary border-t-transparent rounded-full" />
+                      <span>{t("order.waitingForPayment")}</span>
+                    </div>
+                  </div>
+                )}
+                
+                {!isPaymentConfirmed && (
+                  <div className="mt-8">
+                    <Button variant="outline" onClick={() => navigate("/dashboard")}>
+                      {t("order.viewOrders")}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Navigation Buttons - Only show for steps 1-3 */}
+            {step <= 3 && (
+              <div className="flex justify-between mt-8">
+                <Button
+                  variant="outline"
+                  onClick={() => setStep(step - 1)}
+                  disabled={step === 1}
                 >
-                  {isLoading ? (
-                    <div className="animate-spin w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full" />
-                  ) : (
-                    <>
-                      {t("order.confirmOrder")}
-                      <Check className="w-4 h-4 ml-2" />
-                    </>
-                  )}
+                  <ChevronLeft className="w-4 h-4 mr-2" />
+                  {t("common.back")}
                 </Button>
-              )}
-            </div>
+                
+                {step < 3 ? (
+                  <Button onClick={handleNext} className="btn-gaming text-primary-foreground">
+                    {t("common.next")}
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                ) : (
+                  <Button 
+                    onClick={handleSubmit} 
+                    disabled={isLoading}
+                    className="btn-gaming text-primary-foreground"
+                  >
+                    {isLoading ? (
+                      <div className="animate-spin w-5 h-5 border-2 border-primary-foreground border-t-transparent rounded-full" />
+                    ) : (
+                      <>
+                        {t("order.confirmOrder")}
+                        <Check className="w-4 h-4 ml-2" />
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
+            )}
           </motion.div>
         </div>
       </main>
