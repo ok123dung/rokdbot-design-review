@@ -103,6 +103,14 @@
     "dashboard": {
       "title": "追踪面板",
       "description": "实时追踪账户进度"
+    },
+    "remoteControl": {
+      "title": "远程控制",
+      "description": "通过手机随时随地管理您的机器人"
+    },
+    "quickSetup": {
+      "title": "快速设置",
+      "description": "几分钟内即可开始使用"
     }
   },
   "testimonials": {
@@ -119,7 +127,7 @@
     "servicesTitle": "服务",
     "contact": "联系方式",
     "hotline": "热线",
-    "copyright": "© 2024 RokdBot. 版权所有。"
+    "copyright": "© 2025 RokdBot. 版权所有。"
   },
   "auth": {
     "loginTitle": "欢迎回来",

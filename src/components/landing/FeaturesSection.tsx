@@ -67,14 +67,14 @@ export function FeaturesSection() {
     },
     {
       icon: Smartphone,
-      title: "Remote Control",
-      description: t("features.dashboard.description"),
+      title: t("features.remoteControl.title"),
+      description: t("features.remoteControl.description"),
       color: "gaming-pink",
     },
     {
       icon: Zap,
-      title: "Quick Setup",
-      description: t("features.support.description"),
+      title: t("features.quickSetup.title"),
+      description: t("features.quickSetup.description"),
       color: "gaming-cyan",
     },
     {

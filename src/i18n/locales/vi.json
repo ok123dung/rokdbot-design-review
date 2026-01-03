@@ -103,6 +103,14 @@
     "dashboard": {
       "title": "Dashboard theo dõi",
       "description": "Theo dõi tiến độ tài khoản theo thời gian thực"
+    },
+    "remoteControl": {
+      "title": "Điều khiển từ xa",
+      "description": "Quản lý bot từ bất cứ đâu qua điện thoại"
+    },
+    "quickSetup": {
+      "title": "Cài đặt nhanh",
+      "description": "Bắt đầu sử dụng chỉ trong vài phút"
     }
   },
   "testimonials": {
@@ -119,7 +127,7 @@
     "servicesTitle": "Dịch vụ",
     "contact": "Liên hệ",
     "hotline": "Hotline",
-    "copyright": "© 2024 RokdBot. Bảo lưu mọi quyền."
+    "copyright": "© 2025 RokdBot. Bảo lưu mọi quyền."
   },
   "auth": {
     "loginTitle": "Chào mừng trở lại",
