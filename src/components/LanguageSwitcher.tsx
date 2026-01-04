@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Globe } from "lucide-react";
+import { ChevronDown, Check } from "lucide-react";
 
 const languages = [
   { code: "vi", name: "Tiếng Việt", flag: "🇻🇳" },
@@ -30,21 +30,35 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2">
-          <Globe className="w-4 h-4" />
-          <span className="hidden sm:inline">{currentLang.flag} {currentLang.name}</span>
-          <span className="sm:hidden">{currentLang.flag}</span>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="gap-2 bg-background/60 border-border/50 hover:bg-muted/80 hover:border-border min-h-[40px] px-3 transition-all"
+        >
+          <span className="text-base">{currentLang.flag}</span>
+          <span className="text-sm font-medium">{currentLang.name}</span>
+          <ChevronDown className={`w-4 h-4 opacity-70 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-[150px]">
+      <DropdownMenuContent 
+        align="end" 
+        className="min-w-[160px] bg-background/95 backdrop-blur-md border-border/50"
+      >
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
             onClick={() => changeLanguage(lang.code)}
-            className={`cursor-pointer ${i18n.language === lang.code ? "bg-primary/10" : ""}`}
+            className={`cursor-pointer flex items-center justify-between min-h-[40px] ${
+              i18n.language === lang.code ? "bg-primary/10 text-primary" : ""
+            }`}
           >
-            <span className="mr-2">{lang.flag}</span>
-            {lang.name}
+            <div className="flex items-center gap-2">
+              <span className="text-base">{lang.flag}</span>
+              <span>{lang.name}</span>
+            </div>
+            {i18n.language === lang.code && (
+              <Check className="w-4 h-4 text-primary" />
+            )}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

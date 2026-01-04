@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { socialLinks } from "@/components/SocialIcons";
 
 export function Header() {
   const { t } = useTranslation();
@@ -64,6 +65,22 @@ export function Header() {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
+            {/* Social Icons */}
+            <div className="flex items-center gap-1 mr-1">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-2 text-muted-foreground transition-colors rounded-lg hover:bg-muted/50 ${social.color}`}
+                  aria-label={social.name}
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
+            </div>
+            
             <LanguageSwitcher />
             <a href="/auth">
               <Button 
@@ -119,6 +136,22 @@ export function Header() {
                 </motion.a>
               ))}
               <div className="flex flex-col gap-2 pt-4 mt-2 border-t border-border">
+                {/* Social Icons - Mobile */}
+                <div className="flex items-center justify-center gap-4 py-2">
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`p-3 text-muted-foreground transition-colors rounded-lg hover:bg-muted/50 ${social.color}`}
+                      aria-label={social.name}
+                    >
+                      <social.icon className="w-6 h-6" />
+                    </a>
+                  ))}
+                </div>
+                
                 <a href="/auth">
                   <Button variant="ghost" className="w-full justify-center hover:bg-muted/50">
                     {t("common.login")}
