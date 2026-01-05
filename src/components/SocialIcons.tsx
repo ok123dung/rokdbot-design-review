@@ -36,7 +36,7 @@ interface SocialLink {
 }
 
 export const socialLinks: SocialLink[] = [
-  { name: "Zalo", icon: ZaloIcon, url: "https://zalo.me/g/rokdbot", color: "hover:text-blue-500" },
-  { name: "Discord", icon: DiscordIcon, url: "https://discord.gg/rokdbot", color: "hover:text-indigo-400" },
+  { name: "Zalo", icon: ZaloIcon, url: "https://zalo.me/g/rqgqyd878", color: "hover:text-blue-500" },
+  { name: "Discord", icon: DiscordIcon, url: "https://discord.gg/UPuFYCw4JG", color: "hover:text-indigo-400" },
   { name: "Facebook", icon: Facebook, url: "https://facebook.com/rokdbot", color: "hover:text-blue-600" },
 ];
