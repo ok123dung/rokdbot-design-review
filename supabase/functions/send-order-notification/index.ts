@@ -16,6 +16,7 @@ interface OrderNotificationRequest {
   user_name?: string;
   package_name?: string;
   game_account_id?: string;
+  total_amount?: number;
 }
 
 const getStatusText = (status: string, lang: string = 'vi'): string => {
@@ -42,13 +43,113 @@ const getStatusColor = (status: string): string => {
   return colorMap[status] || '#6b7280';
 };
 
+const getDiscordColor = (status: string): number => {
+  const colorMap: Record<string, number> = {
+    pending: 0xf59e0b,
+    paid: 0x10b981,
+    processing: 0x3b82f6,
+    running: 0x8b5cf6,
+    completed: 0x22c55e,
+    cancelled: 0xef4444,
+  };
+  return colorMap[status] || 0x6b7280;
+};
+
+const getStatusEmoji = (status: string): string => {
+  const emojiMap: Record<string, string> = {
+    pending: '⏳',
+    paid: '💰',
+    processing: '⚙️',
+    running: '🚀',
+    completed: '✅',
+    cancelled: '❌',
+  };
+  return emojiMap[status] || '📦';
+};
+
+const sendDiscordNotification = async (
+  orderId: string,
+  status: string,
+  packageName?: string,
+  gameAccountId?: string,
+  totalAmount?: number
+): Promise<void> => {
+  const webhookUrl = Deno.env.get("DISCORD_WEBHOOK_URL");
+  
+  if (!webhookUrl) {
+    console.log("Discord webhook URL not configured, skipping Discord notification");
+    return;
+  }
+
+  try {
+    const statusEmoji = getStatusEmoji(status);
+    const statusText = getStatusText(status, 'vi');
+    const discordColor = getDiscordColor(status);
+    const siteUrl = Deno.env.get('SITE_URL') || 'https://rokdbot.lovable.app';
+
+    const embed = {
+      title: `${statusEmoji} Thông báo đơn hàng`,
+      description: `Đơn hàng **#${orderId.slice(0, 8).toUpperCase()}** đã được cập nhật.`,
+      color: discordColor,
+      fields: [
+        {
+          name: "📦 Gói dịch vụ",
+          value: packageName || "Không xác định",
+          inline: true
+        },
+        {
+          name: "🎮 Governor ID",
+          value: gameAccountId || "Không xác định",
+          inline: true
+        },
+        {
+          name: "📊 Trạng thái",
+          value: `${statusEmoji} ${statusText}`,
+          inline: true
+        },
+        {
+          name: "💰 Số tiền",
+          value: totalAmount ? `${totalAmount.toLocaleString('vi-VN')}đ` : "Không xác định",
+          inline: true
+        }
+      ],
+      footer: {
+        text: "🎮 RokdBot - Dịch vụ Bot Rise of Kingdoms",
+        icon_url: `${siteUrl}/favicon.ico`
+      },
+      timestamp: new Date().toISOString(),
+      url: `${siteUrl}/orders/${orderId}`
+    };
+
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: "RokdBot",
+        avatar_url: `${siteUrl}/favicon.ico`,
+        embeds: [embed]
+      }),
+    });
+
+    if (!response.ok) {
+      console.error("Failed to send Discord notification:", await response.text());
+    } else {
+      console.log("Discord notification sent successfully");
+    }
+  } catch (error) {
+    console.error("Error sending Discord notification:", error);
+  }
+};
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { order_id, new_status, user_name, package_name, game_account_id }: OrderNotificationRequest = await req.json();
+    const { order_id, new_status, user_name, package_name, game_account_id, total_amount }: OrderNotificationRequest = await req.json();
 
     console.log(`Processing order notification for order ${order_id}, status: ${new_status}`);
 
@@ -58,10 +159,10 @@ const handler = async (req: Request): Promise<Response> => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Get order with user_id
+    // Get order with user_id and total_amount
     const { data: orderData, error: orderError } = await supabaseAdmin
       .from('orders')
-      .select('user_id')
+      .select('user_id, total_amount, game_account_id')
       .eq('id', order_id)
       .single();
 
@@ -73,11 +174,33 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Get package name separately if not provided
+    let resolvedPackageName = package_name;
+    if (!resolvedPackageName) {
+      const { data: pkgData } = await supabaseAdmin
+        .from('orders')
+        .select('service_packages(name)')
+        .eq('id', order_id)
+        .single();
+      resolvedPackageName = (pkgData?.service_packages as any)?.name;
+    }
+
+    // Send Discord notification in background
+    const discordPromise = sendDiscordNotification(
+      order_id,
+      new_status,
+      resolvedPackageName,
+      game_account_id || orderData.game_account_id,
+      total_amount || orderData.total_amount
+    );
+
     // Get user email from auth.users
     const { data: { user }, error: userError } = await supabaseAdmin.auth.admin.getUserById(orderData.user_id);
 
     if (userError || !user?.email) {
       console.error('Failed to get user email:', userError);
+      // Still wait for Discord notification
+      await discordPromise;
       return new Response(
         JSON.stringify({ error: 'User email not found' }),
         { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
@@ -165,6 +288,9 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     console.log("Email sent successfully:", emailResponse);
+
+    // Wait for Discord notification to complete
+    await discordPromise;
 
     return new Response(JSON.stringify({ success: true, data: emailResponse }), {
       status: 200,

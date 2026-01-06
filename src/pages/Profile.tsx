@@ -18,6 +18,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { SEO } from "@/components/SEO";
+import { ProfileSkeleton } from "@/components/skeletons/ProfileSkeleton";
 
 interface Profile {
   full_name: string | null;
@@ -109,11 +110,7 @@ export default function Profile() {
   };
 
   if (loading || loadingData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   return (
