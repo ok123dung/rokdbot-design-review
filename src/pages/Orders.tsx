@@ -21,6 +21,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { SEO } from "@/components/SEO";
+import { OrdersSkeleton } from "@/components/skeletons/OrdersSkeleton";
 
 interface Order {
   id: string;
@@ -135,11 +136,7 @@ export default function Orders() {
   };
 
   if (loading || loadingData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
-      </div>
-    );
+    return <OrdersSkeleton />;
   }
 
   return (
