@@ -131,11 +131,14 @@ export function Footer() {
             {t("footer.copyright")}
           </p>
           <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm">
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+            <a href="/terms" className="text-muted-foreground hover:text-primary transition-colors">
               Terms
             </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+            <a href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
               Privacy
+            </a>
+            <a href="/disclaimer" className="text-muted-foreground hover:text-primary transition-colors">
+              Disclaimer
             </a>
           </div>
         </div>
