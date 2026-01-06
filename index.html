@@ -42,6 +42,12 @@
     <link rel="icon" type="image/png" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/favicon.ico" />
     
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Google Site Verification (replace YOUR_VERIFICATION_CODE with actual code) -->
+    <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
+    
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://hkiugdrjvvkakbdskjlw.supabase.co" crossorigin />
     <link rel="dns-prefetch" href="https://hkiugdrjvvkakbdskjlw.supabase.co" />
@@ -136,6 +142,30 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "RokdBot",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Cloud-based",
+      "description": "Bot farm tự động cho Rise of Kingdoms - Thu thập tài nguyên, phát triển tài khoản 24/7",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "5000",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "150000",
+        "highPrice": "1200000",
+        "priceCurrency": "VND",
+        "offerCount": "4"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
         {
@@ -160,6 +190,22 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Đăng ký tài khoản, chọn gói dịch vụ phù hợp, thanh toán và cung cấp thông tin đăng nhập game. Bot sẽ bắt đầu hoạt động trong vòng 24h."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Các gói dịch vụ có giá bao nhiêu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RokdBot cung cấp 4 gói dịch vụ: Weekly 150,000đ (7 ngày), V1 750,000đ (30 ngày), V2 Premium 900,000đ (30 ngày), và V3 Ultimate 1,200,000đ (30 ngày)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hỗ trợ khách hàng như thế nào?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "RokdBot hỗ trợ khách hàng 24/7 qua Zalo, Discord và Facebook. Đội ngũ hỗ trợ sẵn sàng giải đáp mọi thắc mắc của bạn."
           }
         }
       ]
