@@ -1,0 +1,25 @@
+{
+  "name": "RokdBot - Dịch vụ Bot Farm Rise of Kingdoms #1 Việt Nam",
+  "short_name": "RokdBot",
+  "description": "Dịch vụ bot farm Rise of Kingdoms hàng đầu Việt Nam. Tối ưu tài nguyên, phát triển tài khoản 24/7.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "categories": ["games", "utilities"],
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
