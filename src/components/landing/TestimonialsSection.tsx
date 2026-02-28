@@ -247,7 +247,7 @@ export function TestimonialsSection() {
           className="mt-12 md:mt-16 flex flex-wrap justify-center gap-6 md:gap-12"
         >
           {[
-            { value: "500+", label: "Khách hàng hài lòng" },
+            { value: "5000+", label: "Khách hàng hài lòng" },
             { value: "4.9/5", label: "Đánh giá trung bình" },
             { value: "99%", label: "Tỷ lệ recommend" },
           ].map((stat, index) => (

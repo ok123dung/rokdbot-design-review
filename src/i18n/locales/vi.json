@@ -44,6 +44,10 @@
   "services": {
     "title": "Gói dịch vụ",
     "subtitle": "Chọn gói phù hợp với nhu cầu của bạn",
+    "weeklyDesc": "Gói cơ bản cho người mới bắt đầu",
+    "v1Desc": "Nâng cấp với nhiều tính năng tự động hơn",
+    "v2Desc": "Gói cao cấp được yêu thích nhất",
+    "v3Desc": "Trọn bộ tính năng cho game thủ chuyên nghiệp",
     "popular": "Phổ biến",
     "orderNow": "Đặt ngay",
     "perWeek": "/tuần",
@@ -127,7 +131,11 @@
     "servicesTitle": "Dịch vụ",
     "contact": "Liên hệ",
     "hotline": "Hotline",
-    "copyright": "© 2025 RokdBot. Bảo lưu mọi quyền."
+    "copyright": "© 2026 RokdBot. Bảo lưu mọi quyền."
+  },
+  "notFound": {
+    "message": "Trang bạn tìm kiếm không tồn tại",
+    "backHome": "Quay về trang chủ"
   },
   "auth": {
     "loginTitle": "Chào mừng trở lại",
