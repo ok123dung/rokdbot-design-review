@@ -49,9 +49,9 @@ export default function Order() {
   const preselectedPackage = searchParams.get("package");
   
   const gameInfoSchema = z.object({
-    gameAccountId: z.string().min(1, `${t("order.requiredField")} ${t("order.gameAccountId")}`),
-    gameServer: z.string().min(1, `${t("order.requiredField")} ${t("order.gameServer")}`),
-    gameKingdom: z.string().min(1, `${t("order.requiredField")} ${t("order.gameKingdom")}`),
+    gameAccountId: z.string().min(1, `${t("order.requiredField")} ${t("order.gameAccountId")}`).max(100),
+    gameServer: z.string().min(1, `${t("order.requiredField")} ${t("order.gameServer")}`).max(50),
+    gameKingdom: z.string().min(1, `${t("order.requiredField")} ${t("order.gameKingdom")}`).max(50),
   });
   
   const [step, setStep] = useState(1);
@@ -392,12 +392,13 @@ export default function Order() {
                       <Label htmlFor="gameAccountId">{t("order.gameAccountId")}</Label>
                       <div className="relative mt-1">
                         <Gamepad2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                        <Input
+                         <Input
                           id="gameAccountId"
                           placeholder={t("order.enterGovernorId")}
                           value={gameAccountId}
                           onChange={(e) => setGameAccountId(e.target.value)}
                           className={`pl-10 ${errors.gameAccountId ? "border-destructive" : ""}`}
+                          maxLength={100}
                         />
                       </div>
                       {errors.gameAccountId && (
@@ -409,12 +410,13 @@ export default function Order() {
                       <Label htmlFor="gameServer">{t("order.gameServer")}</Label>
                       <div className="relative mt-1">
                         <Server className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                        <Input
+                         <Input
                           id="gameServer"
                           placeholder={t("order.enterServer")}
                           value={gameServer}
                           onChange={(e) => setGameServer(e.target.value)}
                           className={`pl-10 ${errors.gameServer ? "border-destructive" : ""}`}
+                          maxLength={50}
                         />
                       </div>
                       {errors.gameServer && (
@@ -426,12 +428,13 @@ export default function Order() {
                       <Label htmlFor="gameKingdom">{t("order.gameKingdom")}</Label>
                       <div className="relative mt-1">
                         <Crown className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                        <Input
+                         <Input
                           id="gameKingdom"
                           placeholder={t("order.enterKingdom")}
                           value={gameKingdom}
                           onChange={(e) => setGameKingdom(e.target.value)}
                           className={`pl-10 ${errors.gameKingdom ? "border-destructive" : ""}`}
+                          maxLength={50}
                         />
                       </div>
                       {errors.gameKingdom && (
@@ -441,13 +444,14 @@ export default function Order() {
                     
                     <div>
                       <Label htmlFor="notes">{t("order.notes")}</Label>
-                      <Textarea
+                     <Textarea
                         id="notes"
                         placeholder={t("order.notesPlaceholder")}
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                         className="mt-1"
                         rows={3}
+                        maxLength={2000}
                       />
                     </div>
                   </div>

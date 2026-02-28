@@ -115,6 +115,14 @@
     "quickSetup": {
       "title": "Quick Setup",
       "description": "Get started in just a few minutes"
+    },
+    "uptime": {
+      "title": "99.9% Uptime",
+      "description": "Guaranteed 99.9% uptime, your bot never sleeps"
+    },
+    "dataProtection": {
+      "title": "Data Protection",
+      "description": "Account info encrypted, no data shared with third parties"
     }
   },
   "testimonials": {

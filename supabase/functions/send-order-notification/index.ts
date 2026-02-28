@@ -149,15 +149,59 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Verify authentication - require valid JWT or service role key
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
+    
+    // Allow service role key (internal calls from other edge functions)
+    const isServiceRole = token === serviceRoleKey;
+
+    const supabaseAdmin = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      serviceRoleKey
+    );
+
+    if (!isServiceRole) {
+      // Verify user JWT and admin role
+      const supabaseAuth = createClient(
+        Deno.env.get('SUPABASE_URL') ?? '',
+        Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+      );
+      const { data: { user: authUser }, error: authError } = await supabaseAuth.auth.getUser(token);
+      
+      if (authError || !authUser) {
+        return new Response(
+          JSON.stringify({ error: 'Unauthorized' }),
+          { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+
+      const { data: roleData } = await supabaseAdmin
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', authUser.id)
+        .eq('role', 'admin')
+        .single();
+
+      if (!roleData) {
+        return new Response(
+          JSON.stringify({ error: 'Forbidden - admin access required' }),
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+    }
+
     const { order_id, new_status, user_name, package_name, game_account_id, total_amount }: OrderNotificationRequest = await req.json();
 
     console.log(`Processing order notification for order ${order_id}, status: ${new_status}`);
-
-    // Create Supabase client with service role to get user email
-    const supabaseAdmin = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
 
     // Get order with user_id and total_amount
     const { data: orderData, error: orderError } = await supabaseAdmin

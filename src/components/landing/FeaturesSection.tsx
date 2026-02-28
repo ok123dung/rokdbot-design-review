@@ -49,8 +49,8 @@ export function FeaturesSection() {
     },
     {
       icon: Clock,
-      title: t("hero.stats.uptime"),
-      description: t("features.autoFarm.description"),
+      title: t("features.uptime.title"),
+      description: t("features.uptime.description"),
       color: "gaming-purple",
     },
     {
@@ -79,8 +79,8 @@ export function FeaturesSection() {
     },
     {
       icon: Lock,
-      title: t("features.safe.title"),
-      description: t("features.safe.description"),
+      title: t("features.dataProtection.title"),
+      description: t("features.dataProtection.description"),
       color: "gaming-purple",
     },
   ];
