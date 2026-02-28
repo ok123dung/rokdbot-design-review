@@ -7,7 +7,7 @@ export function HeroSection() {
   const { t } = useTranslation();
 
   const stats = [
-    { icon: Users, value: "1000+", label: t("hero.stats.users") },
+    { icon: Users, value: "5000+", label: t("hero.stats.users") },
     { icon: Shield, value: "100%", label: t("features.safe.title").split(" ")[0] },
     { icon: TrendingUp, value: "Top 10", label: "Alliances" },
     { icon: Zap, value: "24/7", label: t("hero.stats.uptime") },

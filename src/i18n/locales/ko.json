@@ -44,6 +44,10 @@
   "services": {
     "title": "서비스 패키지",
     "subtitle": "필요에 맞는 패키지를 선택하세요",
+    "weeklyDesc": "초보자를 위한 기본 패키지",
+    "v1Desc": "더 많은 자동화 기능으로 업그레이드",
+    "v2Desc": "가장 인기 있는 프리미엄 패키지",
+    "v3Desc": "프로 게이머를 위한 풀 기능",
     "popular": "인기",
     "orderNow": "지금 주문",
     "perWeek": "/주",
@@ -127,7 +131,11 @@
     "servicesTitle": "서비스",
     "contact": "연락처",
     "hotline": "핫라인",
-    "copyright": "© 2025 RokdBot. 모든 권리 보유."
+    "copyright": "© 2026 RokdBot. 모든 권리 보유."
+  },
+  "notFound": {
+    "message": "찾고 있는 페이지가 존재하지 않습니다",
+    "backHome": "홈으로 돌아가기"
   },
   "auth": {
     "loginTitle": "다시 오신 것을 환영합니다",
