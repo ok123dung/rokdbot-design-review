@@ -115,6 +115,14 @@
     "quickSetup": {
       "title": "Cài đặt nhanh",
       "description": "Bắt đầu sử dụng chỉ trong vài phút"
+    },
+    "uptime": {
+      "title": "Hoạt động 99.9%",
+      "description": "Đảm bảo uptime 99.9%, bot của bạn không bao giờ ngủ"
+    },
+    "dataProtection": {
+      "title": "Bảo mật dữ liệu",
+      "description": "Mã hóa thông tin tài khoản, không chia sẻ dữ liệu với bên thứ ba"
     }
   },
   "testimonials": {

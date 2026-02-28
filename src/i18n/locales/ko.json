@@ -115,6 +115,14 @@
     "quickSetup": {
       "title": "빠른 설정",
       "description": "몇 분 안에 시작하세요"
+    },
+    "uptime": {
+      "title": "99.9% 가동률",
+      "description": "99.9% 가동률 보장, 봇은 절대 멈추지 않습니다"
+    },
+    "dataProtection": {
+      "title": "데이터 보호",
+      "description": "계정 정보 암호화, 제3자와 데이터 공유 없음"
     }
   },
   "testimonials": {

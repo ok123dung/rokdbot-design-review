@@ -115,6 +115,14 @@
     "quickSetup": {
       "title": "快速设置",
       "description": "几分钟内即可开始使用"
+    },
+    "uptime": {
+      "title": "99.9%运行时间",
+      "description": "保证99.9%的运行时间，您的机器人永不停歇"
+    },
+    "dataProtection": {
+      "title": "数据保护",
+      "description": "账户信息加密，不与第三方共享数据"
     }
   },
   "testimonials": {
