@@ -3,18 +3,48 @@
 ## About
 RokdBot is a cloud-hosted bot farm service for Rise of Kingdoms (RoK). We run bots on our servers for customers — no software download required. Customers choose a package, pay via VietQR (Vietnam) or PayPal (international), and our team sets up the bot within 24 hours.
 
-## Services
+## Services (29 automated features)
+
+### Farm & Gather (7)
 - Auto gather resources (food, wood, stone, gold) 24/7
-- Auto gather gems (home kingdom + KvK map)
-- Auto train & heal troops
+- Auto gather gems (home kingdom + KvK map optimized)
+- Auto collect alliance territory resources
+- Auto collect city resources
+- Auto transport/transfer resources between accounts
+- Auto use items from inventory
+- Auto use speedups (configurable)
+
+### Combat (5) — includes 2 UNIQUE features
+- Auto fight barbarians (single target)
+- [UNIQUE] Spam Barbarians — summon barbarians around current location using items
+- [UNIQUE] Barbarian Luring + AOE — lure barbarians together then use AOE skill to hit multiple at once, farms AP 3-5x faster
+- Auto farm Marauders & special events (Lohar, etc.)
+- Auto participate in alliance rallies
+
+### City & Development (3)
 - Auto upgrade buildings
-- Auto collect rewards & alliance gifts
-- Auto kill barbarians
-- Auto join alliance events
-- Custom farm strategies per request
-- Anti-detection safe mode
-- Multi-account support (premium plans)
-- Auto captcha solving (premium plans)
+- Auto research technology
+- Auto train troops (all types)
+
+### Alliance (4)
+- Auto help alliance members
+- Auto collect alliance gifts
+- Auto donate alliance technology
+- Auto open reports/mail
+
+### Daily Tasks & Collection (6)
+- Auto collect VIP gifts
+- Auto open daily task chests
+- Auto open free tavern chests
+- Auto visit tribal villages
+- Auto investigate mysterious caves (High/Medium/Low)
+- Auto explore fog (normal + KvK map)
+
+### Safety & Utility (4)
+- Auto heal troops
+- Auto activate shield
+- Auto solve captcha
+- Auto teleport/relocate city
 
 ## Pricing (VND / USD)
 - Trial Package: 150,000 VND (~$6 USD) / 7 days — new customers only
