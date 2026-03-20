@@ -8,6 +8,7 @@ import { HowItWorks } from "@/components/shop/HowItWorks";
 import { SecuritySection } from "@/components/shop/SecuritySection";
 import { Testimonials } from "@/components/shop/Testimonials";
 import { FAQSection } from "@/components/shop/FAQSection";
+import { CTASection } from "@/components/shop/CTASection";
 import { PaymentModal } from "@/components/shop/PaymentModal";
 import { OrderLookupModal } from "@/components/shop/OrderLookupModal";
 import { ShopFooter } from "@/components/shop/ShopFooter";
@@ -37,6 +38,7 @@ export default function Index() {
         <SecuritySection />
         <Testimonials />
         <FAQSection />
+        <CTASection />
       </main>
 
       <ShopFooter />
