@@ -1,25 +1,26 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
-import { 
-  Gamepad2, 
-  Package, 
+import {
+  Gamepad2,
+  Package,
   DollarSign,
-  ChevronLeft,
-  Filter,
-  Search,
   Clock,
   Loader2,
   Eye,
   ShoppingCart,
   Boxes,
-  BarChart3
+  BarChart3,
+  Search,
+  Filter,
+  LogOut,
+  Download,
+  Menu,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -33,29 +34,20 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import PackagesManagement from "@/components/admin/PackagesManagement";
 import PaymentChart from "@/components/admin/PaymentChart";
+
 interface Order {
   id: string;
-  user_id: string;
+  user_id: string | null;
   status: string;
   total_amount: number;
   created_at: string;
-  game_account_id: string;
-  game_server: string;
-  game_kingdom: string;
+  payment_code: string | null;
   payment_proof_url: string | null;
-  profiles: {
-    full_name: string | null;
-    phone: string | null;
-    user_id: string;
-  } | null;
-  service_packages: {
-    name: string;
-  } | null;
+  service_packages: { name: string } | null;
 }
 
 interface Stats {
@@ -66,127 +58,90 @@ interface Stats {
 }
 
 export default function AdminDashboard() {
-  const { t } = useTranslation();
-  const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  
+
   const [isAdmin, setIsAdmin] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const [orders, setOrders] = useState<Order[]>([]);
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
-  const [stats, setStats] = useState<Stats>({ totalOrders: 0, totalRevenue: 0, pendingOrders: 0, runningOrders: 0 });
+  const [stats, setStats] = useState<Stats>({
+    totalOrders: 0,
+    totalRevenue: 0,
+    pendingOrders: 0,
+    runningOrders: 0,
+  });
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [loadingData, setLoadingData] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [updating, setUpdating] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("orders");
 
+  // Auth check
   useEffect(() => {
-    if (!loading && !user) {
-      navigate("/auth");
-    }
-  }, [user, loading, navigate]);
-
-  useEffect(() => {
-    if (user) {
-      checkAdminRole();
-    }
-  }, [user]);
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) {
+        navigate("/login");
+        return;
+      }
+      supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .maybeSingle()
+        .then(({ data }) => {
+          if (!data) {
+            toast({ title: "Access denied", variant: "destructive" });
+            navigate("/");
+          } else {
+            setIsAdmin(true);
+            fetchOrders();
+          }
+          setAuthLoading(false);
+        });
+    });
+  }, []);
 
   useEffect(() => {
     filterOrders();
   }, [orders, statusFilter, searchQuery]);
 
-  // Subscribe to realtime order updates for admin notifications
+  // Realtime order updates
   useEffect(() => {
     if (!isAdmin) return;
-
     const channel = supabase
-      .channel('admin-order-updates')
+      .channel("admin-order-updates")
       .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'orders'
-        },
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "orders" },
         (payload) => {
           const newOrder = payload.new as { id: string; status: string; payment_code?: string };
           const oldOrder = payload.old as { status: string };
-          
-          // Notify when order status changes to paid (auto-payment detected)
-          if (oldOrder.status === 'pending' && newOrder.status === 'paid') {
+          if (oldOrder.status === "pending" && newOrder.status === "paid") {
             toast({
-              title: "💰 " + t("admin.paymentReceived"),
-              description: t("admin.paymentReceivedDesc", { code: newOrder.payment_code || newOrder.id.slice(0, 8) }),
+              title: "Payment received!",
+              description: `Order ${newOrder.payment_code || newOrder.id.slice(0, 8)}`,
             });
-            // Refresh orders list
             fetchOrders();
           }
         }
       )
       .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [isAdmin, t]);
-
-  const checkAdminRole = async () => {
-    const { data } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user?.id)
-      .eq("role", "admin")
-      .maybeSingle();
-
-    if (data) {
-      setIsAdmin(true);
-      fetchOrders();
-    } else {
-      toast({
-        title: t("admin.noAccess"),
-        description: t("admin.noAccessDesc"),
-        variant: "destructive"
-      });
-      navigate("/dashboard");
-    }
-  };
+    return () => { supabase.removeChannel(channel); };
+  }, [isAdmin]);
 
   const fetchOrders = async () => {
     const { data } = await supabase
       .from("orders")
-      .select(`
-        id,
-        status,
-        total_amount,
-        created_at,
-        game_account_id,
-        game_server,
-        game_kingdom,
-        payment_proof_url,
-        user_id,
-        service_packages (name)
-      `)
+      .select("id, status, total_amount, created_at, payment_proof_url, user_id, payment_code, service_packages(name)")
       .order("created_at", { ascending: false });
-    
-    if (data) {
-      // Fetch profiles separately
-      const userIds = [...new Set(data.map(o => o.user_id))];
-      const { data: profilesData } = await supabase
-        .from("profiles")
-        .select("user_id, full_name, phone")
-        .in("user_id", userIds);
-      
-      const profilesMap = new Map(profilesData?.map(p => [p.user_id, p]) || []);
-      
-      const ordersWithProfiles = data.map(order => ({
-        ...order,
-        profiles: profilesMap.get(order.user_id) || null
-      })) as unknown as Order[];
 
-      setOrders(ordersWithProfiles);
-      calculateStats(ordersWithProfiles);
+    if (data) {
+      setOrders(data as unknown as Order[]);
+      calculateStats(data as unknown as Order[]);
     }
     setLoadingData(false);
   };
@@ -195,351 +150,309 @@ export default function AdminDashboard() {
     setStats({
       totalOrders: ordersData.length,
       totalRevenue: ordersData
-        .filter(o => o.status !== "pending" && o.status !== "cancelled")
+        .filter((o) => o.status !== "pending" && o.status !== "cancelled")
         .reduce((sum, o) => sum + Number(o.total_amount), 0),
-      pendingOrders: ordersData.filter(o => o.status === "pending").length,
-      runningOrders: ordersData.filter(o => o.status === "running").length
+      pendingOrders: ordersData.filter((o) => o.status === "pending").length,
+      runningOrders: ordersData.filter((o) => o.status === "running").length,
     });
   };
 
   const filterOrders = () => {
     let filtered = [...orders];
-    
     if (statusFilter !== "all") {
-      filtered = filtered.filter(o => o.status === statusFilter);
+      filtered = filtered.filter((o) => o.status === statusFilter);
     }
-    
     if (searchQuery) {
-      filtered = filtered.filter(o => 
-        o.game_account_id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        o.profiles?.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        o.profiles?.phone?.includes(searchQuery)
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (o) =>
+          o.payment_code?.toLowerCase().includes(q) ||
+          o.service_packages?.name?.toLowerCase().includes(q)
       );
     }
-    
     setFilteredOrders(filtered);
   };
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     setUpdating(true);
-    
     const updateData: Record<string, unknown> = { status: newStatus };
-    
-    if (newStatus === "paid") {
-      updateData.paid_at = new Date().toISOString();
-    } else if (newStatus === "running") {
-      updateData.started_at = new Date().toISOString();
-    } else if (newStatus === "completed") {
-      updateData.completed_at = new Date().toISOString();
-    }
+    if (newStatus === "paid") updateData.paid_at = new Date().toISOString();
+    else if (newStatus === "running") updateData.started_at = new Date().toISOString();
+    else if (newStatus === "completed") updateData.completed_at = new Date().toISOString();
 
-    const { error } = await supabase
-      .from("orders")
-      .update(updateData)
-      .eq("id", orderId);
+    const { error } = await supabase.from("orders").update(updateData).eq("id", orderId);
 
     if (error) {
-      toast({
-        title: t("admin.updateError"),
-        description: t("admin.updateErrorDesc"),
-        variant: "destructive"
-      });
+      toast({ title: "Update failed", variant: "destructive" });
     } else {
-      toast({
-        title: t("admin.updateSuccess"),
-        description: `${t("admin.updateStatus")}: ${t(`dashboard.status.${newStatus}`)}`
-      });
-      
-      // Send email notification
-      sendOrderNotification(orderId, newStatus);
-      
+      toast({ title: `Status updated to ${newStatus}` });
+      try {
+        await supabase.functions.invoke("send-order-notification", {
+          body: { order_id: orderId, new_status: newStatus },
+        });
+      } catch { /* notification failure is non-critical */ }
       fetchOrders();
       setSelectedOrder(null);
     }
-    
     setUpdating(false);
   };
 
-  const sendOrderNotification = async (orderId: string, newStatus: string) => {
-    try {
-      // Find the order to get user info
-      const order = orders.find(o => o.id === orderId);
-      if (!order) return;
+  const exportToCSV = () => {
+    const headers = ["Order ID", "Code", "Package", "Amount", "Status", "Created"];
+    const rows = filteredOrders.map((order) => [
+      order.id.slice(0, 8).toUpperCase(),
+      order.payment_code || "N/A",
+      order.service_packages?.name || "N/A",
+      order.total_amount,
+      order.status,
+      new Date(order.created_at).toLocaleDateString("vi-VN"),
+    ]);
+    const csv = [headers, ...rows]
+      .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `rokdbot-orders-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
-      // Get user email from auth
-      const { data: userData } = await supabase.auth.admin.getUserById(order.user_id).catch(() => ({ data: null }));
-      
-      // Fallback: get email from profiles or use a different method
-      // Since we can't access admin API from client, we'll call the edge function with order_id
-      // and let it fetch the email server-side
-      
-      const { error } = await supabase.functions.invoke('send-order-notification', {
-        body: {
-          order_id: orderId,
-          new_status: newStatus,
-          user_email: '', // Will be fetched server-side
-          user_name: order.profiles?.full_name,
-          package_name: order.service_packages?.name,
-          game_account_id: order.game_account_id,
-        }
-      });
-
-      if (error) {
-        console.error('Failed to send notification:', error);
-      }
-    } catch (error) {
-      console.error('Error sending notification:', error);
-    }
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "completed": return "bg-green-500/20 text-green-500";
-      case "running": return "bg-blue-500/20 text-blue-500";
-      case "processing": return "bg-yellow-500/20 text-yellow-500";
-      case "paid": return "bg-purple-500/20 text-purple-500";
-      case "cancelled": return "bg-red-500/20 text-red-500";
-      default: return "bg-muted text-muted-foreground";
+      case "completed": return "bg-green-500/20 text-green-400";
+      case "running": return "bg-blue-500/20 text-blue-400";
+      case "processing": return "bg-yellow-500/20 text-yellow-400";
+      case "paid": return "bg-purple-500/20 text-purple-400";
+      case "cancelled": return "bg-red-500/20 text-red-400";
+      default: return "bg-gray-500/20 text-gray-400";
     }
   };
 
-  const getStatusText = (status: string) => {
-    return t(`dashboard.status.${status}`) || status;
-  };
-
-  if (loading || loadingData) {
+  if (authLoading || loadingData) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      <div className="min-h-screen flex items-center justify-center bg-[#0f172a]">
+        <Loader2 className="w-8 h-8 animate-spin text-sky-400" />
       </div>
     );
   }
 
-  if (!isAdmin) {
-    return null;
-  }
+  if (!isAdmin) return null;
+
+  const navItems = [
+    { id: "orders", label: "Orders", icon: ShoppingCart },
+    { id: "packages", label: "Packages", icon: Boxes },
+    { id: "analytics", label: "Analytics", icon: BarChart3 },
+  ];
 
   return (
-    <div className="min-h-screen">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <Gamepad2 className="w-8 h-8 text-primary" />
-              <span className="text-xl font-bold text-gradient">RokdBot</span>
-              <span className="text-xs bg-red-500 text-white px-2 py-0.5 rounded-full ml-2">ADMIN</span>
-            </div>
-            <Button variant="ghost" onClick={() => navigate("/dashboard")}>
-              <ChevronLeft className="w-4 h-4 mr-2" />
-              {t("common.dashboard")}
-            </Button>
-          </div>
+    <div className="min-h-screen bg-[#0f172a] text-[#f1f5f9] flex">
+      {/* Sidebar overlay (mobile) */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-full w-60 bg-[#0f172a]/95 border-r border-white/10 backdrop-blur-xl z-50 flex flex-col transition-transform lg:translate-x-0 ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="p-5 border-b border-white/10 flex items-center gap-2">
+          <Gamepad2 className="w-6 h-6 text-sky-400" />
+          <span className="text-lg font-bold text-sky-400">RokdBot</span>
+          <span className="text-[10px] bg-red-500 text-white px-1.5 py-0.5 rounded-full ml-1">ADMIN</span>
         </div>
-      </header>
 
-      <main className="pt-24 pb-12 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+        <nav className="flex-1 py-4">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }}
+              className={`w-full flex items-center gap-3 px-5 py-3 text-sm transition-colors border-l-3 ${
+                activeTab === item.id
+                  ? "bg-sky-400/10 text-sky-400 border-l-[3px] border-sky-400"
+                  : "text-[#94a3b8] hover:bg-white/5 border-l-[3px] border-transparent"
+              }`}
+            >
+              <item.icon className="w-5 h-5" />
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        <div className="p-4 border-t border-white/10">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2 text-sm text-[#94a3b8] hover:text-red-400 transition-colors rounded-lg hover:bg-white/5"
           >
-            <h1 className="text-3xl font-bold mb-2">{t("admin.title")}</h1>
-            <p className="text-muted-foreground mb-8">{t("admin.subtitle")}</p>
+            <LogOut className="w-4 h-4" />
+            Logout
+          </button>
+        </div>
+      </aside>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <div className="glass rounded-xl p-4 border border-border/50">
-                <Package className="w-8 h-8 text-primary mb-2" />
-                <p className="text-2xl font-bold">{stats.totalOrders}</p>
-                <p className="text-sm text-muted-foreground">{t("admin.totalOrders")}</p>
-              </div>
-              <div className="glass rounded-xl p-4 border border-border/50">
-                <DollarSign className="w-8 h-8 text-green-500 mb-2" />
-                <p className="text-2xl font-bold">{stats.totalRevenue.toLocaleString()}đ</p>
-                <p className="text-sm text-muted-foreground">{t("admin.revenue")}</p>
-              </div>
-              <div className="glass rounded-xl p-4 border border-border/50">
-                <Clock className="w-8 h-8 text-yellow-500 mb-2" />
-                <p className="text-2xl font-bold">{stats.pendingOrders}</p>
-                <p className="text-sm text-muted-foreground">{t("admin.pendingOrders")}</p>
-              </div>
-              <div className="glass rounded-xl p-4 border border-border/50">
-                <Loader2 className="w-8 h-8 text-blue-500 mb-2" />
-                <p className="text-2xl font-bold">{stats.runningOrders}</p>
-                <p className="text-sm text-muted-foreground">{t("admin.runningOrders")}</p>
-              </div>
-            </div>
+      {/* Main content */}
+      <main className="flex-1 lg:ml-60">
+        {/* Top bar */}
+        <header className="sticky top-0 z-30 bg-[#0f172a]/90 backdrop-blur-xl border-b border-white/10 px-4 lg:px-6 h-14 flex items-center gap-4">
+          <button className="lg:hidden text-white" onClick={() => setSidebarOpen(true)}>
+            <Menu className="w-6 h-6" />
+          </button>
+          <h1 className="text-lg font-bold capitalize">{activeTab}</h1>
+        </header>
 
-            {/* Payment Analytics Chart */}
-            <PaymentChart orders={orders} />
-
-            {/* Tabs */}
-            <Tabs defaultValue="orders" className="space-y-6">
-              <TabsList className="glass border border-border/50">
-                <TabsTrigger value="orders" className="gap-2">
-                  <ShoppingCart className="w-4 h-4" />
-                  {t("admin.tabs.orders")}
-                </TabsTrigger>
-                <TabsTrigger value="packages" className="gap-2">
-                  <Boxes className="w-4 h-4" />
-                  {t("admin.tabs.packages")}
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="orders" className="space-y-6">
-                {/* Filters */}
-            <div className="flex flex-col md:flex-row gap-4 mb-6">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <Input
-                  placeholder={t("admin.searchPlaceholder")}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
+        <div className="p-4 lg:p-6 max-w-[1400px] mx-auto">
+          {/* Stats */}
+          {activeTab === "orders" && (
+            <>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div className="bg-[#1e293b]/70 border border-white/10 rounded-xl p-4">
+                  <Package className="w-7 h-7 text-sky-400 mb-2" />
+                  <p className="text-2xl font-bold">{stats.totalOrders}</p>
+                  <p className="text-sm text-[#94a3b8]">Total Orders</p>
+                </div>
+                <div className="bg-[#1e293b]/70 border border-white/10 rounded-xl p-4">
+                  <DollarSign className="w-7 h-7 text-green-400 mb-2" />
+                  <p className="text-2xl font-bold">{stats.totalRevenue.toLocaleString()}d</p>
+                  <p className="text-sm text-[#94a3b8]">Revenue</p>
+                </div>
+                <div className="bg-[#1e293b]/70 border border-white/10 rounded-xl p-4">
+                  <Clock className="w-7 h-7 text-yellow-400 mb-2" />
+                  <p className="text-2xl font-bold">{stats.pendingOrders}</p>
+                  <p className="text-sm text-[#94a3b8]">Pending</p>
+                </div>
+                <div className="bg-[#1e293b]/70 border border-white/10 rounded-xl p-4">
+                  <Loader2 className="w-7 h-7 text-blue-400 mb-2" />
+                  <p className="text-2xl font-bold">{stats.runningOrders}</p>
+                  <p className="text-sm text-[#94a3b8]">Running</p>
+                </div>
               </div>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-full md:w-48">
-                  <Filter className="w-4 h-4 mr-2" />
-                  <SelectValue placeholder={t("orders.filterStatus")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">{t("common.all")} ({orders.length})</SelectItem>
-                  <SelectItem value="pending">{t("dashboard.status.pending")}</SelectItem>
-                  <SelectItem value="paid">{t("dashboard.status.paid")}</SelectItem>
-                  <SelectItem value="processing">{t("dashboard.status.processing")}</SelectItem>
-                  <SelectItem value="running">{t("dashboard.status.running")}</SelectItem>
-                  <SelectItem value="completed">{t("dashboard.status.completed")}</SelectItem>
-                  <SelectItem value="cancelled">{t("dashboard.status.cancelled")}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
 
-            {/* Orders Table */}
-            <div className="glass rounded-2xl border border-border/50 overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-border/50 bg-muted/30">
-                      <th className="text-left p-4 font-medium">{t("admin.customer")}</th>
-                      <th className="text-left p-4 font-medium">{t("admin.package")}</th>
-                      <th className="text-left p-4 font-medium">{t("admin.gameInfo")}</th>
-                      <th className="text-left p-4 font-medium">{t("admin.amount")}</th>
-                      <th className="text-left p-4 font-medium">{t("admin.status")}</th>
-                      <th className="text-left p-4 font-medium">{t("admin.createdAt")}</th>
-                      <th className="text-left p-4 font-medium">{t("admin.actions")}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredOrders.length === 0 ? (
-                      <tr>
-                        <td colSpan={7} className="text-center py-12 text-muted-foreground">
-                          {t("admin.noOrders")}
-                        </td>
+              {/* Filters */}
+              <div className="flex flex-col md:flex-row gap-3 mb-4">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94a3b8]" />
+                  <Input
+                    placeholder="Search by code or package..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 bg-[#1e293b]/50 border-white/10"
+                  />
+                </div>
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger className="w-full md:w-44 bg-[#1e293b]/50 border-white/10">
+                    <Filter className="w-4 h-4 mr-2" />
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All ({orders.length})</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="paid">Paid</SelectItem>
+                    <SelectItem value="processing">Processing</SelectItem>
+                    <SelectItem value="running">Running</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button variant="outline" onClick={exportToCSV} className="border-white/10">
+                  <Download className="w-4 h-4 mr-2" />
+                  CSV
+                </Button>
+              </div>
+
+              {/* Orders Table */}
+              <div className="bg-[#1e293b]/50 border border-white/10 rounded-xl overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[700px]">
+                    <thead>
+                      <tr className="border-b border-white/10 bg-[#0f172a]/50">
+                        <th className="text-left p-4 text-sm font-medium text-[#94a3b8]">Code</th>
+                        <th className="text-left p-4 text-sm font-medium text-[#94a3b8]">Package</th>
+                        <th className="text-left p-4 text-sm font-medium text-[#94a3b8]">Amount</th>
+                        <th className="text-left p-4 text-sm font-medium text-[#94a3b8]">Status</th>
+                        <th className="text-left p-4 text-sm font-medium text-[#94a3b8]">Created</th>
+                        <th className="text-left p-4 text-sm font-medium text-[#94a3b8]">Actions</th>
                       </tr>
-                    ) : (
-                      filteredOrders.map((order) => (
-                        <tr key={order.id} className="border-b border-border/30 hover:bg-muted/20">
-                          <td className="p-4">
-                            <p className="font-medium">{order.profiles?.full_name || "N/A"}</p>
-                            <p className="text-sm text-muted-foreground">{order.profiles?.phone || "N/A"}</p>
-                          </td>
-                          <td className="p-4">{order.service_packages?.name || "N/A"}</td>
-                          <td className="p-4">
-                            <p className="text-sm">ID: {order.game_account_id}</p>
-                            <p className="text-sm text-muted-foreground">
-                              S{order.game_server} / K{order.game_kingdom}
-                            </p>
-                          </td>
-                          <td className="p-4 font-bold">{Number(order.total_amount).toLocaleString()}đ</td>
-                          <td className="p-4">
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                              {getStatusText(order.status)}
-                            </span>
-                          </td>
-                          <td className="p-4 text-sm text-muted-foreground">
-                            {new Date(order.created_at).toLocaleDateString("vi-VN")}
-                          </td>
-                          <td className="p-4">
-                            <Button 
-                              size="sm" 
-                              variant="outline"
-                              onClick={() => setSelectedOrder(order)}
-                            >
-                              <Eye className="w-4 h-4 mr-1" />
-                              {t("common.view")}
-                            </Button>
+                    </thead>
+                    <tbody>
+                      {filteredOrders.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} className="text-center py-12 text-[#94a3b8]">
+                            No orders found
                           </td>
                         </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+                      ) : (
+                        filteredOrders.map((order) => (
+                          <tr key={order.id} className="border-b border-white/5 hover:bg-white/[0.02]">
+                            <td className="p-4 font-mono text-sm font-bold">{order.payment_code || "—"}</td>
+                            <td className="p-4 text-sm">{order.service_packages?.name || "N/A"}</td>
+                            <td className="p-4 font-bold text-sm">{Number(order.total_amount).toLocaleString()}d</td>
+                            <td className="p-4">
+                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
+                                {order.status}
+                              </span>
+                            </td>
+                            <td className="p-4 text-sm text-[#94a3b8]">
+                              {new Date(order.created_at).toLocaleDateString("vi-VN")}
+                            </td>
+                            <td className="p-4">
+                              <Button size="sm" variant="outline" className="border-white/10" onClick={() => setSelectedOrder(order)}>
+                                <Eye className="w-4 h-4" />
+                              </Button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              </div>
-              </TabsContent>
+            </>
+          )}
 
-              <TabsContent value="packages">
-                <PackagesManagement />
-              </TabsContent>
-            </Tabs>
-          </motion.div>
+          {activeTab === "packages" && <PackagesManagement />}
+
+          {activeTab === "analytics" && <PaymentChart orders={orders} />}
         </div>
       </main>
 
       {/* Order Detail Modal */}
       <Dialog open={!!selectedOrder} onOpenChange={() => setSelectedOrder(null)}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-lg bg-[#1e293b] border-white/10">
           <DialogHeader>
-            <DialogTitle>{t("admin.orderDetail")}</DialogTitle>
+            <DialogTitle>Order Detail</DialogTitle>
           </DialogHeader>
-          
+
           {selectedOrder && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-muted-foreground">{t("admin.customer")}</p>
-                  <p className="font-medium">{selectedOrder.profiles?.full_name || "N/A"}</p>
+                  <p className="text-[#94a3b8]">Payment Code</p>
+                  <p className="font-mono font-bold">{selectedOrder.payment_code || "N/A"}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">{t("admin.phone")}</p>
-                  <p className="font-medium">{selectedOrder.profiles?.phone || "N/A"}</p>
+                  <p className="text-[#94a3b8]">Package</p>
+                  <p className="font-medium">{selectedOrder.service_packages?.name || "N/A"}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">{t("admin.package")}</p>
-                  <p className="font-medium">{selectedOrder.service_packages?.name}</p>
+                  <p className="text-[#94a3b8]">Amount</p>
+                  <p className="font-bold">{Number(selectedOrder.total_amount).toLocaleString()}d</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">{t("admin.amount")}</p>
-                  <p className="font-medium">{Number(selectedOrder.total_amount).toLocaleString()}đ</p>
-                </div>
-                <div>
-                  <p className="text-muted-foreground">{t("orderDetail.governorId")}</p>
-                  <p className="font-medium">{selectedOrder.game_account_id}</p>
-                </div>
-                <div>
-                  <p className="text-muted-foreground">{t("admin.serverKingdom")}</p>
-                  <p className="font-medium">S{selectedOrder.game_server} / K{selectedOrder.game_kingdom}</p>
+                  <p className="text-[#94a3b8]">Created</p>
+                  <p>{new Date(selectedOrder.created_at).toLocaleString("vi-VN")}</p>
                 </div>
               </div>
 
-              {selectedOrder.payment_proof_url && (
-                <div>
-                  <p className="text-muted-foreground text-sm mb-2">{t("admin.paymentProof")}</p>
-                  <a 
-                    href={selectedOrder.payment_proof_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline text-sm"
-                  >
-                    {t("admin.viewProof")} →
-                  </a>
-                </div>
-              )}
-
               <div>
-                <p className="text-muted-foreground text-sm mb-2">{t("admin.updateStatus")}</p>
+                <p className="text-[#94a3b8] text-sm mb-2">Update Status</p>
                 <div className="flex flex-wrap gap-2">
                   {["pending", "paid", "processing", "running", "completed", "cancelled"].map((status) => (
                     <Button
@@ -548,9 +461,9 @@ export default function AdminDashboard() {
                       variant={selectedOrder.status === status ? "default" : "outline"}
                       onClick={() => updateOrderStatus(selectedOrder.id, status)}
                       disabled={updating || selectedOrder.status === status}
-                      className={selectedOrder.status === status ? "btn-gaming text-primary-foreground" : ""}
+                      className={selectedOrder.status === status ? "bg-sky-500" : "border-white/10"}
                     >
-                      {getStatusText(status)}
+                      {status}
                     </Button>
                   ))}
                 </div>
@@ -559,8 +472,8 @@ export default function AdminDashboard() {
           )}
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setSelectedOrder(null)}>
-              {t("common.close")}
+            <Button variant="outline" className="border-white/10" onClick={() => setSelectedOrder(null)}>
+              Close
             </Button>
           </DialogFooter>
         </DialogContent>

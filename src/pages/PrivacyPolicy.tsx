@@ -1,5 +1,5 @@
-import { Header } from "@/components/landing/Header";
-import { Footer } from "@/components/landing/Footer";
+
+
 import { SEO } from "@/components/SEO";
 import { useTranslation } from "react-i18next";
 import { Shield, Eye, Lock, Database, Share2, Mail } from "lucide-react";
@@ -126,7 +126,7 @@ const PrivacyPolicy = () => {
         url="/privacy"
         noIndex={false}
       />
-      <Header />
+      <div className="p-4 border-b border-border/50"><a href="/" className="text-primary hover:underline text-sm">&larr; Trang chủ</a></div>
       <main className="container mx-auto px-4 py-24 md:py-32">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
@@ -236,7 +236,7 @@ const PrivacyPolicy = () => {
           </div>
         </div>
       </main>
-      <Footer />
+      
     </div>
   );
 };

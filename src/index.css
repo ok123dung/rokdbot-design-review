@@ -284,6 +284,156 @@
   }
 }
 
+/* ============ SHOP STYLES (sumistore.me inspired) ============ */
+
+/* Aurora background */
+.aurora-bg {
+  background:
+    radial-gradient(52rem 32rem at 8% -8%, rgba(56, 189, 248, 0.16), transparent 62%),
+    radial-gradient(40rem 24rem at 100% 0%, rgba(248, 195, 107, 0.12), transparent 55%),
+    radial-gradient(36rem 26rem at 50% 100%, rgba(45, 212, 191, 0.08), transparent 58%),
+    hsl(var(--background));
+  min-height: 100vh;
+}
+
+/* Navbar glass */
+.navbar-glass {
+  background: hsl(var(--background) / 0.85);
+  backdrop-filter: blur(16px);
+}
+
+/* Text helpers */
+.text-muted { color: #9db0ca; }
+.text-gold {
+  background: linear-gradient(135deg, #f8c36b, #e8a830);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-primary { color: #7ce7ff; }
+
+/* Stat item */
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Shop card */
+.card-glass {
+  background: rgba(10, 16, 32, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+.card-glass:hover {
+  border-color: rgba(124, 231, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(124, 231, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Buy button */
+.btn-buy {
+  background: linear-gradient(135deg, #00c8d4, #0090ff);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-buy:hover:not(:disabled) {
+  background: linear-gradient(135deg, #00e0ec, #0090ff);
+  box-shadow: 0 6px 22px rgba(0, 200, 212, 0.45);
+  transform: translateY(-2px);
+}
+.btn-buy:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #334155;
+  color: #64748b;
+}
+
+/* Primary button */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Secondary button */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f8fbff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* Modal container */
+.modal-container {
+  position: relative;
+  background: linear-gradient(180deg, #0f172a 0%, #0a0f1e 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Hero banner */
+.hero-banner {
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(124, 231, 255, 0.08), transparent 60%),
+    radial-gradient(ellipse at 70% 30%, rgba(248, 195, 107, 0.06), transparent 50%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

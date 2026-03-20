@@ -1,35 +1,46 @@
-import { Header } from "@/components/landing/Header";
-import { HeroSection } from "@/components/landing/HeroSection";
-import { ServicesSection } from "@/components/landing/ServicesSection";
-import { FeaturesSection } from "@/components/landing/FeaturesSection";
-import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
-import { FAQSection } from "@/components/landing/FAQSection";
-import { Footer } from "@/components/landing/Footer";
+import { useState } from "react";
+import { Navbar } from "@/components/shop/Navbar";
+import { HeroBanner } from "@/components/shop/HeroBanner";
+import { PackageGrid } from "@/components/shop/PackageGrid";
+import { PaymentModal } from "@/components/shop/PaymentModal";
+import { OrderLookupModal } from "@/components/shop/OrderLookupModal";
+import { ShopFooter } from "@/components/shop/ShopFooter";
 import { SEO } from "@/components/SEO";
-import { useTranslation } from "react-i18next";
 
-const Index = () => {
-  const { t } = useTranslation();
-  
+export default function Index() {
+  const [buyingPackageId, setBuyingPackageId] = useState<string | null>(null);
+  const [showOrderLookup, setShowOrderLookup] = useState(false);
+
   return (
-    <div className="min-h-screen">
-      <SEO 
-        title={t("hero.title")}
-        description={t("hero.subtitle")}
+    <div className="min-h-screen aurora-bg">
+      <SEO
+        title="RokdBot — Bot Farm Rise of Kingdoms"
+        description="Dịch vụ treo bot Rise of Kingdoms 24/7. Thanh toán tự động, giao dịch nhanh gọn."
         url="/"
-        keywords="RokdBot, Rise of Kingdoms, bot farm, ROK bot, auto farm, dịch vụ bot, Việt Nam, 24/7"
+        keywords="RokdBot, Rise of Kingdoms, bot farm, ROK bot, auto farm, dịch vụ bot"
       />
-      <Header />
-      <main>
-        <HeroSection />
-        <ServicesSection />
-        <FeaturesSection />
-        <TestimonialsSection />
-        <FAQSection />
+
+      <Navbar onOrderLookup={() => setShowOrderLookup(true)} />
+
+      <main className="pt-14">
+        <HeroBanner />
+        <PackageGrid onBuy={(id) => setBuyingPackageId(id)} />
       </main>
-      <Footer />
+
+      <ShopFooter />
+
+      {/* Payment Modal */}
+      {buyingPackageId && (
+        <PaymentModal
+          packageId={buyingPackageId}
+          onClose={() => setBuyingPackageId(null)}
+        />
+      )}
+
+      {/* Order Lookup Modal */}
+      {showOrderLookup && (
+        <OrderLookupModal onClose={() => setShowOrderLookup(false)} />
+      )}
     </div>
   );
-};
-
-export default Index;
+}

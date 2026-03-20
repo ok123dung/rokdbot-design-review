@@ -1,5 +1,3 @@
-import { Header } from "@/components/landing/Header";
-import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/SEO";
 import { useTranslation } from "react-i18next";
 import { AlertTriangle, Shield, Scale, Users } from "lucide-react";
@@ -20,8 +18,10 @@ const Disclaimer = () => {
         url="/disclaimer"
         noIndex={false}
       />
-      <Header />
-      <main className="container mx-auto px-4 py-24 md:py-32">
+      <div className="p-4 border-b border-border/50">
+        <a href="/" className="text-primary hover:underline text-sm">&larr; Trang chủ</a>
+      </div>
+      <main className="container mx-auto px-4 py-12 md:py-16">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
             {isVietnamese ? "Miễn Trừ Trách Nhiệm" : "Disclaimer"}
@@ -160,7 +160,6 @@ const Disclaimer = () => {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };
