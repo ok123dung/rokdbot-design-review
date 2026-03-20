@@ -1,0 +1,87 @@
+# RokdBot - Complete Service Documentation
+
+## Company
+RokdBot is a Vietnamese-based game bot service provider specializing in Rise of Kingdoms (RoK) automation. We operate a "farm-for-me" model where we run bots on our cloud servers on behalf of customers. No software installation is required by the customer.
+
+## Target Audience
+- Rise of Kingdoms players who want to automate resource gathering
+- Players maintaining multiple farm accounts
+- International and Vietnamese players
+- Both free-to-play and paying players who want to optimize their gameplay
+
+## Service Model
+Unlike competitors who sell bot software licenses (requiring customers to run bots on their own PCs), RokdBot operates as a managed service:
+1. Customer purchases a package
+2. Customer provides their game account credentials via Discord/Zalo
+3. Our team configures and runs the bot on our servers
+4. Bot runs 24/7 with anti-detection measures
+5. Customer receives periodic progress reports
+
+## Detailed Feature List
+
+### Resource Gathering
+- Automatic RSS gathering on the map (food, wood, stone, gold)
+- Smart node selection to avoid conflict
+- Auto return to city when march is full
+- Support for multiple marches simultaneously
+
+### Gem Farming
+- Auto gem gathering in home kingdom (~3,000-4,000 gems/day)
+- Optimized gem routes in KvK map (~5,000-8,000 gems/day)
+- Random coordinate generation for safety
+
+### Troop Management
+- Auto train troops (all types)
+- Auto heal wounded troops
+- Auto use speedups when configured
+
+### City Development
+- Auto upgrade buildings in priority order
+- Auto research technology
+- Building queue optimization
+
+### Daily Tasks
+- Auto collect daily rewards
+- Auto collect quest rewards
+- Auto collect alliance gifts
+- Auto alliance help
+- Auto kill barbarians for events
+- Auto join rallies (configurable)
+
+### Safety Features
+- Human-like behavior simulation (random delays, varied click patterns)
+- Session duration randomization
+- Anti-captcha solving (2Captcha integration)
+- IP rotation per account
+- No shared resources between accounts
+
+## Pricing Structure
+
+| Package | Price (VND) | Price (USD) | Duration | Accounts | Key Features |
+|---------|-------------|-------------|----------|----------|--------------|
+| Trial | 150,000 | ~$6 | 7 days | 1 | Basic auto farm, new customers only |
+| Basic | 750,000 | ~$30 | 30 days | 1 | Full auto farm + gather gems |
+| Premium | 900,000 | ~$36 | 30 days | 1 | Custom strategy + events + priority support |
+| Ultimate | 1,200,000 | ~$48 | 30 days | 2-3 | Multi-account + VIP + weekly reports |
+
+## Payment
+- VietQR: Instant bank transfer via dynamic QR code (HD Bank). Auto-confirmed via SePay webhook.
+- PayPal: International payments via PayPal.me link.
+
+## Support Channels
+- Discord: https://discord.gg/UPuFYCw4JG (primary)
+- Zalo: https://zalo.me/g/rqgqyd878 (Vietnamese customers)
+- Response time: typically within 1-2 hours
+
+## Competitors
+- ROK Bot Service (rokbotservice.com) - $15-35/acc, cloud hosted
+- BoostBot (boostbot.org) - Free/$15 Pro/$8 farm-for-me
+- PrimeBot (primebot.org) - Free/$15 Premium
+- GNBots (gnbots.com) - License-based
+
+## Differentiation
+- Best UX: anonymous purchase, 2-click checkout, instant QR payment
+- Vietnam-native payment (VietQR)
+- No software download needed
+- Competitive pricing for Vietnamese market
+- Professional dark-themed UI

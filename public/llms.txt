@@ -1,0 +1,44 @@
+# RokdBot - Rise of Kingdoms Bot Farm Service
+
+## About
+RokdBot is a cloud-hosted bot farm service for Rise of Kingdoms (RoK). We run bots on our servers for customers — no software download required. Customers choose a package, pay via VietQR (Vietnam) or PayPal (international), and our team sets up the bot within 24 hours.
+
+## Services
+- Auto gather resources (food, wood, stone, gold) 24/7
+- Auto gather gems (home kingdom + KvK map)
+- Auto train & heal troops
+- Auto upgrade buildings
+- Auto collect rewards & alliance gifts
+- Auto kill barbarians
+- Auto join alliance events
+- Custom farm strategies per request
+- Anti-detection safe mode
+- Multi-account support (premium plans)
+- Auto captcha solving (premium plans)
+
+## Pricing (VND / USD)
+- Trial Package: 150,000 VND (~$6 USD) / 7 days — new customers only
+- Basic Package: 750,000 VND (~$30 USD) / 30 days — 1 account
+- Premium Package: 900,000 VND (~$36 USD) / 30 days — custom strategy
+- Ultimate Package: 1,200,000 VND (~$48 USD) / 30 days — multi-account + VIP
+
+## Payment Methods
+- VietQR (instant bank transfer via QR code) — Vietnam customers
+- PayPal — international customers
+
+## How It Works
+1. Choose a package on rokdbot.com
+2. Pay via VietQR or PayPal
+3. Contact us on Discord or Zalo with your order code + game account info
+4. Bot is set up and running within 24 hours
+
+## Contact
+- Website: https://rokdbot.com
+- Discord: https://discord.gg/UPuFYCw4JG
+- Zalo: https://zalo.me/g/rqgqyd878
+
+## Technical
+- Frontend: React + TypeScript + Vite + Tailwind CSS
+- Backend: Supabase (PostgreSQL + Edge Functions)
+- Payment: SePay webhook + VietQR API + PayPal
+- Hosting: Vercel

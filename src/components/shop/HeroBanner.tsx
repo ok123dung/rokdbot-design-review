@@ -38,9 +38,9 @@ export function HeroBanner() {
             <span className="text-gold">Rise of Kingdoms</span>
           </h1>
           <p className="text-lg md:text-xl text-[#9db0ca] max-w-2xl mx-auto leading-relaxed">
-            Dịch vụ treo bot 24/7 — thanh toán tự động qua VietQR,
+            Dịch vụ treo bot trên cloud server — bạn không cần cài đặt gì.
             <br className="hidden md:block" />
-            giao dịch nhanh gọn, hỗ trợ tận tình.
+            Thanh toán tự động, bot chạy trong 24h. Hỗ trợ VietQR & PayPal.
           </p>
         </div>
 
