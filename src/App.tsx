@@ -15,6 +15,8 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const Disclaimer = lazy(() => import("./pages/Disclaimer"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const BlogList = lazy(() => import("./pages/blog/BlogList"));
+const BlogPost = lazy(() => import("./pages/blog/BlogPost"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -50,6 +52,8 @@ const App = () => (
               <Route path="/disclaimer" element={<Disclaimer />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/blog" element={<BlogList />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

@@ -12,6 +12,7 @@ export function ShopFooter() {
           </div>
 
           <div className="flex items-center gap-4 text-sm">
+            <a href="/blog" className="text-muted hover:text-white transition">Blog</a>
             <a href="/terms" className="text-muted hover:text-white transition">Điều khoản</a>
             <a href="/privacy" className="text-muted hover:text-white transition">Chính sách</a>
             <a href="/disclaimer" className="text-muted hover:text-white transition">Miễn trừ</a>

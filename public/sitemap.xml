@@ -7,6 +7,30 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://rokdbot.com/blog</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://rokdbot.com/blog/cach-farm-gem-hieu-qua-rise-of-kingdoms</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://rokdbot.com/blog/bot-rise-of-kingdoms-co-an-toan-khong</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://rokdbot.com/blog/huong-dan-su-dung-rokdbot</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://rokdbot.com/disclaimer</loc>
     <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
