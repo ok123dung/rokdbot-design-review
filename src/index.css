@@ -613,6 +613,36 @@
   backdrop-filter: blur(8px);
 }
 
+/* ============ ACCESSIBILITY & UX ============ */
+
+/* Global cursor-pointer for interactive elements */
+button, a, [role="button"], .card-glass, .btn-buy, .btn-primary, .btn-secondary {
+  cursor: pointer;
+}
+
+/* Focus ring for keyboard navigation */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid #7ce7ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-float-slow,
+  .animate-float-slow-reverse,
+  .animate-pulse,
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

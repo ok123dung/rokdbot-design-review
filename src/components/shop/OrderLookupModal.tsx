@@ -57,7 +57,7 @@ export function OrderLookupModal({ onClose }: OrderLookupModalProps) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-container max-w-md" onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white">
+        <button onClick={onClose} aria-label="Đóng" className="absolute top-4 right-4 text-gray-400 hover:text-white">
           <X className="w-5 h-5" />
         </button>
 
@@ -73,7 +73,7 @@ export function OrderLookupModal({ onClose }: OrderLookupModalProps) {
             maxLength={6}
             className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:border-primary focus:outline-none font-mono text-lg tracking-wider"
           />
-          <button onClick={handleSearch} disabled={loading} className="btn-primary px-4">
+          <button onClick={handleSearch} disabled={loading} aria-label="Tìm kiếm" className="btn-primary px-4">
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
           </button>
         </div>

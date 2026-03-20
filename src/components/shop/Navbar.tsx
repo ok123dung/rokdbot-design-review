@@ -48,6 +48,7 @@ export function Navbar({ onOrderLookup }: NavbarProps) {
         <button
           className="md:hidden text-white p-2"
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? "Đóng menu" : "Mở menu"}
         >
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
