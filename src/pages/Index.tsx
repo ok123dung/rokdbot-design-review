@@ -2,7 +2,12 @@ import { useState } from "react";
 import { Navbar } from "@/components/shop/Navbar";
 import { AnnouncementBar } from "@/components/shop/AnnouncementBar";
 import { HeroBanner } from "@/components/shop/HeroBanner";
+import { FeaturesSection } from "@/components/shop/FeaturesSection";
 import { PackageGrid } from "@/components/shop/PackageGrid";
+import { HowItWorks } from "@/components/shop/HowItWorks";
+import { SecuritySection } from "@/components/shop/SecuritySection";
+import { Testimonials } from "@/components/shop/Testimonials";
+import { FAQSection } from "@/components/shop/FAQSection";
 import { PaymentModal } from "@/components/shop/PaymentModal";
 import { OrderLookupModal } from "@/components/shop/OrderLookupModal";
 import { ShopFooter } from "@/components/shop/ShopFooter";
@@ -26,12 +31,16 @@ export default function Index() {
       <main className="pt-14">
         <AnnouncementBar />
         <HeroBanner />
+        <FeaturesSection />
         <PackageGrid onBuy={(id) => setBuyingPackageId(id)} />
+        <HowItWorks />
+        <SecuritySection />
+        <Testimonials />
+        <FAQSection />
       </main>
 
       <ShopFooter />
 
-      {/* Payment Modal */}
       {buyingPackageId && (
         <PaymentModal
           packageId={buyingPackageId}
@@ -39,7 +48,6 @@ export default function Index() {
         />
       )}
 
-      {/* Order Lookup Modal */}
       {showOrderLookup && (
         <OrderLookupModal onClose={() => setShowOrderLookup(false)} />
       )}
