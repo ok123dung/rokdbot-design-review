@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Navbar } from "@/components/shop/Navbar";
+import { AnnouncementBar } from "@/components/shop/AnnouncementBar";
 import { HeroBanner } from "@/components/shop/HeroBanner";
 import { PackageGrid } from "@/components/shop/PackageGrid";
 import { PaymentModal } from "@/components/shop/PaymentModal";
@@ -23,6 +24,7 @@ export default function Index() {
       <Navbar onOrderLookup={() => setShowOrderLookup(true)} />
 
       <main className="pt-14">
+        <AnnouncementBar />
         <HeroBanner />
         <PackageGrid onBuy={(id) => setBuyingPackageId(id)} />
       </main>

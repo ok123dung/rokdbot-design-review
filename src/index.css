@@ -286,51 +286,180 @@
 
 /* ============ SHOP STYLES (sumistore.me inspired) ============ */
 
-/* Aurora background */
+/* Aurora background with animated blobs */
 .aurora-bg {
-  background:
-    radial-gradient(52rem 32rem at 8% -8%, rgba(56, 189, 248, 0.16), transparent 62%),
-    radial-gradient(40rem 24rem at 100% 0%, rgba(248, 195, 107, 0.12), transparent 55%),
-    radial-gradient(36rem 26rem at 50% 100%, rgba(45, 212, 191, 0.08), transparent 58%),
-    hsl(var(--background));
+  background: #050913;
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
 }
+.aurora-bg::before,
+.aurora-bg::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 999px;
+  filter: blur(80px);
+  opacity: 0.5;
+}
+.aurora-bg::before {
+  top: -10%;
+  left: -8rem;
+  width: 28rem;
+  height: 28rem;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.25), transparent 68%);
+  animation: auroraDrift1 20s ease-in-out infinite alternate;
+}
+.aurora-bg::after {
+  right: -10rem;
+  bottom: 5%;
+  width: 32rem;
+  height: 32rem;
+  background: radial-gradient(circle, rgba(248, 195, 107, 0.18), transparent 70%);
+  animation: auroraDrift2 25s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift1 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(5rem, 3rem, 0) scale(1.1); }
+}
+@keyframes auroraDrift2 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-4rem, -3rem, 0) scale(1.08); }
+}
+.aurora-bg > * { position: relative; z-index: 1; }
 
 /* Navbar glass */
 .navbar-glass {
-  background: hsl(var(--background) / 0.85);
-  backdrop-filter: blur(16px);
+  background: rgba(5, 9, 19, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 /* Text helpers */
 .text-muted { color: #9db0ca; }
 .text-gold {
-  background: linear-gradient(135deg, #f8c36b, #e8a830);
+  background: linear-gradient(135deg, #f8c36b 0%, #e8a830 50%, #f0d68a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .text-primary { color: #7ce7ff; }
+
+/* Announcement marquee */
+.announcement-bar {
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.1), rgba(248, 195, 107, 0.1), rgba(56, 189, 248, 0.1));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 8px 0;
+}
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 30s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 32px;
+  color: #9db0ca;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.marquee-item .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #7ce7ff;
+}
 
 /* Stat item */
 .stat-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
 }
 
-/* Shop card */
+/* Shop card — gradient border + glow on hover */
 .card-glass {
-  background: rgba(10, 16, 32, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(10, 16, 32, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: 20px;
   transition: all 0.3s ease;
 }
 .card-glass:hover {
-  border-color: rgba(124, 231, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(124, 231, 255, 0.1);
-  transform: translateY(-2px);
+  border-color: rgba(124, 231, 255, 0.35);
+  box-shadow: 0 0 30px rgba(124, 231, 255, 0.08), 0 12px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+}
+
+/* Popular card variant */
+.card-popular {
+  border-color: rgba(124, 231, 255, 0.3) !important;
+  background: linear-gradient(135deg, rgba(10, 16, 32, 0.9), rgba(20, 30, 60, 0.85)) !important;
+  box-shadow: 0 0 40px rgba(124, 231, 255, 0.06);
+}
+.card-popular::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(124, 231, 255, 0.4), rgba(248, 195, 107, 0.3), rgba(124, 231, 255, 0.2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Popular badge */
+.badge-popular {
+  position: absolute;
+  top: -1px;
+  right: 16px;
+  background: linear-gradient(135deg, #7ce7ff, #38bdf8);
+  color: #050913;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 0 0 8px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Feature list in cards */
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #9db0ca;
+  padding: 3px 0;
+}
+.feature-list li::before {
+  content: '✓';
+  color: #34d399;
+  font-weight: 700;
+  font-size: 0.75rem;
 }
 
 /* Buy button */
@@ -429,9 +558,16 @@
 /* Hero banner */
 .hero-banner {
   background:
-    radial-gradient(ellipse at 30% 50%, rgba(124, 231, 255, 0.08), transparent 60%),
-    radial-gradient(ellipse at 70% 30%, rgba(248, 195, 107, 0.06), transparent 50%);
+    radial-gradient(ellipse at 30% 50%, rgba(124, 231, 255, 0.1), transparent 60%),
+    radial-gradient(ellipse at 70% 20%, rgba(248, 195, 107, 0.08), transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(56, 189, 248, 0.04), transparent 60%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Enhanced footer */
+.shop-footer {
+  background: rgba(5, 9, 19, 0.6);
+  backdrop-filter: blur(8px);
 }
 
 /* Custom Scrollbar */
