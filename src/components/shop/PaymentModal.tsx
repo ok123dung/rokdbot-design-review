@@ -212,7 +212,7 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
 
             <div className="flex gap-3 justify-center">
               <a
-                href="https://discord.gg/YOUR_INVITE"
+                href="https://discord.gg/UPuFYCw4JG"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"
@@ -221,7 +221,7 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
                 Discord
               </a>
               <a
-                href="https://zalo.me/g/YOUR_GROUP"
+                href="https://zalo.me/g/rqgqyd878"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"

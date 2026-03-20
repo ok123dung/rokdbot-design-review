@@ -26,7 +26,7 @@ export function Navbar({ onOrderLookup }: NavbarProps) {
             <span>Tra cứu đơn</span>
           </button>
           <a
-            href="https://discord.gg/YOUR_INVITE"
+            href="https://discord.gg/UPuFYCw4JG"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary text-sm"
@@ -35,7 +35,7 @@ export function Navbar({ onOrderLookup }: NavbarProps) {
             <span>Discord</span>
           </a>
           <a
-            href="https://zalo.me/g/YOUR_GROUP"
+            href="https://zalo.me/g/rqgqyd878"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary text-sm"
@@ -64,7 +64,7 @@ export function Navbar({ onOrderLookup }: NavbarProps) {
             Tra cứu đơn
           </button>
           <a
-            href="https://discord.gg/YOUR_INVITE"
+            href="https://discord.gg/UPuFYCw4JG"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary text-sm w-full justify-center"
@@ -73,7 +73,7 @@ export function Navbar({ onOrderLookup }: NavbarProps) {
             Discord
           </a>
           <a
-            href="https://zalo.me/g/YOUR_GROUP"
+            href="https://zalo.me/g/rqgqyd878"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary text-sm w-full justify-center"

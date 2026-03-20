@@ -174,35 +174,7 @@ const handler = async (req: Request): Promise<Response> => {
       // Don't fail the webhook for email errors
     }
 
-    // Send Telegram notification to admin
-    try {
-      const telegramToken = Deno.env.get("TELEGRAM_BOT_TOKEN");
-      const adminChatId = Deno.env.get("TELEGRAM_ADMIN_CHAT_ID");
-
-      if (telegramToken && adminChatId) {
-        const telegramMsg =
-          `Payment Received!\n\n` +
-          `Code: ROK ${paymentCode}\n` +
-          `Amount: ${receivedAmount.toLocaleString()}d\n` +
-          `Order: #${order.id.slice(0, 8).toUpperCase()}`;
-
-        await fetch(
-          `https://api.telegram.org/bot${telegramToken}/sendMessage`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              chat_id: adminChatId,
-              text: telegramMsg,
-            }),
-          }
-        );
-        console.log("Telegram notification sent");
-      }
-    } catch (tgError) {
-      console.error("Telegram notification failed:", tgError);
-      // Don't fail the webhook for Telegram errors
-    }
+    // Discord notification is handled by send-order-notification (email + Discord webhook)
 
     return new Response(
       JSON.stringify({ 

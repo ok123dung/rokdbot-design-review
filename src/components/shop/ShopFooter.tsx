@@ -19,7 +19,7 @@ export function ShopFooter() {
 
           <div className="flex items-center gap-3">
             <a
-              href="https://discord.gg/YOUR_INVITE"
+              href="https://discord.gg/UPuFYCw4JG"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted hover:text-primary transition text-sm"
@@ -27,7 +27,7 @@ export function ShopFooter() {
               Discord
             </a>
             <a
-              href="https://zalo.me/g/YOUR_GROUP"
+              href="https://zalo.me/g/rqgqyd878"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted hover:text-primary transition text-sm"
