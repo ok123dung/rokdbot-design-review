@@ -20,6 +20,12 @@ i18n
   .init({
     resources,
     fallbackLng: 'vi',
+    // Strip region (e.g. `vi-VN` → `vi`) so detector matches our language-only resources.
+    // Without this, a fresh visitor with browser locale `vi-VN` falls through every
+    // `currentLang === "vi"` check in SEO.tsx and gets the zh_CN fallback.
+    load: 'languageOnly',
+    supportedLngs: ['vi', 'en', 'ko', 'zh'],
+    nonExplicitSupportedLngs: true,
     interpolation: {
       escapeValue: false,
     },

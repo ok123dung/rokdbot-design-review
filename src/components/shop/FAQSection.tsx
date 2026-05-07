@@ -1,32 +1,6 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-
-const faqs = [
-  {
-    q: "Bot có an toàn không? Account có bị ban không?",
-    a: "Bot RokdBot sử dụng công nghệ giả lập hành vi người chơi thật, giảm thiểu tối đa rủi ro. Tuy nhiên, việc sử dụng bot luôn có rủi ro nhất định — chúng tôi khuyến khích đọc kỹ Điều khoản dịch vụ.",
-  },
-  {
-    q: "Thanh toán như thế nào?",
-    a: "Chọn gói → Scan QR code VietQR → Hệ thống tự động xác nhận trong vài giây. Hỗ trợ chuyển khoản ngân hàng HD Bank.",
-  },
-  {
-    q: "Bao lâu bot bắt đầu chạy?",
-    a: "Sau khi thanh toán và gửi thông tin account qua Discord/Zalo, bot sẽ được setup và bắt đầu chạy trong vòng 24 giờ.",
-  },
-  {
-    q: "Có hoàn tiền không?",
-    a: "Có hỗ trợ hoàn tiền trong 24h đầu nếu bot chưa được activate. Sau khi bot đã chạy, không hỗ trợ hoàn tiền.",
-  },
-  {
-    q: "Hỗ trợ những server nào?",
-    a: "RokdBot hỗ trợ tất cả các server Rise of Kingdoms, bao gồm cả server mới mở.",
-  },
-  {
-    q: "Làm sao theo dõi tiến độ bot?",
-    a: "Liên hệ admin qua Discord/Zalo để nhận báo cáo tiến độ. Chúng tôi sẽ gửi screenshot và thống kê định kỳ.",
-  },
-];
+import { faqs } from "./faq-data";
 
 export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);

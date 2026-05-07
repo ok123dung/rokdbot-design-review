@@ -76,14 +76,14 @@ export function HeroBanner() {
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-[#9db0ca] max-w-2xl mx-auto leading-relaxed mb-4">
+          <p className="hero-sub text-lg md:text-xl text-[#9db0ca] max-w-2xl mx-auto leading-relaxed mb-4">
             Dịch vụ treo bot trên cloud server — bạn không cần cài đặt gì.
             <br className="hidden md:block" />
             Thanh toán tự động, bot chạy trong 24h. Hỗ trợ VietQR & PayPal.
           </p>
 
-          {/* Unique selling point badge */}
-          <div className="inline-flex items-center gap-2 bg-[#fb7185]/10 border border-[#fb7185]/25 rounded-full px-5 py-2 mb-8">
+          {/* Unique selling point badge — `usp-pill` is a Speakable hook (see WebPage schema in index.html) */}
+          <div className="usp-pill inline-flex items-center gap-2 bg-[#fb7185]/10 border border-[#fb7185]/25 rounded-full px-5 py-2 mb-8">
             <Zap className="w-4 h-4 text-[#fb7185]" />
             <span className="text-sm text-[#fb7185] font-medium">29 tính năng tự động • Combo Spam + Luring + AOE độc quyền</span>
           </div>

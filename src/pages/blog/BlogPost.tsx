@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { Gamepad2, Clock, ArrowLeft } from "lucide-react";
-import { SEO } from "@/components/SEO";
+import { SEO, countWords } from "@/components/SEO";
 import { blogPosts } from "./blogData";
 
 export default function BlogPost() {
@@ -48,7 +48,15 @@ export default function BlogPost() {
         title={post.title}
         description={post.description}
         url={`/blog/${post.slug}`}
+        type="article"
         keywords={`Rise of Kingdoms, RoK, ${post.title}, RokdBot`}
+        image={post.coverImage}
+        article={{
+          datePublished: post.date,
+          author: post.author ?? "RokdBot Team",
+          section: "Hướng dẫn Rise of Kingdoms",
+          wordCount: countWords(post.content),
+        }}
       />
 
       <nav className="navbar-glass border-b border-white/10 sticky top-0 z-50">
