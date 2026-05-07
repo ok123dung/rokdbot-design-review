@@ -39,7 +39,8 @@
     <link rel="canonical" href="https://rokdbot.com" />
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/favicon.ico" />
     
     <!-- PWA Manifest -->
@@ -51,12 +52,18 @@
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://hkiugdrjvvkakbdskjlw.supabase.co" crossorigin />
     <link rel="dns-prefetch" href="https://hkiugdrjvvkakbdskjlw.supabase.co" />
+
+    <!-- Google Fonts: Orbitron (display) + Inter (body) + JetBrains Mono (numeric) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
     
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
+      "@id": "https://rokdbot.com/#organization",
       "name": "RokdBot",
       "url": "https://rokdbot.com",
       "logo": "https://rokdbot.com/favicon.ico",
@@ -71,6 +78,41 @@
         "https://discord.gg/UPuFYCw4JG",
         "https://facebook.com/rokdbot"
       ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://rokdbot.com/#website",
+      "url": "https://rokdbot.com/",
+      "name": "RokdBot",
+      "description": "Bot Farm Rise of Kingdoms #1 Việt Nam",
+      "inLanguage": "vi-VN",
+      "publisher": { "@id": "https://rokdbot.com/#organization" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://rokdbot.com/tra-cuu?ma={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://rokdbot.com/#webpage",
+      "url": "https://rokdbot.com/",
+      "name": "RokdBot — Bot Farm Rise of Kingdoms",
+      "isPartOf": { "@id": "https://rokdbot.com/#website" },
+      "about": { "@id": "https://rokdbot.com/#organization" },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": ["h1", ".hero-sub", ".usp-pill"]
+      }
     }
     </script>
     <script type="application/ld+json">
@@ -163,54 +205,9 @@
       }
     }
     </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "RokdBot là gì?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "RokdBot là dịch vụ bot farm tự động cho game Rise of Kingdoms, giúp bạn thu thập tài nguyên và phát triển tài khoản 24/7."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Bot có an toàn không?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Chúng tôi sử dụng công nghệ tiên tiến để đảm bảo an toàn tối đa cho tài khoản của bạn với tỷ lệ ban cực thấp."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Làm sao để bắt đầu sử dụng?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Đăng ký tài khoản, chọn gói dịch vụ phù hợp, thanh toán và cung cấp thông tin đăng nhập game. Bot sẽ bắt đầu hoạt động trong vòng 24h."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Các gói dịch vụ có giá bao nhiêu?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "RokdBot cung cấp 4 gói dịch vụ: Weekly 150,000đ (7 ngày), V1 750,000đ (30 ngày), V2 Premium 900,000đ (30 ngày), và V3 Ultimate 1,200,000đ (30 ngày)."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Hỗ trợ khách hàng như thế nào?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "RokdBot hỗ trợ khách hàng 24/7 qua Zalo, Discord và Facebook. Đội ngũ hỗ trợ sẵn sàng giải đáp mọi thắc mắc của bạn."
-          }
-        }
-      ]
-    }
-    </script>
+    <!-- FAQPage schema is emitted by the React `<SEO faq={faqs}>` on the home route only,
+         keeping it in sync with the visible FAQSection. Removed from this static head
+         to avoid duplication on /blog, /admin, etc. and FAQ-content drift. -->
 
     <!-- Cloudflare Web Analytics — privacy-first, no cookies, no GDPR consent needed -->
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "fd38bb57e8c547fea0d3260a9733a8ab"}'></script>

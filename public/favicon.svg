@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#050913"></stop>
+      <stop offset="100%" stop-color="#0a1428"></stop>
+    </linearGradient>
+    <linearGradient id="letter" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7ce7ff"></stop>
+      <stop offset="50%" stop-color="#ffffff"></stop>
+      <stop offset="100%" stop-color="#f8c36b"></stop>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="64" height="64" rx="13" fill="url(#bg)"></rect>
+  <rect x="3" y="3" width="58" height="58" rx="11" fill="none" stroke="#7ce7ff" stroke-width="2" opacity="0.8"></rect>
+  <text x="32" y="46" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="42" font-weight="900" text-anchor="middle" fill="url(#letter)" filter="url(#glow)">R</text>
+</svg>

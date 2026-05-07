@@ -6,91 +6,92 @@
 
 @layer base {
   :root {
-    --background: 240 15% 6%;
+    /* === Tokens v2 — Neon Arena === */
+    --background: 230 18% 7%;
     --foreground: 0 0% 98%;
 
-    --card: 240 15% 9%;
+    --card: 230 16% 11%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 240 15% 9%;
+    --popover: 230 14% 15%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 175 100% 45%;
-    --primary-foreground: 240 15% 6%;
+    --primary: 190 100% 55%;
+    --primary-foreground: 230 18% 7%;
 
-    --secondary: 280 70% 55%;
+    --secondary: 325 95% 62%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 240 10% 16%;
-    --muted-foreground: 240 5% 55%;
+    --muted: 230 12% 22%;
+    --muted-foreground: 225 10% 65%;
 
-    --accent: 40 100% 55%;
-    --accent-foreground: 240 15% 6%;
+    --accent: 45 100% 60%;
+    --accent-foreground: 230 18% 7%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 80% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 10% 16%;
-    --input: 240 10% 16%;
-    --ring: 175 100% 45%;
+    --border: 230 12% 22%;
+    --input: 230 12% 22%;
+    --ring: 190 100% 55%;
 
     --radius: 0.875rem;
 
-    /* Gaming specific colors */
-    --gaming-cyan: 175 100% 45%;
-    --gaming-purple: 280 70% 55%;
-    --gaming-orange: 30 100% 55%;
+    /* Gaming specific colors (v2 mapping — drives existing utility classes) */
+    --gaming-cyan: 190 100% 55%;
+    --gaming-purple: 325 95% 62%;
+    --gaming-orange: 45 100% 60%;
     --gaming-pink: 330 90% 60%;
-    --gaming-green: 150 80% 45%;
+    --gaming-green: 155 70% 50%;
     --gaming-blue: 210 100% 55%;
 
-    --sidebar-background: 240 15% 9%;
+    --sidebar-background: 230 16% 11%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 175 100% 45%;
-    --sidebar-primary-foreground: 240 15% 6%;
-    --sidebar-accent: 240 10% 16%;
+    --sidebar-primary: 190 100% 55%;
+    --sidebar-primary-foreground: 230 18% 7%;
+    --sidebar-accent: 230 12% 22%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 10% 16%;
-    --sidebar-ring: 175 100% 45%;
+    --sidebar-border: 230 12% 22%;
+    --sidebar-ring: 190 100% 55%;
   }
 
   .dark {
-    --background: 240 15% 6%;
+    --background: 230 18% 7%;
     --foreground: 0 0% 98%;
 
-    --card: 240 15% 9%;
+    --card: 230 16% 11%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 240 15% 9%;
+    --popover: 230 14% 15%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 175 100% 45%;
-    --primary-foreground: 240 15% 6%;
+    --primary: 190 100% 55%;
+    --primary-foreground: 230 18% 7%;
 
-    --secondary: 280 70% 55%;
+    --secondary: 325 95% 62%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 240 10% 16%;
-    --muted-foreground: 240 5% 55%;
+    --muted: 230 12% 22%;
+    --muted-foreground: 225 10% 65%;
 
-    --accent: 40 100% 55%;
-    --accent-foreground: 240 15% 6%;
+    --accent: 45 100% 60%;
+    --accent-foreground: 230 18% 7%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 10% 16%;
-    --input: 240 10% 16%;
-    --ring: 175 100% 45%;
+    --border: 230 12% 22%;
+    --input: 230 12% 22%;
+    --ring: 190 100% 55%;
 
-    --sidebar-background: 240 15% 9%;
+    --sidebar-background: 230 16% 11%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 175 100% 45%;
-    --sidebar-primary-foreground: 240 15% 6%;
-    --sidebar-accent: 240 10% 16%;
+    --sidebar-primary: 190 100% 55%;
+    --sidebar-primary-foreground: 230 18% 7%;
+    --sidebar-accent: 230 12% 22%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 10% 16%;
-    --sidebar-ring: 175 100% 45%;
+    --sidebar-border: 230 12% 22%;
+    --sidebar-ring: 190 100% 55%;
   }
 }
 
@@ -105,11 +106,27 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    background-image: 
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background-image:
       radial-gradient(ellipse at 20% 0%, hsl(var(--gaming-purple) / 0.12) 0%, transparent 50%),
       radial-gradient(ellipse at 80% 20%, hsl(var(--gaming-cyan) / 0.08) 0%, transparent 40%),
       radial-gradient(ellipse at 40% 80%, hsl(var(--gaming-blue) / 0.06) 0%, transparent 40%);
     background-attachment: fixed;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  /* Numeric / stat values get tabular mono for dashboard feel */
+  .stat-item > span:first-child,
+  .stat-item .text-2xl,
+  .stat-item .text-3xl,
+  .stat-item .text-4xl {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-feature-settings: 'tnum';
+    letter-spacing: -0.02em;
   }
 }
 

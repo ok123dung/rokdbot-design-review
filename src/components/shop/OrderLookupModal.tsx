@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 
 interface OrderLookupModalProps {
   onClose: () => void;
+  /** Optional pre-filled order code (from URL `?ma=XXX` or deep links) */
+  initialCode?: string;
 }
 
 interface OrderInfo {
@@ -24,8 +26,8 @@ const statusMap: Record<string, { label: string; color: string }> = {
   cancelled: { label: "Đã hủy", color: "text-red-400" },
 };
 
-export function OrderLookupModal({ onClose }: OrderLookupModalProps) {
-  const [code, setCode] = useState("");
+export function OrderLookupModal({ onClose, initialCode }: OrderLookupModalProps) {
+  const [code, setCode] = useState(initialCode ?? "");
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<OrderInfo | null>(null);
   const [notFound, setNotFound] = useState(false);
