@@ -1,199 +1,132 @@
-import { useState } from "react";
+// V3 redesign: Accordion 6 nhóm cũ → Bento grid 12 ô, 3 cụm Combat / Farm / Safety.
+// Largest centerpiece: Combo Spam + Luring + AOE (gold, span-2).
 import {
-  Wheat, Gem, Swords, Castle, Users, Shield,
-  ChevronDown, Zap, Star
+  Sword,
+  Shield,
+  Settings,
+  Wheat,
+  Bot,
+  Cloud,
+  Target,
+  Zap,
+  Wallet,
+  Bell,
 } from "lucide-react";
 
-interface FeatureGroup {
-  title: string;
-  icon: React.ElementType;
-  color: string;
-  isHighlight?: boolean;
-  features: { name: string; desc: string; unique?: boolean }[];
-}
-
-const groups: FeatureGroup[] = [
-  {
-    title: "Farm & Gather",
-    icon: Wheat,
-    color: "#34d399",
-    features: [
-      { name: "Gather Resources", desc: "Auto farm food, wood, stone, gold trên map 24/7" },
-      { name: "Collect Gems", desc: "Farm gem tối ưu ở Home Kingdom + KvK map" },
-      { name: "Alliance Territory RSS", desc: "Thu hoạch tài nguyên trong lãnh thổ alliance" },
-      { name: "City Resources", desc: "Thu hoạch tài nguyên trong thành phố" },
-      { name: "Transport Resources", desc: "Điều động/vận chuyển tài nguyên giữa các acc" },
-      { name: "Auto Use Items", desc: "Tự dùng resource items, keys từ inventory" },
-      { name: "Auto Use Speedups", desc: "Tự dùng tăng tốc theo cấu hình" },
-    ],
-  },
-  {
-    title: "Combat",
-    icon: Swords,
-    color: "#fb7185",
-    isHighlight: true,
-    features: [
-      { name: "Fight Barbarians", desc: "Đánh man rợ đơn lẻ, farm AP + XP" },
-      { name: "Spam Barbarians", desc: "Gọi man rợ xuất hiện xung quanh bằng items triệu hồi", unique: true },
-      { name: "Barbarian Luring + AOE", desc: "Kéo man rợ lại gần → dùng skill AOE đánh cùng lúc, farm AP gấp 3-5x", unique: true },
-      { name: "Farm Marauders & Events", desc: "Auto farm Lohar, Marauders, event đặc biệt" },
-      { name: "Participate in Rally", desc: "Tự động tham gia rally alliance" },
-    ],
-  },
-  {
-    title: "City & Development",
-    icon: Castle,
-    color: "#38bdf8",
-    features: [
-      { name: "Upgrade Buildings", desc: "Auto upgrade buildings theo priority" },
-      { name: "Research Technology", desc: "Auto research công nghệ liên tục" },
-      { name: "Train Troops", desc: "Auto train binh tất cả loại" },
-    ],
-  },
-  {
-    title: "Alliance",
-    icon: Users,
-    color: "#a78bfa",
-    features: [
-      { name: "Help Alliance", desc: "Auto bấm help cho alliance members" },
-      { name: "Alliance Gifts", desc: "Auto nhận quà alliance" },
-      { name: "Donate Tech", desc: "Auto donate công nghệ alliance" },
-      { name: "Open Report/Mail", desc: "Auto mở và xử lý thư/báo cáo" },
-    ],
-  },
-  {
-    title: "Daily Tasks & Collection",
-    icon: Star,
-    color: "#f8c36b",
-    features: [
-      { name: "VIP Gifts", desc: "Auto nhận quà VIP hàng ngày" },
-      { name: "Daily Task Chests", desc: "Auto mở rương nhiệm vụ" },
-      { name: "Free Tavern Chests", desc: "Auto mở rương miễn phí quán rượu" },
-      { name: "Tribal Villages", desc: "Auto thăm làng bộ lạc" },
-      { name: "Mysterious Caves", desc: "Auto khám phá hang động (High/Medium/Low)" },
-      { name: "Explore Fog", desc: "Auto khám phá sương mù bản đồ" },
-    ],
-  },
-  {
-    title: "Safety & Utility",
-    icon: Shield,
-    color: "#34d399",
-    features: [
-      { name: "Heal Troops", desc: "Auto chữa thương binh" },
-      { name: "Auto Shield", desc: "Tự bật khiên bảo vệ thành" },
-      { name: "Auto Captcha", desc: "Tự giải captcha khi game yêu cầu" },
-      { name: "Teleport", desc: "Auto di chuyển/du lịch thành phố" },
-    ],
-  },
-];
-
 export function FeaturesSection() {
-  const [expandedGroup, setExpandedGroup] = useState<number | null>(1); // Combat open by default
-
-  const totalFeatures = groups.reduce((sum, g) => sum + g.features.length, 0);
-  const uniqueCount = groups.reduce(
-    (sum, g) => sum + g.features.filter((f) => f.unique).length, 0
-  );
-
   return (
-    <section className="max-w-[1240px] mx-auto px-4 py-16">
-      <div className="text-center mb-10">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-          <span className="text-gold">{totalFeatures}</span> tính năng tự động hóa
+    <section className="max-w-[1240px] mx-auto px-4 py-20 md:py-24" id="features">
+      <header className="max-w-[720px] mx-auto text-center mb-12 md:mb-14">
+        <span className="section-eyebrow">Capabilities</span>
+        <h2 className="text-3xl md:text-4xl text-white mb-3 leading-tight" style={{ textWrap: "balance" } as React.CSSProperties}>
+          Một bộ công cụ, <span className="gold-grad">phục vụ mọi giai đoạn KvK.</span>
         </h2>
-        <p className="text-[#9db0ca] max-w-lg mx-auto">
-          Bao gồm {uniqueCount} tính năng độc quyền không đối thủ nào có.
-          <br />
-          Cloud hosted — bạn không cần cài đặt gì.
+        <p className="text-[17px] text-[#9db0ca] leading-relaxed">
+          12 năng lực cốt lõi, gom thành 3 cụm: Combat — Farm — Safety. Tất cả đều đã chiến đấu thật trên server.
         </p>
-      </div>
+      </header>
 
-      {/* Unique combo highlight */}
-      <div className="card-glass p-5 mb-8 border-[#fb7185]/30" style={{ background: "linear-gradient(135deg, rgba(251,113,133,0.08), rgba(10,16,32,0.9))" }}>
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-lg bg-[#fb7185]/15 flex items-center justify-center shrink-0">
-            <Zap className="w-5 h-5 text-[#fb7185]" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-white font-bold">Combo độc quyền: Spam + Luring + AOE</h3>
-              <span className="text-[10px] font-bold bg-[#fb7185]/20 text-[#fb7185] px-2 py-0.5 rounded-full">ONLY ROKDBOT</span>
+      <div className="bento-grid">
+        {/* Row 1 — gold span-2 centerpiece */}
+        <div className="bento span-2 gold">
+          <div className="flex gap-3.5 items-start">
+            <div className="bento-icon"><Sword className="w-5 h-5" /></div>
+            <div>
+              <div className="bento-tag">Combat · Độc quyền V2+</div>
+              <h3>Combo Spam + Luring + AOE</h3>
             </div>
-            <p className="text-[#9db0ca] text-sm leading-relaxed">
-              Gọi man rợ xuất hiện xung quanh → Kéo man rợ lại gần nhau → Dùng skill AOE đánh cùng lúc.
-              Farm AP/XP nhanh gấp <strong className="text-white">3-5 lần</strong> so với đánh thường. Không bot nào khác có combo này.
-            </p>
+          </div>
+          <p>
+            Bot Spam troops duy trì áp lực → Luring quân địch vào vị trí lý tưởng → kích hoạt AOE skill commander đúng frame. Tính năng chỉ có ở RokdBot.
+          </p>
+          <div className="bento-mini-stat">
+            <div><div className="v">+300%</div><div className="l">Honor / KvK</div></div>
+            <div><div className="v">25/29</div><div className="l">tính năng V2</div></div>
+            <div><div className="v">24h</div><div className="l">kích hoạt</div></div>
+          </div>
+          <div className="bento-arc" />
+        </div>
+
+        <div className="bento">
+          <div className="bento-icon"><Shield className="w-5 h-5" /></div>
+          <div className="bento-tag">Safety</div>
+          <h3>IP riêng + Anti-detect</h3>
+          <p>Mỗi khách một IP cloud server riêng. Tỷ lệ ban &lt;0,1%. Hoàn 100% + 1 tháng free nếu acc bị ban do bot.</p>
+        </div>
+
+        <div className="bento">
+          <div className="bento-icon"><Settings className="w-5 h-5" /></div>
+          <div className="bento-tag">Combat</div>
+          <h3>Auto Rally Captain</h3>
+          <p>Tự đánh giá fortress, barb level và launch rally đúng phút. Stack rage và trigger active skill tự động.</p>
+        </div>
+
+        {/* Row 2 */}
+        <div className="bento">
+          <div className="bento-icon"><Wheat className="w-5 h-5" /></div>
+          <div className="bento-tag">Farm</div>
+          <h3>Farm 4 loại RSS</h3>
+          <p>Auto gather Food / Wood / Stone / Gold trong territory alliance. Chọn tile Lv5+ để tối ưu yield/h.</p>
+        </div>
+
+        <div className="bento gold">
+          <div className="bento-icon"><Bot className="w-5 h-5" /></div>
+          <div className="bento-tag">V3 Ultimate</div>
+          <h3>AI Commander Rotation</h3>
+          <p>Công nghệ độc quyền gói V3. Tự đổi commander pairing theo mục tiêu (farm / KvK / SoG) — tối ưu từng phase.</p>
+          <div className="bento-bullet">
+            <span className="bento-chip">29/29 tính năng</span>
+            <span className="bento-chip">Multi-account sync</span>
           </div>
         </div>
-      </div>
 
-      {/* Feature groups */}
-      <div className="space-y-3">
-        {groups.map((group, gi) => (
-          <div key={gi} className="card-glass overflow-hidden" style={{ padding: 0 }}>
-            <button
-              onClick={() => setExpandedGroup(expandedGroup === gi ? null : gi)}
-              className="w-full flex items-center justify-between p-4 text-left"
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-9 h-9 rounded-lg flex items-center justify-center"
-                  style={{ background: `${group.color}15` }}
-                >
-                  <group.icon className="w-5 h-5" style={{ color: group.color }} />
-                </div>
-                <div>
-                  <span className="text-white font-semibold">{group.title}</span>
-                  {group.isHighlight && (
-                    <span className="ml-2 text-[10px] font-bold bg-[#fb7185]/20 text-[#fb7185] px-2 py-0.5 rounded-full">
-                      2 UNIQUE
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-[#9db0ca] text-sm">{group.features.length} features</span>
-                <ChevronDown
-                  className={`w-5 h-5 text-[#9db0ca] transition-transform duration-200 ${
-                    expandedGroup === gi ? "rotate-180" : ""
-                  }`}
-                />
-              </div>
-            </button>
-
-            {expandedGroup === gi && (
-              <div className="px-4 pb-4 pt-0">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {group.features.map((f, fi) => (
-                    <div
-                      key={fi}
-                      className={`flex items-start gap-2.5 p-3 rounded-lg ${
-                        f.unique
-                          ? "bg-[#fb7185]/8 border border-[#fb7185]/20"
-                          : "bg-white/[0.02]"
-                      }`}
-                    >
-                      <span className={`text-xs mt-0.5 ${f.unique ? "text-[#fb7185]" : "text-[#34d399]"}`}>
-                        {f.unique ? "★" : "✓"}
-                      </span>
-                      <div>
-                        <p className="text-white text-sm font-medium">
-                          {f.name}
-                          {f.unique && (
-                            <span className="ml-1.5 text-[9px] font-bold bg-[#fb7185]/20 text-[#fb7185] px-1.5 py-0.5 rounded">
-                              UNIQUE
-                            </span>
-                          )}
-                        </p>
-                        <p className="text-[#9db0ca] text-xs leading-relaxed">{f.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+        <div className="bento span-2">
+          <div className="flex gap-3.5 items-start">
+            <div className="bento-icon"><Cloud className="w-5 h-5" /></div>
+            <div>
+              <div className="bento-tag">Infrastructure</div>
+              <h3>Cloud server + IP riêng — không cần máy của bạn</h3>
+            </div>
           </div>
-        ))}
+          <p>
+            Bot chạy trên hạ tầng cloud do RokdBot vận hành. Mỗi khách IP riêng — không share, không pattern detect. Tắt máy, đi ngủ, đi du lịch — bot vẫn farm.
+          </p>
+          <div className="bento-bullet">
+            <span className="bento-chip">IP riêng</span>
+            <span className="bento-chip">Uptime ≥99%</span>
+            <span className="bento-chip">AES-256 bảo mật login</span>
+            <span className="bento-chip">VietQR kích hoạt 24h</span>
+          </div>
+        </div>
+
+        {/* Row 3 */}
+        <div className="bento">
+          <div className="bento-icon"><Target className="w-5 h-5" /></div>
+          <div className="bento-tag">KvK</div>
+          <h3>Auto Honor farming</h3>
+          <p>Hit barbarian, fortress, garrison mục tiêu để tối ưu Honor + Kill points cho KvK season.</p>
+        </div>
+
+        <div className="bento">
+          <div className="bento-icon"><Zap className="w-5 h-5" /></div>
+          <div className="bento-tag">City</div>
+          <h3>Auto build & research</h3>
+          <p>Auto-spend free speedup, auto-claim daily, auto-upgrade theo template VIP / F2P. Không bỏ lỡ reward.</p>
+        </div>
+
+        <div className="bento gold">
+          <div className="bento-icon"><Wallet className="w-5 h-5" /></div>
+          <div className="bento-tag">Pricing</div>
+          <h3>Mua nhiều tháng giảm sâu</h3>
+          <p>3 tháng ⋅ -10%. 6 tháng ⋅ -15%. 12 tháng ⋅ -25%. Liên hệ Discord #payment-help.</p>
+        </div>
+
+        <div className="bento">
+          <div className="bento-icon"><Bell className="w-5 h-5" /></div>
+          <div className="bento-tag">Support</div>
+          <h3>Discord & Zalo · 24/7</h3>
+          <p>Phản hồi &lt;5 phút giờ hành chính. Tra cứu đơn, báo lỗi, support kỹ thuật qua Discord/Zalo.</p>
+        </div>
       </div>
     </section>
   );

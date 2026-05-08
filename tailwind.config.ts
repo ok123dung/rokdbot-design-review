@@ -65,8 +65,10 @@ export default {
         },
       },
       fontFamily: {
-        display: ["Orbitron", "system-ui", "sans-serif"],
-        body: ["Inter", "system-ui", "sans-serif"],
+        display: ["Be Vietnam Pro", "system-ui", "sans-serif"],
+        body: ["Be Vietnam Pro", "Inter", "system-ui", "sans-serif"],
+        tech: ["Space Grotesk", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
       borderRadius: {
         lg: "var(--radius)",

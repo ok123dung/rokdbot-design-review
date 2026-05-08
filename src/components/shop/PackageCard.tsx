@@ -1,5 +1,3 @@
-import { Crown } from "lucide-react";
-
 interface PackageCardProps {
   id: string;
   name: string;
@@ -9,10 +7,13 @@ interface PackageCardProps {
   features: string[] | null;
   stock: number | null;
   soldCount: number;
-  isPopular?: boolean;
+  isFeatured?: boolean;
   onBuy: (id: string) => void;
 }
 
+// V3 redesign card.
+// `isFeatured` triggers the elevated centerpiece: bigger padding, gold glow,
+// gold-gradient price, "★ Phổ biến nhất" badge.
 export function PackageCard({
   id,
   name,
@@ -22,65 +23,64 @@ export function PackageCard({
   features,
   stock,
   soldCount,
-  isPopular,
+  isFeatured,
   onBuy,
 }: PackageCardProps) {
   const remaining = stock !== null ? stock - soldCount : null;
   const outOfStock = remaining !== null && remaining <= 0;
+  const formattedPrice = `${price.toLocaleString("vi-VN")}đ`;
+  const unit = durationDays ? `/ ${durationDays} ngày` : "";
 
   return (
-    <div className={`card-glass relative ${isPopular ? "card-popular" : ""}`}>
-      {isPopular && <span className="badge-popular">Phổ biến</span>}
+    <div className={`pkg-card-v3 ${isFeatured ? "featured" : ""}`}>
+      {isFeatured && <div className="pkg-featured-badge">★ Phổ biến nhất</div>}
 
-      <div className="flex items-center gap-2 mb-2">
-        <Crown className={`w-5 h-5 ${isPopular ? "text-[#f8c36b]" : "text-[#7ce7ff]"}`} />
-        <h3 className="font-bold text-white text-lg">{name}</h3>
+      <div>
+        <div className="pkg-name-v3">{name}</div>
+        {description && <div className="pkg-tagline-v3">{description}</div>}
       </div>
 
-      {description && (
-        <p className="text-[#9db0ca] text-sm mb-4">{description}</p>
-      )}
+      <div className="pkg-price-v3">
+        <span className="num">{formattedPrice}</span>
+        {unit && <span className="unit">{unit}</span>}
+      </div>
 
-      {/* Features */}
       {features && features.length > 0 && (
-        <ul className="feature-list mb-4">
-          {features.slice(0, 4).map((f, i) => (
+        <ul className="pkg-features-v3">
+          {features.map((f, i) => (
             <li key={i}>{f}</li>
           ))}
         </ul>
       )}
 
-      {/* Price */}
-      <div className="flex items-end justify-between mb-4">
-        <div>
-          <span className="text-2xl font-extrabold text-gold font-mono">
-            {price.toLocaleString()}đ
-          </span>
-          {durationDays && (
-            <span className="text-[#9db0ca] text-sm ml-1">/ {durationDays} ngày</span>
-          )}
+      {/* Stock pill — kept above the CTA for honesty about availability */}
+      {remaining !== null && (
+        <div
+          className="text-xs font-medium px-2 py-1 rounded-full self-start"
+          style={{
+            background: outOfStock
+              ? "rgba(239,68,68,0.15)"
+              : remaining > 10
+              ? "rgba(34,197,94,0.15)"
+              : "rgba(234,179,8,0.18)",
+            color: outOfStock
+              ? "#fca5a5"
+              : remaining > 10
+              ? "#86efac"
+              : "#fde68a",
+          }}
+        >
+          {outOfStock ? "Hết hàng" : `Còn ${remaining}`}
         </div>
-        {remaining !== null && (
-          <span
-            className={`text-xs font-medium px-2 py-1 rounded-full ${
-              remaining > 10
-                ? "bg-green-500/15 text-green-400"
-                : remaining > 0
-                ? "bg-yellow-500/15 text-yellow-400"
-                : "bg-red-500/15 text-red-400"
-            }`}
-          >
-            {outOfStock ? "Hết hàng" : `Còn ${remaining}`}
-          </span>
-        )}
-      </div>
+      )}
 
       <button
+        type="button"
+        className="pkg-cta-v3"
         onClick={() => onBuy(id)}
         disabled={outOfStock}
-        className="btn-buy w-full"
       >
-        {outOfStock ? "Hết hàng" : "Mua ngay"}
+        {outOfStock ? "Hết hàng" : isFeatured ? `Mua ${name} với VietQR →` : `Đăng ký ${name} →`}
       </button>
     </div>
   );

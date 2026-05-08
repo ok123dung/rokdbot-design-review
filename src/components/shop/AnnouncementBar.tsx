@@ -1,23 +1,9 @@
+// V3 redesign: single static banner replaces marquee.
+// Highlights multi-month discount — direct, not noisy.
 export function AnnouncementBar() {
-  const messages = [
-    "Thanh toán tự động qua VietQR — nhận dịch vụ ngay!",
-    "Hỗ trợ 24/7 qua Discord & Zalo",
-    "Bot farm Rise of Kingdoms uy tín #1",
-    "Thanh toán tự động qua VietQR — nhận dịch vụ ngay!",
-    "Hỗ trợ 24/7 qua Discord & Zalo",
-    "Bot farm Rise of Kingdoms uy tín #1",
-  ];
-
   return (
-    <div className="announcement-bar">
-      <div className="marquee-track">
-        {messages.map((msg, i) => (
-          <span key={i} className="marquee-item">
-            <span className="dot" />
-            {msg}
-          </span>
-        ))}
-      </div>
+    <div className="announce">
+      <strong>★ Mua nhiều tháng giảm sâu</strong> — 3 tháng -10% · 6 tháng -15% · 12 tháng -25%.
     </div>
   );
 }
