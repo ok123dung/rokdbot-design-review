@@ -1,44 +1,33 @@
-import { Gamepad2, MessageCircle } from "lucide-react";
+// V3 redesign: cleaner copy, gradient background panel, two CTAs.
+import { MessageCircle } from "lucide-react";
 
 export function CTASection() {
   const scrollToPackages = () => {
-    const el = document.querySelector("h2");
-    if (el) {
-      const packagesHeading = Array.from(document.querySelectorAll("h2")).find(
-        (h) => h.textContent?.includes("Gói dịch vụ")
-      );
-      packagesHeading?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    const el = document.getElementById("packages");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
-    <section className="max-w-[1240px] mx-auto px-4 py-16">
-      <div
-        className="card-glass p-10 md:p-14 text-center"
-        style={{
-          background: "linear-gradient(135deg, rgba(124, 231, 255, 0.06), rgba(10, 16, 32, 0.9), rgba(248, 195, 107, 0.04))",
-          borderColor: "rgba(124, 231, 255, 0.15)",
-        }}
-      >
-        <Gamepad2 className="w-10 h-10 text-[#7ce7ff] mx-auto mb-4" />
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-          Sẵn sàng bắt đầu?
+    <section className="max-w-[1240px] mx-auto px-4 py-20 md:py-24" id="cta">
+      <div className="final-cta-v3">
+        <h2 className="text-3xl md:text-5xl text-white mb-4 leading-tight" style={{ textWrap: "balance" } as React.CSSProperties}>
+          Sẵn sàng để bot <span className="gold-grad">làm hộ phần việc nhàm chán?</span>
         </h2>
-        <p className="text-[#9db0ca] max-w-md mx-auto mb-8">
-          Chọn gói phù hợp và để bot làm việc cho bạn. Thanh toán tự động, setup trong 24h.
+        <p className="text-[17px] text-[#c8d3e3] max-w-[560px] mx-auto mb-7">
+          Gói Trial chỉ 150.000đ / 7 ngày. Thanh toán VietQR, kích hoạt trong 24h. Hoàn 100% nếu acc bị ban do bot.
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <button onClick={scrollToPackages} className="btn-buy px-8 py-3 text-base">
-            Chọn gói ngay
+        <div className="flex flex-col sm:flex-row gap-3.5 justify-center flex-wrap">
+          <button onClick={scrollToPackages} className="btn-hero-primary">
+            Bắt đầu với gói Trial →
           </button>
           <a
             href="https://discord.gg/UPuFYCw4JG"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary px-8 py-3 text-base justify-center"
+            className="btn-hero-ghost justify-center"
           >
-            <MessageCircle className="w-5 h-5" />
-            Tư vấn qua Discord
+            <MessageCircle className="w-4 h-4" />
+            Tham gia Discord
           </a>
         </div>
       </div>

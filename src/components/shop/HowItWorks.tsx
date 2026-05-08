@@ -29,15 +29,16 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="max-w-[1240px] mx-auto px-4 py-16">
-      <div className="text-center mb-12">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-          Cách hoạt động
+    <section className="max-w-[1240px] mx-auto px-4 py-20 md:py-24" id="how-it-works">
+      <header className="max-w-[720px] mx-auto text-center mb-12 md:mb-14">
+        <span className="section-eyebrow">Quy trình</span>
+        <h2 className="text-3xl md:text-4xl text-white mb-3 leading-tight">
+          Cách hoạt động — <span className="cyan-grad">4 bước.</span>
         </h2>
-        <p className="text-[#9db0ca] max-w-lg mx-auto">
-          Chỉ 4 bước đơn giản để bot bắt đầu farm cho bạn.
+        <p className="text-[17px] text-[#9db0ca] leading-relaxed">
+          Từ thanh toán đến lúc bot chạy thật, mỗi bước rõ ràng và minh bạch.
         </p>
-      </div>
+      </header>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {steps.map((step, i) => (

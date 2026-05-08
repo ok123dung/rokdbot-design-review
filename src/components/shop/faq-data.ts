@@ -3,6 +3,8 @@
 //   - FAQSection.tsx  (visible UI)
 //   - Index.tsx → SEO.tsx (FAQPage JSON-LD schema)
 // Keep these in sync — Google flags FAQ schemas whose Q/A don't appear on the page.
+//
+// V3 redesign: 6 câu mới — focus vào ban rate, Combo độc quyền, VietQR, cloud, giảm giá, support.
 
 export interface FAQItem {
   q: string;
@@ -11,27 +13,27 @@ export interface FAQItem {
 
 export const faqs: FAQItem[] = [
   {
-    q: "Bot có an toàn không? Account có bị ban không?",
-    a: "Bot RokdBot sử dụng công nghệ giả lập hành vi người chơi thật, giảm thiểu tối đa rủi ro. Tuy nhiên, việc sử dụng bot luôn có rủi ro nhất định — chúng tôi khuyến khích đọc kỹ Điều khoản dịch vụ.",
+    q: "RokdBot có bị ban không?",
+    a: "Tỷ lệ ban <0,1% nhờ IP riêng + anti-detect nhiều lớp. Theo điều khoản, nếu account bị ban do lỗi của bot, RokdBot hoàn 100% phí + tặng 1 tháng miễn phí. Không bot nào tuyệt đối an toàn — chúng tôi khuyên dùng farm account thay vì main whale tier.",
   },
   {
-    q: "Thanh toán như thế nào?",
-    a: "Chọn gói → Scan QR code VietQR → Hệ thống tự động xác nhận trong vài giây. Hỗ trợ chuyển khoản ngân hàng HD Bank.",
+    q: "Combo Spam + Luring + AOE là gì?",
+    a: "Tính năng độc quyền chỉ có ở RokdBot (gói V2+). Bot tự Spam troops duy trì áp lực → Luring quân địch vào vị trí lý tưởng → kích hoạt AOE skill commander đúng frame để gây sát thương diện rộng. Hiệu quả farm Honor KvK tăng đến 300% so với chơi thủ công.",
   },
   {
-    q: "Bao lâu bot bắt đầu chạy?",
-    a: "Sau khi thanh toán và gửi thông tin account qua Discord/Zalo, bot sẽ được setup và bắt đầu chạy trong vòng 24 giờ.",
+    q: "Thanh toán bằng cách nào?",
+    a: "Quét VietQR bằng app banking (mọi ngân hàng VN). Hệ thống tự xác nhận trong 60 giây, gửi mã đơn ROKxxxxxx qua Discord/Zalo. Bot kích hoạt trong vòng 24h sau khi bạn cung cấp account.",
   },
   {
-    q: "Có hoàn tiền không?",
-    a: "Có hỗ trợ hoàn tiền trong 24h đầu nếu bot chưa được activate. Sau khi bot đã chạy, không hỗ trợ hoàn tiền.",
+    q: "Tôi có cần để máy mở 24/7?",
+    a: "Không. RokdBot chạy trên cloud server riêng do chúng tôi vận hành. Bạn chỉ cần đăng nhập dashboard để cấu hình và xem report. Bot vẫn hoạt động khi bạn tắt máy, đi ngủ, đi du lịch.",
   },
   {
-    q: "Hỗ trợ những server nào?",
-    a: "RokdBot hỗ trợ tất cả các server Rise of Kingdoms, bao gồm cả server mới mở.",
+    q: "Có giảm giá khi mua nhiều tháng không?",
+    a: "Có. Mua 3 tháng giảm 10%, 6 tháng giảm 15%, 12 tháng giảm 25%. Liên hệ Discord #payment-help để được báo giá và VietQR riêng.",
   },
   {
-    q: "Làm sao theo dõi tiến độ bot?",
-    a: "Liên hệ admin qua Discord/Zalo để nhận báo cáo tiến độ. Chúng tôi sẽ gửi screenshot và thống kê định kỳ.",
+    q: "Hỗ trợ ở đâu?",
+    a: "Discord chính: discord.gg/UPuFYCw4JG. Zalo: zalo.me/g/rqgqyd878. Phản hồi trung bình <5 phút giờ hành chính, <30 phút ngoài giờ.",
   },
 ];

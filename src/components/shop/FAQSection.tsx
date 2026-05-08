@@ -6,15 +6,13 @@ export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="max-w-[800px] mx-auto px-4 py-16">
-      <div className="text-center mb-12">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-          Câu hỏi thường gặp
+    <section className="max-w-[820px] mx-auto px-4 py-20 md:py-24" id="faq">
+      <header className="text-center mb-12 md:mb-14">
+        <span className="section-eyebrow">FAQ</span>
+        <h2 className="text-3xl md:text-4xl text-white mb-3 leading-tight" style={{ textWrap: "balance" } as React.CSSProperties}>
+          Câu hỏi <span className="cyan-grad">hay được hỏi nhất.</span>
         </h2>
-        <p className="text-[#9db0ca]">
-          Giải đáp thắc mắc phổ biến về dịch vụ RokdBot.
-        </p>
-      </div>
+      </header>
 
       <div className="space-y-3">
         {faqs.map((faq, i) => (

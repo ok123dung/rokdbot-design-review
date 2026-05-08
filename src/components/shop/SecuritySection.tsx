@@ -25,18 +25,15 @@ const points = [
 
 export function SecuritySection() {
   return (
-    <section className="max-w-[1240px] mx-auto px-4 py-16">
+    <section className="max-w-[1240px] mx-auto px-4 py-20 md:py-24" id="security">
       <div className="card-glass p-8 md:p-12" style={{ background: "linear-gradient(135deg, rgba(52, 211, 153, 0.05), rgba(10, 16, 32, 0.9))", borderColor: "rgba(52, 211, 153, 0.15)" }}>
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-1.5 mb-4">
-            <Shield className="w-4 h-4 text-green-400" />
-            <span className="text-sm text-green-400 font-medium">Bảo mật & An toàn</span>
-          </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-            Account của bạn được bảo vệ
+        <div className="max-w-[720px] mx-auto text-center mb-10">
+          <span className="section-eyebrow" style={{ background: "rgba(52, 211, 153, 0.1)", borderColor: "rgba(52, 211, 153, 0.3)", color: "#34d399" }}>Bảo mật & An toàn</span>
+          <h2 className="text-3xl md:text-4xl text-white mb-3 leading-tight">
+            Account của bạn <span className="gold-grad">được bảo vệ.</span>
           </h2>
-          <p className="text-[#9db0ca] max-w-lg mx-auto">
-            Chúng tôi đặt an toàn account của khách hàng lên hàng đầu.
+          <p className="text-[17px] text-[#9db0ca] leading-relaxed">
+            Chúng tôi đặt an toàn account của khách hàng lên hàng đầu — IP riêng, mã hóa AES-256, hành vi giả lập.
           </p>
         </div>
 

@@ -1,136 +1,221 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Gamepad2, Shield, Zap, Sword, Crown, Castle } from "lucide-react";
 
+// V3 Hero — Variant B (Live Dashboard).
+// Realtime stats fetched from Supabase feed the dashboard counters.
+// Log lines + map are visual-only mockups (no PII, no live game data).
 export function HeroBanner() {
-  const [stats, setStats] = useState({ totalOrders: 0, packages: 0, inStock: 0 });
+  const [supaStats, setSupaStats] = useState<{
+    totalOrders: number;
+    packages: number;
+    inStock: number;
+  } | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     async function fetchStats() {
-      const [ordersRes, packagesRes] = await Promise.all([
-        supabase.from("orders").select("id", { count: "exact", head: true }),
-        supabase.from("service_packages").select("id, stock, sold_count").eq("is_active", true),
-      ]);
-      const packages = packagesRes.data || [];
-      const inStock = packages.filter(
-        (p) => p.stock === null || p.sold_count < p.stock
-      ).length;
-      setStats({
-        totalOrders: ordersRes.count || 0,
-        packages: packages.length,
-        inStock,
-      });
+      try {
+        const [ordersRes, packagesRes] = await Promise.all([
+          supabase.from("orders").select("id", { count: "exact", head: true }),
+          supabase.from("service_packages").select("id, stock, sold_count").eq("is_active", true),
+        ]);
+        if (cancelled) return;
+        const packages = packagesRes.data || [];
+        const inStock = packages.filter((p) => p.stock === null || p.sold_count < p.stock).length;
+        setSupaStats({
+          totalOrders: ordersRes.count || 0,
+          packages: packages.length,
+          inStock,
+        });
+      } catch {
+        // Network/Supabase failure — leave fallback (null) → dashboard shows static values.
+        if (!cancelled) setSupaStats(null);
+      }
     }
     fetchStats();
+    return () => { cancelled = true; };
   }, []);
 
   return (
-    <div className="hero-banner relative overflow-hidden">
-      {/* Floating game-themed decorations */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Glowing orbs */}
-        <div className="absolute top-[15%] left-[8%] w-64 h-64 rounded-full bg-[#7ce7ff]/[0.07] blur-[80px] animate-float-slow" />
-        <div className="absolute top-[40%] right-[5%] w-80 h-80 rounded-full bg-[#f8c36b]/[0.06] blur-[100px] animate-float-slow-reverse" />
-        <div className="absolute bottom-[10%] left-[30%] w-48 h-48 rounded-full bg-[#a78bfa]/[0.08] blur-[60px] animate-float-slow" />
+    <section className="hero-v3" id="hero">
+      <div className="hero-v3-grid" aria-hidden="true" />
+      <div className="max-w-[1240px] mx-auto px-4 relative z-[1]">
+        <div className="hero-v3-content">
+          <HeroCopy />
+          <HeroDashboard supaStats={supaStats} />
+        </div>
+      </div>
+    </section>
+  );
+}
 
-        {/* Floating icons */}
-        <div className="hidden lg:block absolute top-[20%] left-[6%] opacity-[0.08] animate-float-slow">
-          <Sword className="w-20 h-20 text-[#7ce7ff]" />
+// ────────────────────────────────────────────────────────────
+// HERO COPY — left column
+// ────────────────────────────────────────────────────────────
+function HeroCopy() {
+  return (
+    <div>
+      <div className="hero-v3-badge">
+        <span className="dot" />
+        discord.gg/rokdbot · Uptime ≥99% · Hỗ trợ 24/7
+      </div>
+      <h1>
+        Combo <span className="gold-grad">Spam + Luring + AOE</span>
+        <br />
+        tự động, <span className="cyan-grad">độc quyền.</span>
+      </h1>
+      <p className="hero-v3-lead">
+        Bot tự Spam troops duy trì áp lực, Luring quân địch vào vị trí lý tưởng, kích hoạt AOE skill commander đúng frame. Cloud server riêng, IP riêng, anti-detect &lt;0,1% ban rate. VietQR thanh toán, kích hoạt trong 24h.
+      </p>
+      <div className="hero-v3-actions">
+        <a href="#packages" className="btn-hero-primary">Xem các gói →</a>
+        <a
+          href="https://discord.gg/UPuFYCw4JG"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-hero-ghost"
+        >
+          Tham gia Discord
+        </a>
+      </div>
+      <div className="hero-v3-trust">
+        <div className="hero-v3-trust-item">
+          <strong>≥99%</strong>uptime cam kết
         </div>
-        <div className="hidden lg:block absolute top-[25%] right-[8%] opacity-[0.08] animate-float-slow-reverse">
-          <Crown className="w-24 h-24 text-[#f8c36b]" />
+        <div className="hero-v3-trust-item">
+          <strong>24h</strong>kích hoạt sau VietQR
         </div>
-        <div className="hidden lg:block absolute bottom-[20%] left-[12%] opacity-[0.06] animate-float-slow-reverse">
-          <Castle className="w-16 h-16 text-[#a78bfa]" />
+        <div className="hero-v3-trust-item">
+          <strong>&lt;0,1%</strong>tỷ lệ ban
         </div>
-        <div className="hidden lg:block absolute bottom-[30%] right-[12%] opacity-[0.07] animate-float-slow">
-          <Shield className="w-18 h-18 text-[#34d399]" />
-        </div>
+      </div>
+    </div>
+  );
+}
 
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: "linear-gradient(rgba(124,231,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(124,231,255,0.3) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
+// ────────────────────────────────────────────────────────────
+// HERO DASHBOARD — right column (Variant B)
+// Realtime: rotating log + cycling counters + animated map markers.
+// Stats line: Supabase totalOrders / packages / inStock. Falls back gracefully.
+// ────────────────────────────────────────────────────────────
+interface SupaStats {
+  totalOrders: number;
+  packages: number;
+  inStock: number;
+}
+
+function HeroDashboard({ supaStats }: { supaStats: SupaStats | null }) {
+  const [logIdx, setLogIdx] = useState(0);
+  const [tick, setTick] = useState(0);
+
+  // Visual mockup counters that drift over time — purely decorative.
+  const baseRss = 8537204;
+  const baseTroops = 142891;
+  const rss = baseRss + tick * 18000;
+  const troops = baseTroops + tick * 8;
+  const marches = 3 + (tick % 3);
+
+  const logLines: ReactNode[] = [
+    <><span>[14:32:18]</span> <span className="ok">✓</span> Bot #47 → Farm food node lv5 <span className="gold">+24K food</span></>,
+    <><span>[14:32:21]</span> <span className="cyan">→</span> Bot #12 train troops queue 30/30 <span className="gold">[T5 cav]</span></>,
+    <><span>[14:32:24]</span> <span className="ok">✓</span> Rally captain — barbarian fortress lv4 <span className="gold">success</span></>,
+    <><span>[14:32:27]</span> <span className="cyan">→</span> Scout dispatched to (842, 1240) <span>ETA 12s</span></>,
+    <><span>[14:32:31]</span> <span className="ok">✓</span> Bot #03 collected gathering tile <span className="gold">+18K stone</span></>,
+    <><span>[14:32:34]</span> <span className="cyan">→</span> Healing wounded troops <span>[3,420 → barracks]</span></>,
+    <><span>[14:32:38]</span> <span className="ok">✓</span> Alliance help sent to 8 members</>,
+    <><span>[14:32:42]</span> <span className="cyan">→</span> Bot #21 research complete <span className="gold">[T4 archer III]</span></>,
+  ];
+
+  useEffect(() => {
+    const t = setInterval(() => setLogIdx((i) => (i + 1) % logLines.length), 1800);
+    return () => clearInterval(t);
+  }, [logLines.length]);
+
+  useEffect(() => {
+    const t = setInterval(() => setTick((n) => n + 1), 1400);
+    return () => clearInterval(t);
+  }, []);
+
+  // Show 7 lines from current index — gently fading toward the bottom.
+  const visible: ReactNode[] = [];
+  for (let i = 0; i < 7; i++) visible.push(logLines[(logIdx + i) % logLines.length]);
+
+  // Real numbers when Supabase is up; fallback to mockup numbers if not.
+  const fallbackOrders = "—";
+  const ordersLabel = supaStats ? supaStats.totalOrders.toLocaleString() : fallbackOrders;
+
+  return (
+    <div className="hero-dash" aria-label="Live dashboard preview">
+      <div className="dash-titlebar">
+        <div className="dash-titlebar-l">
+          <span className="dash-dot r" />
+          <span className="dash-dot y" />
+          <span className="dash-dot g" />
+        </div>
+        <div className="dash-titlebar-c hidden sm:block">rokdbot.com / dashboard / kingdom_2847</div>
+        <div className="dash-status"><span className="dot" />LIVE</div>
       </div>
 
-      <div className="max-w-[1240px] mx-auto px-4 py-20 md:py-28 lg:py-32 relative z-10">
-        <div className="text-center mb-12">
-          {/* Status badge */}
-          <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-8 backdrop-blur-sm">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-sm text-[#9db0ca]">Hệ thống đang hoạt động</span>
-          </div>
+      <div className="dash-stats">
+        <div className="dash-stat">
+          <div className="l">RSS / hour</div>
+          <div className="v">{(rss / 1e6).toFixed(2)}M</div>
+          <div className="delta">▲ +14% vs avg</div>
+        </div>
+        <div className="dash-stat">
+          <div className="l">Troops</div>
+          <div className="v gold">{troops.toLocaleString()}</div>
+          <div className="delta">▲ +0.3%</div>
+        </div>
+        <div className="dash-stat">
+          <div className="l">Marches</div>
+          <div className="v green">{marches}/7</div>
+          <div className="delta">active</div>
+        </div>
+        <div className="dash-stat">
+          <div className="l">{supaStats ? "Đơn hoàn thành" : "Uptime"}</div>
+          <div className="v">{supaStats ? ordersLabel : "99.6%"}</div>
+          <div className="delta">{supaStats ? `${supaStats.inStock}/${supaStats.packages} gói còn` : "7d window"}</div>
+        </div>
+      </div>
 
-          {/* Main heading with glow */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight">
-            <span className="relative">
-              Bot Farm
-              <span className="absolute -inset-1 bg-[#7ce7ff]/10 blur-2xl rounded-full" />
-            </span>{" "}
-            <span className="text-gold relative">
-              Rise of Kingdoms
-              <span className="absolute -inset-2 bg-[#f8c36b]/10 blur-3xl rounded-full" />
-            </span>
-          </h1>
-
-          <p className="hero-sub text-lg md:text-xl text-[#9db0ca] max-w-2xl mx-auto leading-relaxed mb-4">
-            Dịch vụ treo bot trên cloud server — bạn không cần cài đặt gì.
-            <br className="hidden md:block" />
-            Thanh toán tự động, bot chạy trong 24h. Hỗ trợ VietQR & PayPal.
-          </p>
-
-          {/* Unique selling point badge — `usp-pill` is a Speakable hook (see WebPage schema in index.html) */}
-          <div className="usp-pill inline-flex items-center gap-2 bg-[#fb7185]/10 border border-[#fb7185]/25 rounded-full px-5 py-2 mb-8">
-            <Zap className="w-4 h-4 text-[#fb7185]" />
-            <span className="text-sm text-[#fb7185] font-medium">29 tính năng tự động • Combo Spam + Luring + AOE độc quyền</span>
+      <div className="dash-body">
+        <div className="dash-log">
+          <div className="dash-log-h">— action_log.live</div>
+          <div className="dash-log-stream">
+            {visible.map((line, i) => (
+              <div key={`${logIdx}-${i}`} style={{ opacity: 1 - i * 0.13 }}>{line}</div>
+            ))}
           </div>
         </div>
+        <div className="dash-map">
+          <div className="dash-map-h">— kingdom_map</div>
+          <svg className="dash-map-svg" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet">
+            {[40, 80, 120, 160].map((p) => (
+              <g key={p}>
+                <line x1={p} y1="0" x2={p} y2="200" stroke="rgba(124,231,255,.06)" />
+                <line x1="0" y1={p} x2="200" y2={p} stroke="rgba(124,231,255,.06)" />
+              </g>
+            ))}
+            <rect x="92" y="92" width="16" height="16" rx="2" fill="#7ce7ff" opacity=".9" />
+            <rect x="50" y="60" width="9" height="9" rx="1" fill="#7ce7ff" opacity=".5" />
+            <rect x="140" y="120" width="9" height="9" rx="1" fill="#7ce7ff" opacity=".5" />
+            <rect x="60" y="140" width="9" height="9" rx="1" fill="#7ce7ff" opacity=".5" />
+            <rect x="150" y="50" width="9" height="9" rx="1" fill="#7ce7ff" opacity=".5" />
 
-        {/* Stats with glow */}
-        <div className="flex justify-center gap-4 md:gap-6 mb-12">
-          <div className="stat-item group hover:border-[#7ce7ff]/30 transition-all cursor-default">
-            <strong className="text-2xl md:text-4xl font-extrabold text-white font-mono group-hover:text-[#7ce7ff] transition-colors">
-              {stats.totalOrders.toLocaleString()}
-            </strong>
-            <span className="text-[#9db0ca] text-xs md:text-sm">Đơn hoàn thành</span>
-          </div>
-          <div className="stat-item group hover:border-[#f8c36b]/30 transition-all cursor-default">
-            <strong className="text-2xl md:text-4xl font-extrabold text-white font-mono group-hover:text-[#f8c36b] transition-colors">
-              {stats.packages}
-            </strong>
-            <span className="text-[#9db0ca] text-xs md:text-sm">Gói dịch vụ</span>
-          </div>
-          <div className="stat-item group hover:border-[#34d399]/30 transition-all cursor-default">
-            <strong className="text-2xl md:text-4xl font-extrabold text-white font-mono group-hover:text-[#34d399] transition-colors">
-              {stats.inStock}
-            </strong>
-            <span className="text-[#9db0ca] text-xs md:text-sm">Còn hàng</span>
-          </div>
-        </div>
+            <circle className="dash-resource" cx="32" cy="40" r="3" />
+            <circle className="dash-resource" cx="170" cy="80" r="3" style={{ animationDelay: ".5s" }} />
+            <circle className="dash-resource" cx="46" cy="170" r="3" style={{ animationDelay: "1s" }} />
+            <circle className="dash-resource" cx="178" cy="160" r="3" style={{ animationDelay: "1.4s" }} />
 
-        {/* Trust badges with icons */}
-        <div className="flex justify-center gap-6 md:gap-10 text-[#9db0ca]">
-          <div className="flex items-center gap-2 text-xs md:text-sm group cursor-default">
-            <div className="w-8 h-8 rounded-lg bg-[#f8c36b]/10 flex items-center justify-center group-hover:bg-[#f8c36b]/20 transition">
-              <Zap className="w-4 h-4 text-[#f8c36b]" />
-            </div>
-            <span>Giao dịch tức thì</span>
-          </div>
-          <div className="flex items-center gap-2 text-xs md:text-sm group cursor-default">
-            <div className="w-8 h-8 rounded-lg bg-[#34d399]/10 flex items-center justify-center group-hover:bg-[#34d399]/20 transition">
-              <Shield className="w-4 h-4 text-[#34d399]" />
-            </div>
-            <span>Bảo mật thanh toán</span>
-          </div>
-          <div className="flex items-center gap-2 text-xs md:text-sm group cursor-default">
-            <div className="w-8 h-8 rounded-lg bg-[#7ce7ff]/10 flex items-center justify-center group-hover:bg-[#7ce7ff]/20 transition">
-              <Gamepad2 className="w-4 h-4 text-[#7ce7ff]" />
-            </div>
-            <span>Hỗ trợ 24/7</span>
-          </div>
+            <line className="dash-march-line" x1="100" y1="100" x2="32" y2="40" />
+            <line className="dash-march-line" x1="100" y1="100" x2="170" y2="80" style={{ animationDelay: ".8s" }} />
+            <line className="dash-march-line" x1="100" y1="100" x2="46" y2="170" style={{ animationDelay: "1.4s" }} />
+
+            <circle className="dash-march" cx="60" cy="65" r="2.5" />
+            <circle className="dash-march" cx="148" cy="88" r="2.5" />
+            <circle className="dash-march" cx="68" cy="148" r="2.5" />
+          </svg>
         </div>
       </div>
     </div>
