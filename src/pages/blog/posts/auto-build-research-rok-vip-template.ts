@@ -126,5 +126,7 @@ Có. Bot auto pause build/research khi rally trigger (V2+ feature). Sau rally co
 Đọc tiếp:
 - [Auto Farm 4 RSS + Gem Mining — 8.000 gem/ngày gấp 4x manual](/blog/auto-farm-4-rss-tile-level-5-rok)
 - [Auto Honor Farming RoK 2026 — Khách FREE AP đạt Power 98M trong 17 tháng](/blog/auto-honor-farming-kvk-rok-2026)
+- [City Hall 25 Speedrun — 14 ngày vs 126 ngày breakdown](/blog/city-hall-25-speedrun-rok-2026)
+- [F2P → VIP 2 Roadmap — 45 ngày với bot](/blog/f2p-to-vip2-bot-progression-roadmap-rok-2026)
   `,
 };

@@ -120,5 +120,9 @@ Nhưng VIP 2 trong 45 ngày F2P đã là milestone đủ để vào roster main 
 - [Farm Fatigue — 70% Player Bỏ Game Sau 30 Ngày](/blog/farm-fatigue-quit-rate-bots-solution-rok-2026)
 - [Auto Farm RSS Tile Level 5 — Gem Mining 24/7](/blog/auto-farm-4-rss-tile-level-5-rok)
 - [RokdBot Có Bị Ban Không? Phân Tích Rủi Ro 2026](/blog/rokdbot-safety-ban-risk-compliance-2026)
+- [F2P Best 5 Commanders Priority — Thứ tự max sculpture cho F2P](/blog/f2p-best-5-commanders-priority-rok-2026)
+- [F2P Alliance Choice — Top vs Casual: Pick chỗ nào tối ưu](/blog/f2p-alliance-choice-top-vs-casual-rok-2026)
+- [F2P Speedup Management Strict — Đừng phí speedup cho việc sai](/blog/f2p-speedup-management-strict-rok-2026)
+- [F2P Cavalry Army Setup — Build army không cần whale](/blog/f2p-cavalry-army-setup-rok-2026)
   `,
 };

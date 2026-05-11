@@ -137,5 +137,7 @@ ToS Lilith không explicit cấm 3rd-party solver. Tỷ lệ ban <0,1% qua 8 KvK
 Đọc tiếp:
 - [Multi-account Sync V3 — Run 2-3 acc cloud sync](/blog/multi-account-sync-rokdbot-v3)
 - [AI Commander Rotation V3 — Skip 6 tháng farm expertise](/blog/ai-commander-rotation-v3-rok)
+- [RokdBot An Toàn Không? Phân tích rủi ro ban 2026](/blog/rokdbot-safety-ban-risk-compliance-2026)
+- [Bot vs Lilith Official Macro — So sánh anti-cheat](/blog/bot-vs-official-lilith-macro-rok-2026)
   `,
 };

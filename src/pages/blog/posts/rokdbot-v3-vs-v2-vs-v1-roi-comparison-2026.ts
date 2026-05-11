@@ -105,5 +105,8 @@ Không chắc gói nào? Bắt đầu **Trial 150k** → trải nghiệm 7 ngày
 - [Combo Spam + Luring + AOE V2 — Tại sao 5-7 con rợ/cast?](/blog/combo-spam-luring-aoe-rokdbot-v2)
 - [AI Commander Rotation V3 — Skip 6 tháng farm expertise](/blog/ai-commander-rotation-v3-rok)
 - [Multi-Account Sync RokdBot V3 — 2-3 Acc Song Song](/blog/multi-account-sync-rokdbot-v3)
+- [Upgrade Tier Mid-Month — Khi nào nâng gói tối ưu chi phí](/blog/upgrade-tier-mid-month-rok-2026)
+- [Multi-account Auto Farming 200% RSS V3 — Run nhiều acc gather song song](/blog/multi-account-auto-farming-200-percent-rss-v3)
+- [Resource Calculator RoK 2026 — Tính RSS cần thiết cho mỗi milestone](/blog/resource-calculator-rok-2026)
   `,
 };

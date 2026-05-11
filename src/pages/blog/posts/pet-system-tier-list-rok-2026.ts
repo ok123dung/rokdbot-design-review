@@ -168,5 +168,7 @@ Chọn 1 pet, tập trung feed đúng stat, đừng phân tán.
 - [AI Commander Rotation V3 RoK](/blog/ai-commander-rotation-v3-rok)
 - [Commander Tier List Cavalry RoK 2026](/blog/commander-tier-list-cavalry-rok-2026)
 - [Tier List Best Commanders Each Bot Tier RoK 2026](/blog/tier-list-best-commanders-each-bot-tier-rok-2026)
+- [Pet Bonding Resources Optimization — Tối ưu pet feed schedule](/blog/pet-bonding-resources-optimization-rok-2026)
+- [Pet Expedition Stamina — Phân phối stamina cho pet skill](/blog/pet-expedition-stamina-rok-2026)
   `,
 };

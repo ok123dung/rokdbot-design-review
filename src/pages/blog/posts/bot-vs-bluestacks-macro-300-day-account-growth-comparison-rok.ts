@@ -126,5 +126,7 @@ Có. Liên hệ support để tính pro-rata và upgrade ngay.
 - [RokdBot Safety — Tỷ lệ ban thực tế sau 8 KvK Seasons](/blog/rokdbot-safety-ban-risk-compliance-2026)
 - [V3 vs V2 vs V1 — So sánh ROI chi tiết 2026](/blog/rokdbot-v3-vs-v2-vs-v1-roi-comparison-2026)
 - [Multi-Account Sync — 2 account song song với V3](/blog/multi-account-sync-rokdbot-v3)
+- [Bot vs MEmu Emulator — So sánh hiệu suất RoK 2026](/blog/bot-vs-memu-emulator-rok-2026)
+- [Mobile vs PC RoK Comparison 2026 — Pick platform tối ưu](/blog/mobile-vs-pc-rok-comparison-2026)
   `,
 };

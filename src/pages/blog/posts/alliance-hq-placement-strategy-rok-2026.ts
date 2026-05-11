@@ -106,5 +106,7 @@ Không bị penalize từ game mechanic, nhưng tốn cost. Trade-off: migration
 - [Holy Site Capture Timing Per Kingdom RoK 2026](/blog/holy-site-capture-timing-per-kingdom-rok-2026)
 - [KvK Season 8 Complete Guide RoK 2026](/blog/kvk-season-8-complete-guide-rok-2026)
 - [KvK 1 Lost Kingdom Specific Guide RoK 2026](/blog/kvk-1-lost-kingdom-specific-guide-rok-2026)
+- [Alliance Help Button Optimization — Tăng 200% help speed cho alliance](/blog/alliance-help-button-optimization-rok-2026)
+- [Constantine Garrison Master Guide — Defense commander OP cho HQ](/blog/constantine-garrison-master-guide-rok-2026)
   `,
 };

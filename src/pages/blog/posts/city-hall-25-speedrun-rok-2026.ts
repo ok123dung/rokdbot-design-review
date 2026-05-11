@@ -117,5 +117,6 @@ Mua bundle speedup hoặc mở rộng sang V2/V3 để farm speedup nhanh hơn t
 - [Academy Research Priority RoK 2026 — Economy → Military Order](/blog/academy-research-priority-rok-2026)
 - [City Hall Lv 16/21/25 Milestones RoK 2026](/blog/city-hall-levels-16-21-25-guide-rok-2026)
 - [Auto Build Research RoK VIP Template](/blog/auto-build-research-rok-vip-template)
+- [Watchtower Lv 25 Priority — Defense building cuối game](/blog/watchtower-lv25-priority-rok-2026)
   `,
 };

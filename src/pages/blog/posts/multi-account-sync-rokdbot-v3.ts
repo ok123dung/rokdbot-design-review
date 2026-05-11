@@ -133,5 +133,7 @@ Lilith ToS không cấm multi-account. Bot RokdBot cloud server (not BlueStacks)
 Đọc tiếp:
 - [AI Commander Rotation V3 — Skip 6 tháng farm expertise](/blog/ai-commander-rotation-v3-rok)
 - [Anti-captcha Solver V3+ — Bot solve captcha <30s](/blog/anti-captcha-2captcha-rok-bot-2026)
+- [RokdBot V3 vs V2 vs V1 ROI Comparison — Gói nào cho ROI tốt nhất](/blog/rokdbot-v3-vs-v2-vs-v1-roi-comparison-2026)
+- [Bot vs BlueStacks Macro — 300-day growth comparison](/blog/bot-vs-bluestacks-macro-300-day-account-growth-comparison-rok)
   `,
 };

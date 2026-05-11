@@ -123,5 +123,8 @@ Archer tier phù hợp với từng gói:
 - [Yi Seong-Gye Guide RoK 2026 — S+ Archer AOE Meta](/blog/yi-seong-gye-guide-rok-2026)
 - [Seondeok Archer Guide — F2P Anti-Cavalry](/blog/seondeok-archer-guide-rok-2026)
 - [Tier List Pet Pair Commander RoK 2026](/blog/tier-list-pet-pair-commander-rok-2026)
+- [Hannibal Barca Archer Guide — F2P pick mạnh KvK Pass 3-4](/blog/hannibal-barca-archer-guide-rok-2026)
+- [Martinus Archer Guide — Đối thủ Seondeok cho counter cavalry](/blog/martinus-archer-guide-rok-2026)
+- [Aethelflaed Hidden Tech Guide — Archer secondary OP cho rally pair](/blog/aethelflaed-hidden-tech-guide-rok-2026)
   `,
 };

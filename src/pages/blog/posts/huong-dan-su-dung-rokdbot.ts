@@ -63,5 +63,10 @@ Bot RokdBot có 29 tính năng tự động hóa, bao gồm:
 ## Bắt Đầu Ngay
 
 Truy cập rokdbot.com để chọn gói và bắt đầu. Thanh toán tự động, bot chạy trong 24h!
+
+Đọc tiếp:
+- [Pay VietQR RokdBot Step by Step — Hướng dẫn chuyển khoản 3 phút](/blog/pay-vietqr-rokdbot-step-by-step-rok-2026)
+- [Bot Setup Ngày Đầu — Từ đăng ký đến bot chạy trong 24h](/blog/bot-how-to-setup-first-day-rok-2026)
+- [Bot Config Priority Guide — Setup tính năng theo thứ tự đúng](/blog/bot-config-priority-guide-rok-2026)
   `,
 };

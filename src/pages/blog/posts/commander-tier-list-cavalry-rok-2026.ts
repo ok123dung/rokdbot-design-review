@@ -100,5 +100,9 @@ ROI V3: **5.000 honor/ngày × 30 = 150.000 honor/tháng** — đủ mua 2-3 bun
 - [AI Commander Rotation V3 — Skip 6 tháng farm expertise](/blog/ai-commander-rotation-v3-rok)
 - [Open Field Rally Commander Pairs 2026 — Mehmed+Cao Cao vs Attila+Chandragupta](/blog/open-field-rally-commander-pairs-rok-2026)
 - [Tier List Best Commanders Each Bot Tier](/blog/tier-list-best-commanders-each-bot-tier-rok-2026)
+- [Tomyris Cavalry Guide — Cavalry F2P-friendly tier A+](/blog/tomyris-cavalry-guide-rok-2026)
+- [Mixed Army Commander Setup — Khi nào pair 2 type khác nhau](/blog/mixed-army-commander-setup-rok-2026)
+- [Commander Expedition Stamina Farming — Tối ưu stamina cho rally](/blog/commander-expedition-stamina-farming-rok-2026)
+- [Commander Expert Sculpture Investment — Đầu tư sculpture tier nào trước](/blog/commander-expert-sculpture-investment-rok-2026)
   `,
 };

@@ -50,5 +50,10 @@ RokdBot còn có tính năng độc quyền **Spam Barbarian + Luring + AOE** gi
 ## Kết Luận
 
 Nếu bạn nghiêm túc chơi Rise of Kingdoms, đầu tư vào dịch vụ bot farm là lựa chọn thông minh nhất. Tiết kiệm thời gian, tiết kiệm tiền, và farm được nhiều gem hơn.
+
+Đọc tiếp:
+- [Auto Farm 4 RSS + Gem Mining — 8.000 gem/ngày gấp 4x manual](/blog/auto-farm-4-rss-tile-level-5-rok)
+- [Cao Pi Guide RoK 2026 — Gem farming commander tier S](/blog/cao-pi-guide-rok-2026)
+- [Best Gathering Commanders RoK 2026 — Top 5 cho F2P + VIP](/blog/best-gathering-commanders-rok-2026)
   `,
 };

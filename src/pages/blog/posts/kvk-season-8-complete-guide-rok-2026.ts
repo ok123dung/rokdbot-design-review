@@ -114,5 +114,9 @@ Tối thiểu **48h** trước ngày KvK mở: configure bot barb chain pattern,
 - [KvK Season Prep Bot Checklist RoK 2026](/blog/kvk-season-prep-bot-checklist-rok-2026)
 - [Auto Honor Farming KvK RoK 2026](/blog/auto-honor-farming-kvk-rok-2026)
 - [Rally Attack vs Defense KvK RoK 2026](/blog/rally-attack-vs-defense-kvk-rok-2026)
+- [Anti-Zeroing Strategy RoK 2026 — Không bị wipe trong KvK Pass 4](/blog/anti-zeroing-strategy-rok-2026)
+- [KvK Matchmaking Algorithm RoK 2026 — Tại sao kingdom yếu vẫn pair với mạnh](/blog/kvk-matchmaking-algorithm-rok-2026)
+- [KvK Season Schedule 2026 Overview — Lịch full năm](/blog/kvk-season-schedule-2026-overview-rok)
+- [Pre-KvK Anxiety — Bot relief cho casual player](/blog/pre-kvk-anxiety-bot-relief-rok-2026)
   `,
 };

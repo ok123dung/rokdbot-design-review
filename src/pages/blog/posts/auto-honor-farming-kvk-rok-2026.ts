@@ -211,5 +211,6 @@ Liên hệ:
 - [Combo Spam + Luring + AOE V2 — Bí mật kéo rợ gấp 4x Honor/AP](/blog/combo-spam-luring-aoe-rokdbot-v2)
 - [Auto Rally Captain — Tự động rally pháo đài 24/7](/blog/auto-rally-captain-rok-2026)
 - [Auto Farm 4 RSS + Gem Mining — 8.000 gem/ngày gấp 4x manual](/blog/auto-farm-4-rss-tile-level-5-rok)
+- [Commander Expert Sculpture Investment — Đầu tư sculpture tối ưu cho honor commander](/blog/commander-expert-sculpture-investment-rok-2026)
   `,
 };

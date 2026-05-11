@@ -99,5 +99,6 @@ V3 đọc talent tree hiện tại của bạn và optimize rotation theo đó. 
 - [Mehmed II Rally Lead Guide RoK 2026](/blog/mehmed-ii-guide-rok-2026)
 - [KvK Rally Lead Commander Rotation](/blog/kvk-rally-lead-commander-rotation-rok-2026)
 - [Cavalry Commander Tier List RoK 2026](/blog/commander-tier-list-cavalry-rok-2026)
+- [Rune System Optimization — Equip rune cho rally commander](/blog/rune-system-optimization-rok-2026)
   `,
 };

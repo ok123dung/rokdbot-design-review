@@ -137,5 +137,7 @@ Có. Discord support cho phép user pin specific pair cho specific role. Bot tô
 Đọc tiếp:
 - [Multi-account Sync V3 — Run 2-3 acc cloud sync](/blog/multi-account-sync-rokdbot-v3)
 - [Combo Spam + Luring + AOE V2 — Bí mật kéo rợ gấp 4x](/blog/combo-spam-luring-aoe-rokdbot-v2)
+- [Commander Tier List Cavalry RoK 2026 — Top picks cho rally + open field](/blog/commander-tier-list-cavalry-rok-2026)
+- [Yi Seong-Gye Guide RoK 2026 — Archer AOE meta KvK](/blog/yi-seong-gye-guide-rok-2026)
   `,
 };

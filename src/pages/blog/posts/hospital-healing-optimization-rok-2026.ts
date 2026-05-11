@@ -143,6 +143,8 @@ V2 smart heal: nếu hospital < 60% full → heal all. Nếu > 80% full → disc
 - [Best Troop Types KvK RoK 2026](/blog/best-troop-types-kvk-rok-2026)
 - [F2P → VIP 2 Bot Progression Roadmap RoK](/blog/f2p-to-vip2-bot-progression-roadmap-rok-2026)
 - [Farm Fatigue & Quit Rate — Bot Solution RoK](/blog/farm-fatigue-quit-rate-bots-solution-rok-2026)
+- [Hospital Cap Power vs RSS Tradeoff — Cân nhắc đầu tư hospital cap](/blog/hospital-cap-power-vs-rss-tradeoff-rok-2026)
+- [Garrison Defense Commander Setup — Build defense pair cho HQ](/blog/garrison-defense-commander-setup-rok-2026)
 
 [→ Xem 5 gói cước](/#packages) (Trial 150k · V1 750k · **V2 900k** · V3 1,2M · Premium VIP 3M)
   `,

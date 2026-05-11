@@ -170,5 +170,8 @@ Rất nhiều. Đêm 3-5am giờ VN là peak window KvK (Field of Honor reset, A
 - [Auto Honor Farming RoK 2026 — Khách FREE AP đạt Power 98M trong 17 tháng](/blog/auto-honor-farming-kvk-rok-2026)
 - [Combo Spam + Luring + AOE V2 — Bí mật kéo rợ gấp 4x Honor/AP](/blog/combo-spam-luring-aoe-rokdbot-v2)
 - [Multi-account Sync V3 — Run 2-3 acc cloud sync](/blog/multi-account-sync-rokdbot-v3)
+- [Tile Lv 6 Spawn Map Locations — Map gather tile tốt nhất 2026](/blog/tile-lv6-spawn-map-locations-rok-2026)
+- [VIP Rewards Claim Strategy — Tối ưu daily reward claim](/blog/vip-rewards-claim-strategy-rok-2026)
+- [Expedition Stamina Allocation — Phân phối stamina cho rally + farm](/blog/expedition-stamina-allocation-rok-2026)
   `,
 };

@@ -118,5 +118,11 @@ Không trực tiếp. Nhưng troops train trong MG = troops dùng KvK Phase 2-3.
 - [Combo Spam + Luring + AOE RokdBot V2](/blog/combo-spam-luring-aoe-rokdbot-v2)
 - [Lohar Barbarian Farming 24h XP Grind 2026](/blog/lohar-barbarian-farming-24h-xp-grind-rok-2026)
 - [KvK Season Prep Bot Checklist RoK 2026](/blog/kvk-season-prep-bot-checklist-rok-2026)
+- [Anniversary Event RoK 2026 — Reward calendar + bot setup](/blog/anniversary-event-rok-2026)
+- [Battle of Olympus Event — Cross-server PvP setup](/blog/battle-of-olympus-event-rok-2026)
+- [Christmas Event RoK 2026 — Free gift schedule + bot claim](/blog/christmas-event-rok-2026)
+- [Strange Realm Event — KvK alternative gameplay](/blog/strange-realm-event-rok-2026)
+- [Strange Realm Deep Dive — Tier list + bot strategy](/blog/strange-realm-deep-dive-rok-2026)
+- [Throne War Event RoK 2026 — Throne capture meta](/blog/throne-war-event-rok-2026)
   `,
 };

@@ -124,5 +124,7 @@ KHÔNG. Premium VIP 3M tập trung **3-4 đạo barb chain** (Honor farming comb
 Đọc tiếp:
 - [Auto Build & Research — City Hall lv 25 trong 14 ngày](/blog/auto-build-research-rok-vip-template)
 - [Combo Spam + Luring + AOE V2 — Bí mật kéo rợ gấp 4x Honor/AP](/blog/combo-spam-luring-aoe-rokdbot-v2)
+- [Cách Farm Gem Hiệu Quả RoK — So sánh manual vs bot](/blog/cach-farm-gem-hieu-qua-rise-of-kingdoms)
+- [Best Gathering Commanders RoK 2026 — Cao Pi / Sarka / Constance](/blog/best-gathering-commanders-rok-2026)
   `,
 };

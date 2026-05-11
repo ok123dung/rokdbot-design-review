@@ -93,5 +93,6 @@ Với bot V3 chạy 2 đạo barb chain 24/7, expertise timeline giảm còn 60 
 - [AI Commander V3 Talent Tree Optimization Meta 2026](/blog/ai-commander-v3-talent-tree-optimization-meta-2026)
 - [Mixed Army Commander Setup RoK 2026](/blog/mixed-army-commander-setup-rok-2026)
 - [F2P to VIP2 Bot Progression Roadmap](/blog/f2p-to-vip2-bot-progression-roadmap-rok-2026)
+- [William I Infantry Guide — Infantry F2P pick tier A+](/blog/william-i-infantry-guide-rok-2026)
   `,
 };
