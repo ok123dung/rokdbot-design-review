@@ -29,3 +29,6 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+
+# Claude Code session metadata (machine-specific)
+.claude/
