@@ -68,7 +68,10 @@ function HeroCopy() {
         Bot tự Spam troops duy trì áp lực, Luring quân địch vào vị trí lý tưởng, kích hoạt AOE skill commander đúng frame. Cloud server riêng, IP riêng, anti-detect &lt;0,1% ban rate. VietQR thanh toán, kích hoạt trong 24h.
       </p>
       <div className="hero-v3-actions">
-        <a href="#packages" className="btn-hero-primary">Xem các gói →</a>
+        <a href="#packages" className="btn-hero-primary">Xem 5 gói cước →</a>
+        <a href="/blog" className="btn-hero-ghost">
+          📚 24 bài hướng dẫn
+        </a>
         <a
           href="https://discord.gg/UPuFYCw4JG"
           target="_blank"

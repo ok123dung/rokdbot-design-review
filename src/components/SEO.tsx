@@ -10,6 +10,12 @@ export interface ArticleMeta {
   wordCount?: number;
 }
 
+/** Breadcrumb item for BreadcrumbList JSON-LD. URL relative to site (e.g. "/blog"). */
+export interface Breadcrumb {
+  name: string;
+  url: string;
+}
+
 interface SEOProps {
   title?: string;
   description?: string;
@@ -22,6 +28,9 @@ interface SEOProps {
   /** When provided, emit a FAQPage JSON-LD block. Pass on the home page only — Google
    * flags FAQ schemas whose Q/A don't appear in visible content on the same URL. */
   faq?: FAQItem[];
+  /** When provided, emit BreadcrumbList JSON-LD for SERP rich snippets.
+   * First crumb should usually be Trang chủ → Blog → <article>. */
+  breadcrumbs?: Breadcrumb[];
 }
 
 const BASE_URL = "https://rokdbot.com";
@@ -51,6 +60,7 @@ export function SEO({
   noIndex = false,
   article,
   faq,
+  breadcrumbs,
 }: SEOProps) {
   const { i18n } = useTranslation();
   // Normalize to language-only ISO 639-1 code: "vi-VN" → "vi", "en-US" → "en".
@@ -131,6 +141,39 @@ export function SEO({
               "@type": "SpeakableSpecification",
               cssSelector: ["h1", "h2", ".lead", "article p:first-of-type"],
             },
+          })}
+        </script>
+      )}
+
+      {/* WebSite schema — emit on homepage only (when type=website + url is root).
+          Enables Google Sitelinks Search Box for branded queries. */}
+      {type === "website" && (!url || url === "/") && (
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": `${BASE_URL}/#website`,
+            url: BASE_URL,
+            name: "RokdBot",
+            description: "Dịch vụ Bot Farm Rise of Kingdoms — 24 bài hướng dẫn, 5 gói cước",
+            inLanguage: ARTICLE_LOCALE[currentLang] ?? "vi-VN",
+            publisher: { "@id": `${BASE_URL}/#organization` },
+          })}
+        </script>
+      )}
+
+      {/* BreadcrumbList schema — SERP rich snippet hierarchy */}
+      {breadcrumbs && breadcrumbs.length > 0 && (
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: breadcrumbs.map((b, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: b.name,
+              item: `${BASE_URL}${b.url}`,
+            })),
           })}
         </script>
       )}

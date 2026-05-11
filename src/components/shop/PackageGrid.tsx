@@ -17,20 +17,20 @@ interface PackageGridProps {
   onBuy: (packageId: string) => void;
 }
 
-// V3 redesign: 4-column grid where the V2 / "Premium" / "Phổ biến" package is elevated
-// as a centerpiece (1.35fr column, gold glow, "★ Phổ biến nhất" badge).
-// Detection priority: name match → 2nd-most-expensive → none.
+// V3 redesign: grid with V2 Cao Cấp (mid-tier sweet spot) elevated as centerpiece
+// (1.35fr column, gold glow, "★ Phổ biến nhất" badge). VIP top-tier is anchor on right.
+// Detection priority: V2/Cao Cấp/phổ biến match → mid-tier by price → none.
 function detectFeatured(pkgs: ServicePackage[]): string | null {
   if (pkgs.length === 0) return null;
 
-  // 1. Heuristic: package whose name contains "v2", "premium", or "phổ biến"
-  const byName = pkgs.find((p) => /v2|premium|phổ biến/i.test(p.name));
+  // 1. Heuristic: V2 / Cao Cấp / Phổ biến (NOT "Premium VIP" top tier)
+  const byName = pkgs.find((p) => /v2|cao cấp|phổ biến/i.test(p.name) && !/vip/i.test(p.name));
   if (byName) return byName.id;
 
-  // 2. Fallback: 2nd-most-expensive (mid-tier is usually the hero)
-  if (pkgs.length >= 2) {
-    const sortedDesc = [...pkgs].sort((a, b) => b.price - a.price);
-    return sortedDesc[1]?.id ?? null;
+  // 2. Fallback: middle-priced package (sweet-spot conversion)
+  if (pkgs.length >= 3) {
+    const sortedAsc = [...pkgs].sort((a, b) => a.price - b.price);
+    return sortedAsc[Math.floor(pkgs.length / 2)]?.id ?? null;
   }
 
   return null;
@@ -55,15 +55,22 @@ export function PackageGrid({ onBuy }: PackageGridProps) {
         if (fetchErr) {
           setError(true);
         } else if (data) {
+          // Fix H7: wrap JSON.parse in inner try — malformed DB row should not crash the page
+          const parseFeatures = (f: unknown): string[] | null => {
+            if (Array.isArray(f)) return f as string[];
+            if (typeof f === "string") {
+              try {
+                return JSON.parse(f);
+              } catch {
+                return null;
+              }
+            }
+            return null;
+          };
           setPackages(
             data.map((pkg) => ({
               ...pkg,
-              features:
-                typeof pkg.features === "string"
-                  ? JSON.parse(pkg.features)
-                  : Array.isArray(pkg.features)
-                  ? pkg.features
-                  : null,
+              features: parseFeatures(pkg.features),
             }))
           );
         }
@@ -84,16 +91,16 @@ export function PackageGrid({ onBuy }: PackageGridProps) {
       <header className="max-w-[720px] mx-auto text-center mb-14">
         <span className="section-eyebrow">Bảng giá</span>
         <h2 className="text-3xl md:text-4xl text-white mb-3 leading-tight" style={{ textWrap: "balance" } as React.CSSProperties}>
-          Bốn gói, <span className="cyan-grad">một câu trả lời rõ ràng.</span>
+          Năm gói, <span className="cyan-grad">một câu trả lời rõ ràng.</span>
         </h2>
         <p className="text-[17px] text-[#9db0ca] leading-relaxed">
-          Hầu hết khách chọn <strong style={{ color: "#fde68a" }}>V2 Premium</strong> — Combo Spam+Luring+AOE độc quyền. Mua nhiều tháng giảm 10–25%. Hoàn 100% + 1 tháng nếu acc bị ban do bot.
+          Hầu hết khách chọn <strong style={{ color: "#fde68a" }}>Gói Cao Cấp V2</strong> — Combo Spam+Luring+AOE độc quyền. Top tier <strong style={{ color: "#fde68a" }}>Premium VIP</strong> dành cho người chơi Power 50M+ với support 1-1. Mua nhiều tháng giảm 10–25%. Hoàn 100% + 1 tháng nếu acc bị ban do bot.
         </p>
       </header>
 
       {loading && (
         <div className="pkg-grid-v3">
-          {[0, 1, 2, 3].map((i) => (
+          {[0, 1, 2, 3, 4].map((i) => (
             <div key={i} className="pkg-card-v3 animate-pulse h-80" />
           ))}
         </div>

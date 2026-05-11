@@ -1100,14 +1100,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   border: 1px solid rgba(124, 231, 255, 0.08);
 }
 
-/* Packages — V2 elevated centerpiece */
+/* Packages — V2 elevated centerpiece (col 3 of 5) */
 .pkg-grid-v3 {
   display: grid;
   gap: 18px;
-  grid-template-columns: 1fr 1fr 1.35fr 1fr;
+  grid-template-columns: 1fr 1fr 1.35fr 1fr 1fr;
   align-items: stretch;
 }
-@media (max-width: 1100px) { .pkg-grid-v3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 1280px) { .pkg-grid-v3 { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px) { .pkg-grid-v3 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) { .pkg-grid-v3 { grid-template-columns: 1fr; } }
 .pkg-card-v3 {
   position: relative;
