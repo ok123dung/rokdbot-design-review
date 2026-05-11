@@ -2,6 +2,35 @@
 
 Living record of significant changes, features, and fixes.
 
+## 2026-05-11 (latest) — User-Story Posts + Auto-Regen Cron
+
+### Content
+- **6 user-story blog posts** viết theo voice F2P player thật (xưng "mình/tao", có struggle, có ngày tháng cụ thể, có cả thất bại) — designed để share vào Facebook groups RoK lấy tương tác:
+  - `tam-su-mot-nam-dung-bot-rok-quit-quay-lai` — 1 năm hành trình quit→quay lại
+  - `hoi-anh-em-bot-rok-co-bi-ban-khong-kinh-nghiem-2-nam` — FAQ 10 câu hay bị hỏi
+  - `khoe-stats-update-thang-5-2026-1-nam-bot-rokdbot` — monthly stats brag với ROI breakdown
+  - `sai-lam-mua-v3-luc-dau-tam-su-f2p` — mistake confession (mua V3 sai 3,6M)
+  - `tong-ket-kvk-8-f2p-top-30-alliance-nho-bot` — KvK 8 14-day timeline + mistakes
+  - `review-that-3-thang-dung-rokdbot-v2-tot-xau` — review honest: 5 tốt, 4 tệ, 2 khá
+- Total VI articles: 204 → **210**
+
+### Automation
+- **gen-blog-meta.py extended** để auto-regen `sitemap.xml` (ngoài 2 meta files đã có)
+  - Output 3 files: `blogMeta.ts`, `blogMetaEn.ts`, `sitemap.xml`
+  - Sorted by slug (deterministic diff)
+  - Sitemap URLs: 214 → **221** (6 user-story + 1 list)
+- **GitHub Actions workflow**: `.github/workflows/blog-meta-cron.yml`
+  - Daily cron 00:00 UTC (07:00 VN time)
+  - Trigger on push to `src/pages/blog/posts/**/*.ts` (auto-update sau khi push bài mới)
+  - Manual trigger from Actions tab
+  - Auto-commit + push nếu sitemap/meta thay đổi
+  - Job summary với stats (Vi/En article count, sitemap URL count)
+
+### Workflow
+- Push 1 bài blog mới → workflow tự run gen-blog-meta.py → commit lại sitemap.xml + blogMeta.ts với commit message "chore(blog): auto-regen meta + sitemap [skip ci]"
+- Không cần chạy `python scripts/gen-blog-meta.py` manual nữa
+- Daily cron đảm bảo lastmod date trên homepage URL stay fresh cho Google crawl
+
 ## 2026-05-11 (late) — Cross-Link Reinforcement + English Blog Launch
 
 ### Cross-Link Audit
