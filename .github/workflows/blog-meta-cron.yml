@@ -1,0 +1,73 @@
+name: Auto-regen blog meta + sitemap
+
+on:
+  # Daily at 00:00 UTC = 07:00 Vietnam time
+  schedule:
+    - cron: "0 0 * * *"
+  # Allow manual trigger from Actions tab
+  workflow_dispatch:
+  # Run after any push that touches blog posts
+  push:
+    branches: [main]
+    paths:
+      - "src/pages/blog/posts/**/*.ts"
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run gen-blog-meta.py
+        run: python scripts/gen-blog-meta.py
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet --exit-code -- \
+              src/pages/blog/blogMeta.ts \
+              src/pages/blog/blogMetaEn.ts \
+              public/sitemap.xml; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes to blog meta or sitemap"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Detected blog meta / sitemap changes"
+          fi
+
+      - name: Commit & push if changed
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            src/pages/blog/blogMeta.ts \
+            src/pages/blog/blogMetaEn.ts \
+            public/sitemap.xml
+          git commit -m "chore(blog): auto-regen meta + sitemap [skip ci]"
+          git push origin main
+
+      - name: Job summary
+        run: |
+          echo "## Blog meta regen result" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.diff.outputs.changed }}" = "true" ]; then
+            echo "Changes detected and committed." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No changes since last run." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Vi articles**: $(ls src/pages/blog/posts/*.ts | wc -l)" >> "$GITHUB_STEP_SUMMARY"
+          echo "**En articles**: $(ls src/pages/blog/posts/en/*.ts | wc -l)" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Sitemap URLs**: $(grep -c '<url>' public/sitemap.xml)" >> "$GITHUB_STEP_SUMMARY"

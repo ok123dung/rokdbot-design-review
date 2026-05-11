@@ -1,6 +1,13 @@
-"""Regenerate blogMeta.ts (vi) and blogMetaEn.ts (en) from posts/*.ts and posts/en/*.ts.
+"""Regenerate blogMeta.ts (vi), blogMetaEn.ts (en) and sitemap.xml.
+
+Scans posts/*.ts and posts/en/*.ts, emits 3 generated files:
+- src/pages/blog/blogMeta.ts (vi metadata)
+- src/pages/blog/blogMetaEn.ts (en metadata)
+- public/sitemap.xml (full sitemap with all URLs)
+
 Run via: python scripts/gen-blog-meta.py
 """
+import datetime
 import os
 import re
 
@@ -8,6 +15,8 @@ POSTS_DIR = os.path.join(os.path.dirname(__file__), "..", "src", "pages", "blog"
 EN_POSTS_DIR = os.path.join(POSTS_DIR, "en")
 OUT_FILE = os.path.join(os.path.dirname(__file__), "..", "src", "pages", "blog", "blogMeta.ts")
 OUT_FILE_EN = os.path.join(os.path.dirname(__file__), "..", "src", "pages", "blog", "blogMetaEn.ts")
+SITEMAP_FILE = os.path.join(os.path.dirname(__file__), "..", "public", "sitemap.xml")
+BASE_URL = "https://rokdbot.com"
 
 
 def scan_posts(directory):
@@ -131,3 +140,37 @@ with open(OUT_FILE_EN, "w", encoding="utf-8", newline="\n") as f:
     f.write("\n".join(lines_en))
 
 print("blogMetaEn.ts regenerated:", len(metas_en), "entries")
+
+
+# Generate sitemap.xml from both metas
+def url_entry(loc, lastmod, changefreq, priority):
+    return f'  <url><loc>{BASE_URL}{loc}</loc><lastmod>{lastmod}</lastmod><changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>'
+
+
+today = datetime.date.today().isoformat()
+sitemap_lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    url_entry("/", today, "weekly", "1.0"),
+    url_entry("/blog", today, "daily", "0.9"),
+    url_entry("/tra-cuu-don", "2026-05-09", "monthly", "0.6"),
+]
+
+# Vi articles sorted by slug for deterministic diff
+for m in sorted(metas, key=lambda x: x["slug"]):
+    sitemap_lines.append(url_entry(f"/blog/{m['slug']}", m["date"], "monthly", "0.7"))
+
+# English blog list + articles
+if metas_en:
+    sitemap_lines.append(url_entry("/en/blog", today, "weekly", "0.8"))
+    for m in sorted(metas_en, key=lambda x: x["slug"]):
+        sitemap_lines.append(url_entry(f"/en/blog/{m['slug']}", m["date"], "monthly", "0.7"))
+
+sitemap_lines.append("</urlset>")
+sitemap_lines.append("")  # trailing newline
+
+with open(SITEMAP_FILE, "w", encoding="utf-8", newline="\n") as f:
+    f.write("\n".join(sitemap_lines))
+
+total_urls = len(sitemap_lines) - 3  # subtract xml decl + urlset open + close
+print("sitemap.xml regenerated:", total_urls, "URLs")
