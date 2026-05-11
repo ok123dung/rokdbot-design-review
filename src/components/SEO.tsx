@@ -37,6 +37,16 @@ const BASE_URL = "https://rokdbot.com";
 const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`;
 const PUBLISHER_LOGO = `${BASE_URL}/favicon-512.png`; // raster, ≥112×112 per Google guidelines
 
+// Slugs that have an English translation under /en/blog/. Keep in sync with src/pages/blog/blogMetaEn.ts.
+const EN_TRANSLATED_SLUGS = new Set([
+  "rokdbot-v3-vs-v2-vs-v1-roi-comparison-2026",
+  "f2p-to-vip2-bot-progression-roadmap-rok-2026",
+  "auto-honor-farming-kvk-rok-2026",
+  "kvk-season-8-complete-guide-rok-2026",
+  "commander-tier-list-cavalry-rok-2026",
+  "bot-rise-of-kingdoms-co-an-toan-khong",
+]);
+
 const OG_LOCALE: Record<string, string> = {
   vi: "vi_VN",
   en: "en_US",
@@ -102,10 +112,17 @@ export function SEO({
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={image} />
 
-      {/* Hreflang: site is single-locale (Vietnamese) — only emit x-default + vi.
-          Re-add per-language alternates here when standalone /en/, /ko/, /zh/ routes ship. */}
+      {/* Hreflang: blog content available in vi (full catalog 204) + en (6 strategic translations).
+          When viewing a blog post with English variant, emit alternate hreflang pair so Google
+          knows to surface the English page for en-locale searches. */}
       <link rel="alternate" hrefLang="vi" href={canonicalUrl} />
       <link rel="alternate" hrefLang="x-default" href={canonicalUrl} />
+      {url?.startsWith("/blog/") && EN_TRANSLATED_SLUGS.has(url.slice(6)) && (
+        <link rel="alternate" hrefLang="en" href={`${BASE_URL}/en${url}`} />
+      )}
+      {url?.startsWith("/en/blog/") && (
+        <link rel="alternate" hrefLang="vi" href={`${BASE_URL}${url.replace("/en/blog/", "/blog/")}`} />
+      )}
 
       <html lang={currentLang} />
 

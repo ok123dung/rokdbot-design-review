@@ -17,6 +17,8 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const BlogList = lazy(() => import("./pages/blog/BlogList"));
 const BlogPost = lazy(() => import("./pages/blog/BlogPost"));
+const EnBlogList = lazy(() => import("./pages/blog/EnBlogList"));
+const EnBlogPost = lazy(() => import("./pages/blog/EnBlogPost"));
 const TraCuuDon = lazy(() => import("./pages/TraCuuDon"));
 
 const queryClient = new QueryClient({
@@ -55,6 +57,8 @@ const App = () => (
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/blog" element={<BlogList />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/en/blog" element={<EnBlogList />} />
+              <Route path="/en/blog/:slug" element={<EnBlogPost />} />
               <Route path="/tra-cuu" element={<TraCuuDon />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
