@@ -111,28 +111,46 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [packageId, contact, contactMethod]);
 
-  // Subscribe to realtime order updates (webhook → status=paid)
+  // Poll order status every 2s as primary mechanism. Reliable across
+  // any Supabase Realtime config. Stops when status moves out of pending
+  // or after 15-min countdown elapses (handled by handleExpire).
+  //
+  // (Also try Realtime broadcast as a faster signal — trigger
+  // orders_broadcast_paid_trigger emits status_change via realtime.send()
+  // on every status update; if the tenant supports it, subscriber sees
+  // the event instantly. Polling catches it on the next tick regardless.)
   useEffect(() => {
     if (!order) return;
-    const channel = supabase
-      .channel(`order-${order.order_id}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "orders",
-          filter: `id=eq.${order.order_id}`,
-        },
-        (payload) => {
-          if (payload.new?.status === "paid") {
-            setState("confirmed");
-          }
-        }
-      )
+    let cancelled = false;
+
+    // Broadcast listener (best-effort)
+    const channel = supabase.channel(`order-${order.order_id}`);
+    channel
+      .on("broadcast", { event: "status_change" }, (payload) => {
+        const next = (payload.payload as { status?: string } | undefined);
+        if (next?.status === "paid" && !cancelled) setState("confirmed");
+      })
       .subscribe();
 
+    // Polling fallback (every 2s)
+    const poll = async () => {
+      if (cancelled) return;
+      const { data } = await supabase
+        .from("orders")
+        .select("status")
+        .eq("id", order.order_id)
+        .maybeSingle();
+      if (cancelled) return;
+      if (data?.status === "paid") {
+        setState("confirmed");
+        return;
+      }
+      setTimeout(poll, 2000);
+    };
+    setTimeout(poll, 2000);
+
     return () => {
+      cancelled = true;
       supabase.removeChannel(channel);
     };
   }, [order]);
