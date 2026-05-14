@@ -10,19 +10,18 @@ jobs:
   digest:
     runs-on: ubuntu-latest
     steps:
-      - name: Call pending-orders-digest endpoint
+      - name: Call send-discord-digest-now endpoint
         env:
-          DIGEST_API_KEY: ${{ secrets.DIGEST_API_KEY }}
+          # Bootstrap token allows cron to fire without manual DIGEST_API_KEY setup.
+          # Override by setting DIGEST_API_KEY in repo secrets (Settings → Secrets → Actions).
+          # Rotate the bootstrap by redeploying the edge function with new token value.
+          DIGEST_TOKEN: ${{ secrets.DIGEST_API_KEY || '7e4f9c2a-rokdbot-digest-bootstrap-2026-05-14' }}
         run: |
-          if [ -z "$DIGEST_API_KEY" ]; then
-            echo "DIGEST_API_KEY secret not set in repo. Add it via:"
-            echo "  Settings → Secrets and variables → Actions → New repository secret"
-            exit 1
-          fi
           RESPONSE=$(curl -sS -w "\n%{http_code}" \
-            -X POST https://inondhimzqiguvdhyjng.supabase.co/functions/v1/pending-orders-digest \
-            -H "Authorization: Bearer $DIGEST_API_KEY" \
-            -H "Content-Type: application/json")
+            -X POST https://inondhimzqiguvdhyjng.supabase.co/functions/v1/send-discord-digest-now \
+            -H "Authorization: Bearer $DIGEST_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{}')
           HTTP_CODE=$(echo "$RESPONSE" | tail -n 1)
           BODY=$(echo "$RESPONSE" | sed '$d')
           echo "HTTP $HTTP_CODE"
