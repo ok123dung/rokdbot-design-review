@@ -108,10 +108,23 @@ supabase secrets set SEPAY_API_KEY=your_api_key_here \
 ```
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/XXXXX/YYYYY
 DIGEST_API_KEY=any-random-string-for-cron-auth
+RESEND_API_KEY=re_XXXXXXX
 ```
 
-- `DISCORD_WEBHOOK_URL` — Discord webhook để nhận alert khi customer self-report payment + daily pending digest. Tạo qua Server Settings → Integrations → Webhooks
+- `DISCORD_WEBHOOK_URL` — Discord webhook để nhận alert khi customer self-report payment + daily pending digest. Tạo qua Server Settings → Integrations → Webhooks. (Optional — nếu skip, alert vẫn được ghi vào DB qua `customer_reported_paid_at` field)
 - `DIGEST_API_KEY` — random string (vd. UUID). Dùng làm Auth header khi cron call `pending-orders-digest` endpoint
+- `RESEND_API_KEY` — **HIỆN CHƯA SET** (verified 2026-05-14 audit). Email notification cho customer + admin sẽ không gửi nếu thiếu key này. Lấy từ [resend.com/api-keys](https://resend.com/api-keys) (free 3,000 emails/month)
+
+### 3.4 Trạng thái hiện tại các env vars (2026-05-14)
+
+Audit confirmed các env sau **đã set** (vì code edge functions chạy được):
+- ✅ `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_ANON_KEY` (auto)
+
+**Chưa set** (return error khi function cần dùng):
+- ❌ `RESEND_API_KEY` — verified missing (send-admin-state-now returned "RESEND_API_KEY env var not set")
+- ❌ `SEPAY_API_KEY` — assumed missing (sepay-webhook trả 401 cho mọi request)
+- ❌ `DISCORD_WEBHOOK_URL` — assumed missing
+- ❌ `DIGEST_API_KEY` — assumed missing
 
 ---
 
