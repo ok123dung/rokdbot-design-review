@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { X, Copy, Check, Loader2, MessageCircle } from "lucide-react";
+import { X, Copy, Check, Loader2, MessageCircle, ArrowRight, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { CountdownTimer } from "./CountdownTimer";
 
@@ -16,49 +16,104 @@ interface OrderResult {
   package_name: string;
 }
 
-type ModalState = "loading" | "paying" | "confirmed" | "expired" | "error";
+type ModalState =
+  | "contact"        // step 1: capture customer contact
+  | "loading"        // creating order
+  | "paying"         // QR shown, waiting for webhook
+  | "confirmed"      // webhook fired, paid_at set
+  | "manual_wait"    // customer clicked "Đã chuyển khoản", waiting admin verify
+  | "expired"        // 15 min countdown elapsed without webhook or self-report
+  | "error";
+
+type ContactMethod = "zalo" | "telegram" | "discord" | "email" | "phone";
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+// 15 minutes — was 5 min before. Real bank transfers can take 1-3 min;
+// older bank apps + interbank routes need more buffer.
+const COUNTDOWN_SECONDS = 900;
 
 export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
-  const [state, setState] = useState<ModalState>("loading");
+  const [state, setState] = useState<ModalState>("contact");
   const [order, setOrder] = useState<OrderResult | null>(null);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
 
-  // Create order on mount
-  useEffect(() => {
-    async function createOrder() {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-order`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ package_id: packageId }),
-          }
-        );
+  // Contact form state
+  const [contactMethod, setContactMethod] = useState<ContactMethod>("zalo");
+  const [contact, setContact] = useState("");
+  const [contactError, setContactError] = useState("");
 
-        const data = await res.json();
+  // Self-report state
+  const [reporting, setReporting] = useState(false);
+  const [reportNote, setReportNote] = useState("");
 
-        if (!res.ok) {
-          setError(data.error || "Failed to create order");
-          setState("error");
-          return;
-        }
-
-        setOrder(data);
-        setState("paying");
-      } catch {
-        setError("Network error. Please try again.");
-        setState("error");
-      }
+  // Validate contact input
+  const validateContact = (): boolean => {
+    const trimmed = contact.trim();
+    if (!trimmed) {
+      setContactError("Vui lòng nhập thông tin liên hệ");
+      return false;
     }
-    createOrder();
-  }, [packageId]);
+    if (trimmed.length < 3) {
+      setContactError("Quá ngắn — vui lòng nhập đầy đủ");
+      return false;
+    }
+    if (trimmed.length > 200) {
+      setContactError("Quá dài (max 200 ký tự)");
+      return false;
+    }
+    if (contactMethod === "email" && !trimmed.includes("@")) {
+      setContactError("Email không hợp lệ");
+      return false;
+    }
+    if ((contactMethod === "zalo" || contactMethod === "phone") && !/\d{8,}/.test(trimmed)) {
+      setContactError("Số điện thoại phải có ít nhất 8 chữ số");
+      return false;
+    }
+    setContactError("");
+    return true;
+  };
 
-  // Subscribe to realtime order updates
+  // Step 1 → 2: submit contact + create order
+  const handleSubmitContact = useCallback(async () => {
+    if (!validateContact()) return;
+    setState("loading");
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/create-order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+        },
+        body: JSON.stringify({
+          package_id: packageId,
+          customer_contact: contact.trim(),
+          customer_contact_method: contactMethod,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Failed to create order");
+        setState("error");
+        return;
+      }
+
+      setOrder(data);
+      setState("paying");
+    } catch {
+      setError("Network error. Please try again.");
+      setState("error");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [packageId, contact, contactMethod]);
+
+  // Subscribe to realtime order updates (webhook → status=paid)
   useEffect(() => {
     if (!order) return;
-
     const channel = supabase
       .channel(`order-${order.order_id}`)
       .on(
@@ -89,19 +144,126 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
   }, []);
 
   const handleExpire = useCallback(() => {
-    setState("expired");
+    setState((prev) => (prev === "paying" ? "expired" : prev));
   }, []);
+
+  // Customer self-reports payment (manual verify fallback)
+  const handleReportPaid = useCallback(async () => {
+    if (!order) return;
+    setReporting(true);
+    try {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/report-payment-received`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_KEY,
+        },
+        body: JSON.stringify({
+          order_id: order.order_id,
+          note: reportNote.trim() || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Failed to submit report");
+        return;
+      }
+      if (data.status === "paid") {
+        setState("confirmed");
+      } else {
+        setState("manual_wait");
+      }
+    } catch {
+      setError("Network error. Try again or contact us directly.");
+    } finally {
+      setReporting(false);
+    }
+  }, [order, reportNote]);
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div
-        className="modal-container"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close button */}
+      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} aria-label="Đóng" className="absolute top-4 right-4 text-gray-400 hover:text-white">
           <X className="w-5 h-5" />
         </button>
+
+        {/* Step 1: Capture contact BEFORE showing QR */}
+        {state === "contact" && (
+          <div>
+            <h2 className="text-lg font-bold text-white mb-1">Thông tin liên hệ</h2>
+            <p className="text-muted text-sm mb-4">
+              Để chúng tôi liên hệ kích hoạt bot sau khi thanh toán.
+            </p>
+
+            {/* Contact method selector */}
+            <div className="grid grid-cols-3 gap-2 mb-4">
+              {(["zalo", "telegram", "discord"] as ContactMethod[]).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setContactMethod(m)}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                    contactMethod === m
+                      ? "bg-primary text-white"
+                      : "bg-white/5 text-muted hover:bg-white/10"
+                  }`}
+                >
+                  {m.charAt(0).toUpperCase() + m.slice(1)}
+                </button>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {(["email", "phone"] as ContactMethod[]).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setContactMethod(m)}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                    contactMethod === m
+                      ? "bg-primary text-white"
+                      : "bg-white/5 text-muted hover:bg-white/10"
+                  }`}
+                >
+                  {m === "email" ? "Email" : "Số điện thoại"}
+                </button>
+              ))}
+            </div>
+
+            <input
+              type="text"
+              value={contact}
+              onChange={(e) => setContact(e.target.value)}
+              placeholder={
+                contactMethod === "zalo"
+                  ? "0912345678 (số Zalo)"
+                  : contactMethod === "telegram"
+                  ? "@username hoặc +84..."
+                  : contactMethod === "discord"
+                  ? "username#1234"
+                  : contactMethod === "email"
+                  ? "you@example.com"
+                  : "0912345678"
+              }
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-muted focus:outline-none focus:border-primary mb-2"
+              autoFocus
+            />
+            {contactError && (
+              <p className="text-red-400 text-xs mb-2 flex items-center gap-1">
+                <AlertCircle className="w-3 h-3" />
+                {contactError}
+              </p>
+            )}
+
+            <p className="text-muted text-xs mb-4">
+              Chỉ admin RokdBot xem thông tin này. Không spam, không bán dữ liệu.
+            </p>
+
+            <button onClick={handleSubmitContact} className="btn-buy w-full py-3 flex items-center justify-center gap-2">
+              Tiếp tục
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
 
         {/* Loading */}
         {state === "loading" && (
@@ -119,27 +281,20 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
           </div>
         )}
 
-        {/* Paying */}
+        {/* Paying — QR shown, waiting for webhook */}
         {state === "paying" && order && (
           <div className="text-center">
             <h2 className="text-lg font-bold text-white mb-1">Thanh toán đơn hàng</h2>
             <p className="text-muted text-sm mb-4">{order.package_name}</p>
 
-            {/* QR Code */}
             <div className="bg-white rounded-xl p-3 inline-block mb-4">
-              <img
-                src={order.qr_url}
-                alt="Payment QR Code"
-                className="w-56 h-56 object-contain"
-              />
+              <img src={order.qr_url} alt="Payment QR Code" className="w-56 h-56 object-contain" />
             </div>
 
-            {/* Amount */}
             <p className="text-3xl font-extrabold text-gold font-mono mb-4">
               {order.amount.toLocaleString()}đ
             </p>
 
-            {/* Transfer content */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
               <p className="text-muted text-sm mb-2">Nội dung chuyển khoản:</p>
               <div className="flex items-center justify-center gap-2">
@@ -150,22 +305,16 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
                   onClick={() => handleCopy(`ROK ${order.payment_code}`)}
                   className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition"
                 >
-                  {copied ? (
-                    <Check className="w-4 h-4 text-green-400" />
-                  ) : (
-                    <Copy className="w-4 h-4 text-muted" />
-                  )}
+                  {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-muted" />}
                 </button>
               </div>
             </div>
 
-            {/* Bank info */}
             <div className="text-sm text-muted space-y-1 mb-3">
               <p>HD Bank: <strong className="text-white">0915966853</strong></p>
               <p>Chủ TK: <strong className="text-white">NGUYEN HUU DUNG</strong></p>
             </div>
 
-            {/* PayPal option */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
               <p className="text-muted text-xs mb-2">International payment:</p>
               <a
@@ -174,9 +323,6 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#0070ba] hover:bg-[#005ea6] text-white font-semibold rounded-lg px-5 py-2.5 text-sm transition-all"
               >
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/>
-                </svg>
                 Pay ~${(order.amount / 25000).toFixed(0)} USD via PayPal
               </a>
               <p className="text-muted text-[10px] mt-2">
@@ -184,21 +330,80 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
               </p>
             </div>
 
-            {/* Countdown */}
-            <div className="flex items-center justify-center gap-2 mb-2">
+            <div className="flex items-center justify-center gap-2 mb-3">
               <span className="text-muted text-sm">Thời gian còn lại:</span>
-              <CountdownTimer seconds={300} onExpire={handleExpire} />
+              <CountdownTimer seconds={COUNTDOWN_SECONDS} onExpire={handleExpire} />
             </div>
 
-            {/* Waiting spinner */}
-            <div className="flex items-center justify-center gap-2 text-muted text-sm">
+            <div className="flex items-center justify-center gap-2 text-muted text-sm mb-3">
               <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Đang chờ thanh toán...</span>
+              <span>Đang chờ xác nhận tự động...</span>
+            </div>
+
+            {/* Fallback: customer self-report if webhook is slow */}
+            <button
+              onClick={() => setState("manual_wait")}
+              className="text-primary text-sm hover:underline"
+            >
+              Đã chuyển khoản rồi? Nhấn để xác nhận →
+            </button>
+          </div>
+        )}
+
+        {/* Manual wait: customer self-reported */}
+        {state === "manual_wait" && order && (
+          <div className="text-center">
+            <h2 className="text-lg font-bold text-white mb-2">Xác nhận đã chuyển khoản</h2>
+            <p className="text-muted text-sm mb-4">
+              Mã đơn hàng <span className="font-mono font-bold text-primary">ROK {order.payment_code}</span>
+            </p>
+
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 mb-4 text-left">
+              <p className="text-amber-200 text-sm mb-2 font-semibold">⏱ Quy trình xác nhận thủ công</p>
+              <ol className="text-amber-100/80 text-xs space-y-1 list-decimal list-inside">
+                <li>Admin kiểm tra sao kê HD Bank trong vòng 30 phút (giờ hành chính)</li>
+                <li>Nếu giao dịch khớp → bot kích hoạt trong 24h</li>
+                <li>Liên hệ qua {(order as OrderResult & { customer_contact_method?: string }).customer_contact_method ?? "Zalo/Discord"} đã nhập</li>
+              </ol>
+            </div>
+
+            <textarea
+              value={reportNote}
+              onChange={(e) => setReportNote(e.target.value)}
+              placeholder="Mã giao dịch ngân hàng (FT...) nếu có — giúp admin verify nhanh hơn"
+              maxLength={500}
+              rows={2}
+              className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder:text-muted focus:outline-none focus:border-primary mb-4"
+            />
+
+            <button
+              onClick={handleReportPaid}
+              disabled={reporting}
+              className="btn-buy w-full py-3 flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {reporting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Đang gửi...
+                </>
+              ) : (
+                <>Gửi xác nhận tới admin</>
+              )}
+            </button>
+
+            {error && <p className="text-red-400 text-xs mt-3">{error}</p>}
+
+            <div className="flex gap-2 mt-4 justify-center">
+              <a href="https://discord.gg/UPuFYCw4JG" target="_blank" rel="noopener noreferrer" className="btn-secondary text-sm">
+                <MessageCircle className="w-3 h-3" /> Discord
+              </a>
+              <a href="https://zalo.me/g/rqgqyd878" target="_blank" rel="noopener noreferrer" className="btn-secondary text-sm">
+                Zalo
+              </a>
             </div>
           </div>
         )}
 
-        {/* Confirmed */}
+        {/* Confirmed — webhook fired */}
         {state === "confirmed" && order && (
           <div className="text-center py-4">
             <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center mb-4">
@@ -209,54 +414,44 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
             <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-6">
               <p className="text-muted text-sm mb-2">Mã đơn hàng của bạn:</p>
               <div className="flex items-center justify-center gap-2">
-                <span className="text-2xl font-bold text-primary font-mono">
-                  {order.payment_code}
-                </span>
+                <span className="text-2xl font-bold text-primary font-mono">{order.payment_code}</span>
                 <button
                   onClick={() => handleCopy(order.payment_code)}
                   className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition"
                 >
-                  {copied ? (
-                    <Check className="w-4 h-4 text-green-400" />
-                  ) : (
-                    <Copy className="w-4 h-4 text-muted" />
-                  )}
+                  {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-muted" />}
                 </button>
               </div>
             </div>
 
             <p className="text-muted text-sm mb-4">
-              Liên hệ chúng tôi với mã này để bắt đầu dịch vụ:
+              Bot sẽ được kích hoạt trong vòng 24 giờ. Admin sẽ liên hệ qua kênh đã nhập.
             </p>
 
             <div className="flex gap-3 justify-center">
-              <a
-                href="https://discord.gg/UPuFYCw4JG"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
-                <MessageCircle className="w-4 h-4" />
-                Discord
+              <a href="https://discord.gg/UPuFYCw4JG" target="_blank" rel="noopener noreferrer" className="btn-primary">
+                <MessageCircle className="w-4 h-4" /> Discord
               </a>
-              <a
-                href="https://zalo.me/g/rqgqyd878"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
+              <a href="https://zalo.me/g/rqgqyd878" target="_blank" rel="noopener noreferrer" className="btn-primary">
                 Zalo
               </a>
             </div>
           </div>
         )}
 
-        {/* Expired */}
-        {state === "expired" && (
-          <div className="text-center py-8">
-            <p className="text-red-400 font-medium mb-2">Đơn hàng đã hết hạn</p>
-            <p className="text-muted text-sm mb-4">Vui lòng tạo đơn hàng mới.</p>
-            <button onClick={onClose} className="btn-secondary">Đóng</button>
+        {/* Expired — 15 min elapsed without webhook or self-report */}
+        {state === "expired" && order && (
+          <div className="text-center py-6">
+            <p className="text-amber-400 font-medium mb-2">Hết thời gian chờ tự động</p>
+            <p className="text-muted text-sm mb-4">
+              Nếu mày đã chuyển khoản, click bên dưới để xác nhận. Admin sẽ verify thủ công.
+            </p>
+            <button onClick={() => setState("manual_wait")} className="btn-buy mb-3">
+              Tôi đã chuyển khoản
+            </button>
+            <button onClick={onClose} className="block mx-auto text-muted text-sm hover:text-white">
+              Đóng và tạo đơn mới
+            </button>
           </div>
         )}
       </div>

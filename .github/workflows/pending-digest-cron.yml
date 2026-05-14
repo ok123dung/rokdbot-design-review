@@ -1,0 +1,40 @@
+name: Daily pending orders digest
+
+on:
+  # 08:00 Vietnam time (UTC+7) = 01:00 UTC
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call pending-orders-digest endpoint
+        env:
+          DIGEST_API_KEY: ${{ secrets.DIGEST_API_KEY }}
+        run: |
+          if [ -z "$DIGEST_API_KEY" ]; then
+            echo "DIGEST_API_KEY secret not set in repo. Add it via:"
+            echo "  Settings → Secrets and variables → Actions → New repository secret"
+            exit 1
+          fi
+          RESPONSE=$(curl -sS -w "\n%{http_code}" \
+            -X POST https://inondhimzqiguvdhyjng.supabase.co/functions/v1/pending-orders-digest \
+            -H "Authorization: Bearer $DIGEST_API_KEY" \
+            -H "Content-Type: application/json")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n 1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          echo "HTTP $HTTP_CODE"
+          echo "$BODY"
+          if [ "$HTTP_CODE" -ne 200 ]; then
+            echo "Digest call failed"
+            exit 1
+          fi
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Daily pending digest" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Run at $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> "$GITHUB_STEP_SUMMARY"

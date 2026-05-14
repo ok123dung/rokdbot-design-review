@@ -19,7 +19,13 @@ const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
 interface CreateOrderRequest {
   package_id: string;
+  /** Optional contact captured at order creation so admin can follow up
+   * when SePay webhook fails to auto-verify the transaction. */
+  customer_contact?: string;
+  customer_contact_method?: "zalo" | "telegram" | "discord" | "email" | "phone";
 }
+
+const VALID_CONTACT_METHODS = new Set(["zalo", "telegram", "discord", "email", "phone"]);
 
 function getClientIp(req: Request): string {
   return (
@@ -84,6 +90,21 @@ serve(async (req: Request) => {
       );
     }
 
+    // Validate contact method if provided
+    if (body.customer_contact_method && !VALID_CONTACT_METHODS.has(body.customer_contact_method)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid customer_contact_method" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Trim + length-limit contact (prevent abuse)
+    const contact = body.customer_contact?.trim().slice(0, 200) || null;
+    const contactMethod = body.customer_contact_method || null;
+
     // Supabase admin client (service_role_key bypasses RLS)
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
@@ -126,6 +147,8 @@ serve(async (req: Request) => {
         package_id: body.package_id,
         total_amount: pkg.price,
         status: "pending",
+        customer_contact: contact,
+        customer_contact_method: contactMethod,
       })
       .select("id, payment_code")
       .single();
