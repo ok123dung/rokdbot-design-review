@@ -280,6 +280,24 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
               Tiếp tục
               <ArrowRight className="w-4 h-4" />
             </button>
+
+            <div className="mt-4 pt-4 border-t border-white/5 text-center">
+              <p className="text-muted text-xs mb-2">
+                Lần đầu mua? Chưa chắc?
+              </p>
+              <a
+                href="https://zalo.me/g/rqgqyd878"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-cyan-300 hover:text-cyan-200 underline decoration-cyan-300/30 hover:decoration-cyan-200 transition"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Chat Zalo admin tư vấn miễn phí trước khi đặt
+              </a>
+              <p className="text-muted text-[10px] mt-2">
+                Phản hồi {`<`}5 phút giờ HC · Hỏi gì cũng được trước khi chuyển tiền
+              </p>
+            </div>
           </div>
         )}
 
