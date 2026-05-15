@@ -22,7 +22,7 @@ export const faqs: FAQItem[] = [
   },
   {
     q: "Thanh toán bằng cách nào?",
-    a: "Quét VietQR bằng app banking (mọi ngân hàng VN). Hệ thống tự xác nhận trong 60 giây, gửi mã đơn ROKxxxxxx qua Discord/Zalo. Bot kích hoạt trong vòng 24h sau khi bạn cung cấp account.",
+    a: "Quét VietQR bằng app banking (mọi ngân hàng VN). Admin xác nhận đơn trong 30 phút giờ hành chính, hoặc tự động trong 5 giây nếu SePay webhook đã active. Mã đơn ROKxxxxxx gửi qua Discord/Zalo. Bot kích hoạt trong vòng 24h sau khi bạn cung cấp account.",
   },
   {
     q: "Tôi có cần để máy mở 24/7?",

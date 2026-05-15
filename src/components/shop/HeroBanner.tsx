@@ -176,7 +176,7 @@ function HeroDashboard({ supaStats }: { supaStats: SupaStats | null }) {
           <div className="delta">active</div>
         </div>
         <div className="dash-stat">
-          <div className="l">{supaStats ? "Đơn hoàn thành" : "Uptime"}</div>
+          <div className="l">{supaStats ? "Lượt đặt đơn" : "Uptime"}</div>
           <div className="v">{supaStats ? ordersLabel : "99.6%"}</div>
           <div className="delta">{supaStats ? `${supaStats.inStock}/${supaStats.packages} gói còn` : "7d window"}</div>
         </div>

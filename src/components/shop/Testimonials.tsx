@@ -5,7 +5,7 @@ const stats: Array<{ num: string; lbl: string; sub: string; gold?: boolean }> = 
   { num: "29", lbl: "Tính năng tự động", sub: "farm + combat + city", gold: true },
   { num: "24h", lbl: "Kích hoạt sau VietQR", sub: "thanh toán → bot chạy" },
   { num: "<0,1%", lbl: "Tỷ lệ ban", sub: "IP riêng + anti-detect", gold: true },
-  { num: "4 gói", lbl: "Trial → V3 Ultimate", sub: "từ 150k → 1.2M / tháng" },
+  { num: "5 gói", lbl: "Trial → Premium VIP", sub: "từ 150k → 3M / tháng" },
   { num: "7–30", lbl: "Ngày theo gói", sub: "Trial 7 ngày · V1–V3 30 ngày", gold: true },
 ];
 
