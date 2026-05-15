@@ -134,10 +134,13 @@ Sau Bước 4, mày test bằng tiền thật để confirm 100%:
 
 ### 5.2 Chuyển khoản test
 - Mở app HD Bank → quét QR
-- **Nhập số tiền 5,000đ** (không cần 150k — chỉ cần verify routing)
-- Hoặc giữ 150,000đ nếu muốn test full flow (sau test mày tự refund cho chính mày)
+- **Nhập số tiền 150,000đ** (đủ amount của gói — REQUIRED để verify success criteria)
 - Nội dung tự fill `ROK XXXXXX`
 - Confirm transaction
+
+⚠ **Lưu ý**: Nếu chuyển < 150,000đ (vd. 5,000đ), webhook check `receivedAmount < expectedAmount` → return `"Insufficient amount"` → KHÔNG mark order paid → UI không tự confirm → Step 5.3 fail. Phải chuyển đủ amount.
+
+→ Sau test mày tự transfer 150,000đ về lại chính mày (HD Bank → HD Bank, 0915966853 → cùng số đó, hoặc qua TK khác của mày).
 
 ### 5.3 Verify auto-confirm
 Trong 5 giây sau khi transfer:
