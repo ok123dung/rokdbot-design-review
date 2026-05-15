@@ -22,10 +22,10 @@ interface CreateOrderRequest {
   /** Optional contact captured at order creation so admin can follow up
    * when SePay webhook fails to auto-verify the transaction. */
   customer_contact?: string;
-  customer_contact_method?: "zalo" | "telegram" | "discord" | "email" | "phone";
+  customer_contact_method?: "zalo" | "discord" | "email" | "phone";
 }
 
-const VALID_CONTACT_METHODS = new Set(["zalo", "telegram", "discord", "email", "phone"]);
+const VALID_CONTACT_METHODS = new Set(["zalo", "discord", "email", "phone"]);
 
 function getClientIp(req: Request): string {
   return (

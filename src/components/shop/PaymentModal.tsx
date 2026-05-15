@@ -25,7 +25,7 @@ type ModalState =
   | "expired"        // 15 min countdown elapsed without webhook or self-report
   | "error";
 
-type ContactMethod = "zalo" | "telegram" | "discord" | "email" | "phone";
+type ContactMethod = "zalo" | "discord" | "email" | "phone";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -247,8 +247,8 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
             </p>
 
             {/* Contact method selector */}
-            <div className="grid grid-cols-3 gap-2 mb-4">
-              {(["zalo", "telegram", "discord"] as ContactMethod[]).map((m) => (
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {(["zalo", "discord"] as ContactMethod[]).map((m) => (
                 <button
                   key={m}
                   type="button"
@@ -287,8 +287,6 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
               placeholder={
                 contactMethod === "zalo"
                   ? "0912345678 (số Zalo)"
-                  : contactMethod === "telegram"
-                  ? "@username hoặc +84..."
                   : contactMethod === "discord"
                   ? "username#1234"
                   : contactMethod === "email"
