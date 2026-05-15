@@ -34,6 +34,33 @@ const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 // older bank apps + interbank routes need more buffer.
 const COUNTDOWN_SECONDS = 900;
 
+// Fire-and-forget funnel events. session_id persists in localStorage
+// so we can correlate modal_opened → contact_submitted → paid across
+// the user's whole journey, even across reloads.
+function getSessionId(): string {
+  try {
+    let id = localStorage.getItem("rokd_session_id");
+    if (!id) {
+      id = (crypto.randomUUID?.() ?? `${Date.now()}-${Math.random()}`).toString();
+      localStorage.setItem("rokd_session_id", id);
+    }
+    return id;
+  } catch {
+    return `${Date.now()}-${Math.random()}`;
+  }
+}
+
+function trackEvent(
+  event_type: "modal_opened" | "contact_submitted",
+  payload: { package_id?: string; order_id?: string }
+): void {
+  fetch(`${SUPABASE_URL}/functions/v1/track-funnel-event`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", apikey: SUPABASE_KEY },
+    body: JSON.stringify({ event_type, session_id: getSessionId(), ...payload }),
+  }).catch(() => { /* fire-and-forget */ });
+}
+
 export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
   const [state, setState] = useState<ModalState>("contact");
   const [order, setOrder] = useState<OrderResult | null>(null);
@@ -48,6 +75,11 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
   // Self-report state
   const [reporting, setReporting] = useState(false);
   const [reportNote, setReportNote] = useState("");
+
+  // Funnel: modal_opened fires once per package picked (front of funnel).
+  useEffect(() => {
+    trackEvent("modal_opened", { package_id: packageId });
+  }, [packageId]);
 
   // Validate contact input
   const validateContact = (): boolean => {
@@ -103,6 +135,7 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
       }
 
       setOrder(data);
+      trackEvent("contact_submitted", { package_id: packageId, order_id: data.order_id });
       setState("paying");
     } catch {
       setError("Network error. Please try again.");
