@@ -352,37 +352,9 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
         {state === "paying" && order && (
           <div className="text-center">
             <h2 className="text-lg font-bold text-white mb-1">Thanh toán đơn hàng</h2>
-            <p className="text-muted text-sm mb-4">{order.package_name}</p>
+            <p className="text-muted text-sm mb-3">{order.package_name}</p>
 
-            <div className="bg-white rounded-xl p-3 inline-block mb-4">
-              <img src={order.qr_url} alt="Payment QR Code" className="w-56 h-56 object-contain" />
-            </div>
-
-            <p className="text-3xl font-extrabold text-gold font-mono mb-4">
-              {order.amount.toLocaleString()}đ
-            </p>
-
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
-              <p className="text-muted text-sm mb-2">Nội dung chuyển khoản:</p>
-              <div className="flex items-center justify-center gap-2">
-                <span className="text-xl font-bold text-primary font-mono">
-                  ROK {order.payment_code}
-                </span>
-                <button
-                  onClick={() => handleCopy(`ROK ${order.payment_code}`)}
-                  className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition"
-                >
-                  {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-muted" />}
-                </button>
-              </div>
-            </div>
-
-            <div className="text-sm text-muted space-y-1 mb-3">
-              <p>HD Bank: <strong className="text-white">0915966853</strong></p>
-              <p>Chủ TK: <strong className="text-white">NGUYEN HUU DUNG</strong></p>
-            </div>
-
-            <div className="bg-green-500/5 border border-green-500/20 rounded-xl p-3 mb-4 text-left">
+            <div className="bg-green-500/5 border border-green-500/20 rounded-xl p-3 mb-3 text-left">
               <div className="flex items-start gap-2 mb-2">
                 <span className="text-green-400 text-base shrink-0">🛡</span>
                 <p className="text-green-100/90 text-xs leading-relaxed">
@@ -410,6 +382,34 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
                   {" "}— admin trả lời nhanh.
                 </p>
               </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-3 inline-block mb-3">
+              <img src={order.qr_url} alt="Payment QR Code" className="w-56 h-56 object-contain" />
+            </div>
+
+            <p className="text-3xl font-extrabold text-gold font-mono mb-3">
+              {order.amount.toLocaleString("vi-VN")}đ
+            </p>
+
+            <div className="bg-white/5 border border-white/10 rounded-xl p-3 mb-3">
+              <p className="text-muted text-sm mb-2">Nội dung chuyển khoản:</p>
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-xl font-bold text-primary font-mono">
+                  ROK {order.payment_code}
+                </span>
+                <button
+                  onClick={() => handleCopy(`ROK ${order.payment_code}`)}
+                  className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition"
+                >
+                  {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-muted" />}
+                </button>
+              </div>
+            </div>
+
+            <div className="text-sm text-muted space-y-1 mb-3">
+              <p>HD Bank: <strong className="text-white">0915966853</strong></p>
+              <p>Chủ TK: <strong className="text-white">NGUYEN HUU DUNG</strong></p>
             </div>
 
             <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
