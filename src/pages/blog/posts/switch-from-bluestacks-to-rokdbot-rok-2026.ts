@@ -102,7 +102,7 @@ Phần lớn người switch từ BlueStacks sang **V1 750k** trước — test 
 **Khác cần làm quen:**
 - Không có giao diện visual như BlueStacks — quản lý qua dashboard web
 - Không tự custom script được — đổi lại bằng profile preset được optimize sẵn
-- Support qua Telegram thay vì tự debug
+- Support qua Zalo/Discord thay vì tự debug
 
 ## FAQ
 

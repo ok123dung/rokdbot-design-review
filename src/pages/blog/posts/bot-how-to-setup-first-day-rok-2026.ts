@@ -21,7 +21,7 @@ Chuẩn bị trước — đừng bắt đầu mà thiếu cái này:
 - Account RoK của mày đang active (đang ở kingdom nào, power bao nhiêu)
 - Biết commander đang dùng cho farm rợ là ai (nếu chưa có commander peacekeeping, đọc note bên dưới)
 - Kết nối internet ổn định (bot cần download profile ban đầu)
-- Zalo hoặc Telegram để liên lạc support
+- Zalo hoặc Discord để liên lạc support
 
 Commander peacekeeping tối thiểu cho Trial: **Lohar** (miễn phí, mọi người có). Nếu chưa có Lohar, unlock Lohar trước — đây là commander starter cho peacekeeping/barb farm.
 
@@ -86,7 +86,7 @@ Nếu march không di chuyển sau 30 phút: nhắn support ngay qua Zalo.
 
 ### Tôi không có Zalo thì sao?
 
-Support cũng có Telegram. Nhắn khi đăng ký để được chuyển sang kênh Telegram.
+Support cũng có Discord (discord.gg/UPuFYCw4JG). Join server rồi DM admin, hoặc chat trong kênh #payment-help / #support.
 
 ### Bot có chạy khi tôi đang online không?
 

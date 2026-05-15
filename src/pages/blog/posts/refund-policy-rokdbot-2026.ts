@@ -51,7 +51,7 @@ Phải nói thẳng để tránh hiểu nhầm:
 Không phức tạp. 3 bước:
 
 **Bước 1: Liên hệ support trong thời gian eligible**
-- Kênh: Telegram support (link trong dashboard sau khi activate)
+- Kênh: Zalo (zalo.me/g/rqgqyd878) hoặc Discord (discord.gg/UPuFYCw4JG) support
 - Nội dung cần gửi: Order ID, ngày activate, mô tả vấn đề, screenshot/log nếu có
 
 **Bước 2: Team xác minh**

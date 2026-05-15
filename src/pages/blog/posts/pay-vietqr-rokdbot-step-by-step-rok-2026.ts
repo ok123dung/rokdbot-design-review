@@ -77,7 +77,7 @@ Bot bắt đầu chạy từ thời điểm email tới. Không cần làm thêm
 
 ### Chuyển rồi không thấy email kích hoạt sau 5 phút — làm gì?
 
-Kiểm tra spam folder trước. Nếu không có — chụp màn hình giao dịch (có mã tham chiếu ngân hàng) và gửi vào Telegram support. Admin verify thủ công trong 30 phút.
+Kiểm tra spam folder trước. Nếu không có — chụp màn hình giao dịch (có mã tham chiếu ngân hàng) và gửi vào Zalo (zalo.me/g/rqgqyd878) hoặc Discord (discord.gg/UPuFYCw4JG) support. Admin verify thủ công trong 30 phút.
 
 ### Có thể chuyển khoản thường (không QR) không?
 
