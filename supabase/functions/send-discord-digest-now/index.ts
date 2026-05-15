@@ -124,7 +124,7 @@ serve(async (req: Request) => {
       description: `Orders stuck in **pending** status. If SePay webhook works, these would all auto-resolve.`,
       color: 0xa855f7,
       fields,
-      footer: { text: "RokdBot - pending-orders-digest (cron 08:00 VN)" },
+      footer: { text: "RokdBot - send-discord-digest-now (cron 08:00 VN)" },
       timestamp: new Date().toISOString(),
     };
 

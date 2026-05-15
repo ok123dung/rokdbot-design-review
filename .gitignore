@@ -33,3 +33,4 @@ dist-ssr
 
 # Claude Code session metadata (machine-specific)
 .claude/
+supabase/.temp/

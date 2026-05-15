@@ -112,19 +112,19 @@ RESEND_API_KEY=re_XXXXXXX
 ```
 
 - `DISCORD_WEBHOOK_URL` — Discord webhook để nhận alert khi customer self-report payment + daily pending digest. Tạo qua Server Settings → Integrations → Webhooks. (Optional — nếu skip, alert vẫn được ghi vào DB qua `customer_reported_paid_at` field)
-- `DIGEST_API_KEY` — random string (vd. UUID). Dùng làm Auth header khi cron call `pending-orders-digest` endpoint
-- `RESEND_API_KEY` — **HIỆN CHƯA SET** (verified 2026-05-14 audit). Email notification cho customer + admin sẽ không gửi nếu thiếu key này. Lấy từ [resend.com/api-keys](https://resend.com/api-keys) (free 3,000 emails/month)
+- `DIGEST_API_KEY` — random string (vd. UUID). Dùng làm Auth header khi cron call `send-discord-digest-now` endpoint. Có bootstrap fallback hardcoded trong function nên cron vẫn chạy được nếu DIGEST_API_KEY env var không set.
+- `RESEND_API_KEY` — **CHƯA SET** (verified 2026-05-14 audit). Optional — chỉ cần nếu muốn email notification ngoài Discord. Lấy từ [resend.com/api-keys](https://resend.com/api-keys) (free 3,000 emails/month)
 
 ### 3.4 Trạng thái hiện tại các env vars (2026-05-14)
 
 Audit confirmed các env sau **đã set** (vì code edge functions chạy được):
 - ✅ `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_ANON_KEY` (auto)
 
-**Chưa set** (return error khi function cần dùng):
-- ❌ `RESEND_API_KEY` — verified missing (send-admin-state-now returned "RESEND_API_KEY env var not set")
-- ❌ `SEPAY_API_KEY` — assumed missing (sepay-webhook trả 401 cho mọi request)
-- ❌ `DISCORD_WEBHOOK_URL` — assumed missing
-- ❌ `DIGEST_API_KEY` — assumed missing
+**Trạng thái env vars (audit 2026-05-15):**
+- ❌ `SEPAY_API_KEY` — missing (sepay-webhook trả 401 cho mọi request → pending BIDV pivot + SePay setup)
+- ✅ `DISCORD_WEBHOOK_URL` — set (send-discord-digest-now logs show 200 OK)
+- ✅ `DIGEST_API_KEY` — set HOẶC bootstrap fallback active (cron 200 OK)
+- ⚪ `RESEND_API_KEY` — missing nhưng send-admin-state-now function đã được delete (one-shot tool, không cần)
 
 ---
 
@@ -237,7 +237,7 @@ jobs:
     steps:
       - name: Call digest endpoint
         run: |
-          curl -X POST https://inondhimzqiguvdhyjng.supabase.co/functions/v1/pending-orders-digest \
+          curl -X POST https://inondhimzqiguvdhyjng.supabase.co/functions/v1/send-discord-digest-now \
             -H "Authorization: Bearer ${{ secrets.DIGEST_API_KEY }}" \
             -H "Content-Type: application/json"
 ```
@@ -284,7 +284,7 @@ curl -X POST $DISCORD_WEBHOOK_URL \
 - `supabase/functions/create-order/index.ts` — tạo order + QR
 - `supabase/functions/sepay-webhook/index.ts` — receive SePay webhook
 - `supabase/functions/report-payment-received/index.ts` — customer self-report
-- `supabase/functions/pending-orders-digest/index.ts` — daily admin alert
+- `supabase/functions/send-discord-digest-now/index.ts` — daily admin Discord alert (called by GH Actions cron 08:00 VN)
 - `supabase/functions/send-order-notification/index.ts` — email + Discord notif
 - `src/components/shop/PaymentModal.tsx` — frontend payment UI
 - `src/pages/AdminDashboard.tsx` — admin order management
@@ -301,4 +301,4 @@ curl -X POST $DISCORD_WEBHOOK_URL \
 - [ ] Test transaction 150k → auto-confirm trong 1-3 phút
 - [ ] 14 đơn pending cũ → manual recovery hoặc cancel
 - [ ] GitHub Actions `pending-digest-cron.yml` scheduled
-- [ ] Sau 7 ngày: check log `pending-orders-digest` chạy đều, no errors
+- [ ] Sau 7 ngày: check log `send-discord-digest-now` chạy đều, no errors
