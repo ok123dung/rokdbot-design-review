@@ -333,6 +333,36 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
               <p>Chủ TK: <strong className="text-white">NGUYEN HUU DUNG</strong></p>
             </div>
 
+            <div className="bg-green-500/5 border border-green-500/20 rounded-xl p-3 mb-4 text-left">
+              <div className="flex items-start gap-2 mb-2">
+                <span className="text-green-400 text-base shrink-0">🛡</span>
+                <p className="text-green-100/90 text-xs leading-relaxed">
+                  <strong className="text-green-300">Hoàn 100% + 1 tháng miễn phí</strong> nếu acc bị ban do bot. Cam kết trong điều khoản dịch vụ.
+                </p>
+              </div>
+              <div className="flex items-start gap-2 mb-2">
+                <span className="text-amber-400 text-base shrink-0">⚡</span>
+                <p className="text-amber-100/90 text-xs leading-relaxed">
+                  Admin xác nhận trong <strong className="text-amber-300">30 phút</strong> (giờ hành chính). Tự động trong 5 giây nếu SePay webhook đã active.
+                </p>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-cyan-400 text-base shrink-0">💬</span>
+                <p className="text-cyan-100/90 text-xs leading-relaxed">
+                  Cần hỏi trước khi chuyển?{" "}
+                  <a
+                    href={`https://zalo.me/g/rqgqyd878`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-cyan-300 underline hover:text-cyan-200"
+                  >
+                    Chat Zalo support
+                  </a>
+                  {" "}— admin trả lời nhanh.
+                </p>
+              </div>
+            </div>
+
             <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
               <p className="text-muted text-xs mb-2">International payment:</p>
               <a
@@ -355,7 +385,7 @@ export function PaymentModal({ packageId, onClose }: PaymentModalProps) {
 
             <div className="flex items-center justify-center gap-2 text-muted text-sm mb-3">
               <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Đang chờ xác nhận tự động...</span>
+              <span>Đang chờ admin xác nhận (≤30 phút giờ HC)...</span>
             </div>
 
             {/* Fallback: customer self-report if webhook is slow */}
